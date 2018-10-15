@@ -1,12 +1,18 @@
-# gatsby-starter-hello-world
-Starter with the bare essentials needed for a [Gatsby](https://www.gatsbyjs.org/) site.
+# PS.xyz
 
-Install this starter (assuming Gatsby is installed) by running from your CLI:
-```
-gatsby new gatsby-site https://github.com/gatsbyjs/gatsby-starter-hello-world
-```
-
-Or [view the live demo here](https://gatsby-starter-hello-world-demo.netlify.com/).
+## Stack
+- Contentful (contentful.com): Headless CMS
+- React (reactjs.org): JS library for frontend UI
+- Gatsby (gatsbyjs.org): React site-building framework
+- Netlify (netlify.com): Site build/hosting service
 
 ## Running in development
 `gatsby develop`
+
+### Setup
+1. Create a file named `.env.development` with the following contents:
+```
+CF_SPACE_ID=<Contentful Space ID>
+CF_ACCESS_TOKEN=<Contentful API Access Token>
+```
+(Replace space ID and access token with your real ID and secret token)
