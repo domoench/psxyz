@@ -1,11 +1,10 @@
 import React from "react"
 import Layout from "../components/layout"
 import CreatorThumbList from "../components/creatorThumbList"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 export default ({data}) => (
   <Layout>
-    <Link to="/creator">The Creator</Link>
 	<CreatorThumbList data={data} />
   </Layout>
 )
@@ -16,13 +15,17 @@ export const query = graphql`
       edges {
         node {
           id
-		  slug
+          slug
           name
           images {
             id
-			file {
+			      file {
               url
             }
+          }
+          bio {
+            id
+            bio
           }
         }
       }
