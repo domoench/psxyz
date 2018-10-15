@@ -5,7 +5,7 @@ import { graphql } from "gatsby"
 
 export default ({data}) => (
   <Layout>
-	<CreatorThumbList data={data} />
+  <CreatorThumbList data={data} />
   </Layout>
 )
 
@@ -19,7 +19,7 @@ export const query = graphql`
           name
           images {
             id
-			      file {
+            file {
               url
             }
           }
