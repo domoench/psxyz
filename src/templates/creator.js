@@ -4,7 +4,6 @@ import { graphql } from "gatsby"
 
 export default ({data}) => {
   const creator = data.contentfulCreator
-  console.log(data)
   return (
     <Layout>
       <h1>{creator.name}</h1>

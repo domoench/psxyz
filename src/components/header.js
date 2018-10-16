@@ -7,7 +7,7 @@ const ListLink = props => (
   </li>
 )
 
-export default (props) =>
+export default () =>
   <header style={{ marginBottom: `1.5rem` }}>
     <Link to="/" style={{ textShadow: `none`, backgroundImage: `none` }}>
       [PSxyz]
