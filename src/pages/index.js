@@ -1,11 +1,11 @@
 import React from "react"
 import Layout from "../components/layout"
-import CreatorThumbList from "../components/creatorThumbList"
+import RandomCreatorThumbList from "../components/randomCreatorThumbList"
 import { graphql } from "gatsby"
 
 export default ({data}) => (
   <Layout>
-  <CreatorThumbList data={data} />
+  <RandomCreatorThumbList data={data} />
   </Layout>
 )
 

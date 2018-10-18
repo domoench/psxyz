@@ -1,12 +1,14 @@
 import React from "react"
 import { Link } from "gatsby"
 
-export default ({data}) => {
+// A list of creators, with name and picture
+// creators is an array of Contentful creator objs. TODO implement propTypes
+export default ({creators}) => {
   return (
     <div>
       <ul style={{listStyle: `none`, float: `left`}}>
         {
-          data.allContentfulCreator.edges.map(({node}) => {
+          creators.map(({node}) => {
             const creator = node
             const link = "/" + creator.slug
             const image = creator.images[0]
