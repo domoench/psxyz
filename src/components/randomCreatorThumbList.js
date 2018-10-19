@@ -26,7 +26,7 @@ function shuffle(a) {
 
 // A randomized list of creators, with name and picture
 function RandomCreatorThumbList({data}) {
-  let creators = shuffle(data.allContentfulCreator.edges)
+  let creators = shuffle(data.allContentfulCreator.edges.slice(0))
   return (
     <CreatorThumbList creators={creators} />
   )
