@@ -4,12 +4,14 @@ import { Link } from "gatsby"
 // A list of creators, with name and picture
 // creators is an array of Contentful creator objs. TODO implement propTypes
 export default ({creators}) => {
+  console.log("[CreatorThumbList] creators: ", creators)
   return (
     <div>
       <ul style={{listStyle: `none`, float: `left`}}>
         {
           creators.map(({node}) => {
             const creator = node
+            console.log("[CreatorThumbList] map node: ", creator)
             const link = "/" + creator.slug
             const image = creator.images[0]
             return (
