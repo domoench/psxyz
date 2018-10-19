@@ -13,13 +13,14 @@ export default ({creators}) => {
             const creator = node
             console.log("[CreatorThumbList] map node: ", creator)
             const link = "/" + creator.slug
-            const image = creator.images[0]
+            const image = creator.mainImage.file.url
+            console.log("image: ", image)
             return (
               <li key={creator.id}>
                 <Link to={link}>
                   <p style={{clear: `both`, padding: `1rem 0`}}>
                     {creator.name}
-                    <img src={image.file.url} alt={creator.name} style={{maxWidth: `200px`, float: `right`, padding: `0 1rem`}}/>
+                    <img src={image} alt={creator.name} style={{maxWidth: `200px`, float: `right`, padding: `0 1rem`}}/>
                   </p>
                 </Link>
               </li>

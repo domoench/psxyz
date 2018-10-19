@@ -27,6 +27,11 @@ export const query = graphql`
             id
             bio
           }
+          mainImage {
+            file {
+              url
+            }
+          }
         }
       }
     }
