@@ -31,3 +31,16 @@ exports.createPages = ({ graphql, actions }) => {
   })
 })
 }
+
+exports.onCreateNode = ({node, actions}) => {
+  const { createNodeField } = actions
+  // Insert a random number sort ID so we can query our creators in a different
+  // random order after each site build
+  if (node.internal.type === "ContentfulCreator") {
+    createNodeField({
+      node,
+      name: "sortId",
+      value: Math.random(),
+    })
+  }
+}
