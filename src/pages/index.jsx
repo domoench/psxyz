@@ -1,15 +1,20 @@
-import React from "react"
-import Layout from "../components/layout"
-import CreatorThumbList from "../components/creatorThumbList"
-import { graphql } from "gatsby"
+import React from 'react';
+import PropTypes from 'prop-types';
+import { graphql } from 'gatsby';
+import Layout from '../components/layout';
+import CreatorThumbList from '../components/creatorThumbList';
 
-export default ({data}) => {
-  return (
-    <Layout>
-      <CreatorThumbList data={data} />
-    </Layout>
-  )
-}
+const Index = ({ data }) => (
+  <Layout>
+    <CreatorThumbList data={data} />
+  </Layout>
+);
+
+Index.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+
+export default Index;
 
 export const query = graphql`
   {
@@ -38,4 +43,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;
