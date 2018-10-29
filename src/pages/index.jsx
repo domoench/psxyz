@@ -4,41 +4,37 @@ import { graphql } from 'gatsby';
 import Layout from '../components/layout';
 import CreatorThumbList from '../components/creatorThumbList';
 
+// Returns a new creators array, filtered by category slug
+const filterByCategory = (catSlug, creators) => {
+  const filtered = [];
+  for (let i = 0; i < creators.length; i += 1) {
+    // If the current creator contains the category, append it to result list
+    if (creators[i].node.categories.findIndex(cat => cat.slug === catSlug) >= 0) {
+      filtered.push(creators[i]);
+    }
+  }
+  return filtered;
+};
+
 class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       creators: props.data.allContentfulCreator.edges,
     };
-    this.sortByCategory = this.sortByCategory.bind(this);
-  }
-
-  sortByCategory(categoryId) {
-    const { creators } = this.state;
-    const updatedCreators = creators.slice();
-    let i = 0;
-    let curr = 0;
-    // The result array has 2 partitions, the left partition [0,i) are all creators
-    // with categories including categoryId
-    while (curr < updatedCreators.length) {
-      // If the current creator contains the category, append it to the left partition
-      if (updatedCreators[curr].node.categories.findIndex(cat => cat.id === categoryId) >= 0) {
-        // Swap the current creator with that at i (grow the left partition)
-        const temp = updatedCreators[i];
-        updatedCreators[i] = updatedCreators[curr];
-        updatedCreators[curr] = temp;
-        i += 1;
-      }
-      curr += 1;
-    }
-    this.setState({ creators: updatedCreators });
   }
 
   render() {
+    // Check URL for query params specifying category
+    const { location } = this.props;
+    const params = new URLSearchParams(location.search);
+    const categorySlug = params.get('cat');
+
     const { creators } = this.state;
+    const creatorsToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, creators) : creators;
     return (
       <Layout>
-        <CreatorThumbList creators={creators} sortByCategory={this.sortByCategory} />
+        <CreatorThumbList creators={creatorsToDisplay} />
       </Layout>
     );
   }
@@ -46,6 +42,7 @@ class Index extends React.Component {
 
 Index.propTypes = {
   data: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default Index;
@@ -76,6 +73,7 @@ export const query = graphql`
           categories {
             id
             name
+            slug
           }
         }
       }

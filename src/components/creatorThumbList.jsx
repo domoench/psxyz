@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 
 // A list of creators, with name and picture
-const CreatorThumbList = ({ creators, sortByCategory }) => (
+const CreatorThumbList = ({ creators }) => (
   <div>
     <ul style={{ listStyle: 'none', float: 'left' }}>
       {
@@ -23,7 +23,7 @@ const CreatorThumbList = ({ creators, sortByCategory }) => (
                   />
                 </p>
               </Link>
-              <CategoryList categories={creator.categories} sortByCategory={sortByCategory} />
+              <CategoryList categories={creator.categories} />
             </li>
           );
         })
@@ -34,23 +34,23 @@ const CreatorThumbList = ({ creators, sortByCategory }) => (
 
 CreatorThumbList.propTypes = {
   creators: PropTypes.array.isRequired,
-  sortByCategory: PropTypes.func.isRequired,
 };
 
 // Category list component
-const CategoryList = ({ categories, sortByCategory }) => (
+const CategoryList = ({ categories }) => (
   <ul>
     {
       categories.map(ctg => (
-        <button type="button" key={ctg.id} onClick={() => sortByCategory(ctg.id)}>{ctg.name}</button>
+        <Link key={ctg.id} to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
       ))
     }
   </ul>
 );
 
+// <button type="button" key={ctg.id} onClick={() => filterByCategory(ctg.id)}>{ctg.name}</button>
+
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
-  sortByCategory: PropTypes.func.isRequired,
 };
 
 export default CreatorThumbList;
