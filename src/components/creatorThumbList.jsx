@@ -4,7 +4,7 @@ import { Link } from 'gatsby';
 import {
   Grid, Row, Col, Image,
 } from 'react-bootstrap';
-import styles from './creatorThumbList.module.css';
+import styles from './creatorThumbList.module.less';
 
 // A list of creators, with name and picture
 const CreatorThumbList = ({ creators }) => (
@@ -24,16 +24,14 @@ const CreatorThumbList = ({ creators }) => (
             </Col>
             <Col xs={12} s={6} md={3}>
               <Link to={link}>
-                <h2>
-                  {creator.name}
-                </h2>
+                <p className={styles.creator_name}>{creator.name}</p>
               </Link>
             </Col>
             <Col xs={6} s={3} md={3}>
-              <CategoryList categories={creator.categories} cssClass={styles.cat_list} />
+              <CategoryList categories={creator.categories} />
             </Col>
             <Col xs={6} s={3} md={3}>
-              <p>{creator.location}</p>
+              <p className={styles.creator_loc}>{creator.location}</p>
             </Col>
           </Row>
         );
@@ -47,8 +45,8 @@ CreatorThumbList.propTypes = {
 };
 
 // Category list component
-const CategoryList = ({ categories, cssClass }) => (
-  <ul className={cssClass}>
+const CategoryList = ({ categories }) => (
+  <ul className={styles.cat_list}>
     {
       categories.map(ctg => (
         <li key={ctg.id}>
@@ -61,7 +59,6 @@ const CategoryList = ({ categories, cssClass }) => (
 
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
-  cssClass: PropTypes.string,
 };
 
 export default CreatorThumbList;
