@@ -1,35 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
+import {
+  Grid, Row, Col, Image,
+} from 'react-bootstrap';
+import styles from './creatorThumbList.module.css';
 
 // A list of creators, with name and picture
 const CreatorThumbList = ({ creators }) => (
-  <div>
-    <ul style={{ listStyle: 'none', float: 'left' }}>
-      {
-        creators.map(({ node }) => {
-          const creator = node;
-          const link = `/${creator.slug}`;
-          const image = `https:${creator.mainImage.file.url}`;
-          return (
-            <li key={creator.id}>
+  <Grid>
+    {
+      creators.map(({ node }) => {
+        const creator = node;
+        const link = `/${creator.slug}`;
+        const image = `https:${creator.mainImage.file.url}`;
+        const rowClasses = `show-grid ${styles.row}`;
+        return (
+          <Row className={rowClasses} key={creator.id}>
+            <Col xs={12} s={12} md={3}>
               <Link to={link}>
-                <p style={{ clear: 'both', padding: '1rem 0' }}>
-                  {creator.name}
-                  <img
-                    src={image}
-                    alt={creator.name}
-                    style={{ maxWidth: '300px', float: 'right', padding: '0 1rem' }}
-                  />
-                </p>
+                <Image src={image} alt={creator.name} responsive />
               </Link>
-              <CategoryList categories={creator.categories} />
-            </li>
-          );
-        })
-      }
-    </ul>
-  </div>
+            </Col>
+            <Col xs={12} s={6} md={3}>
+              <Link to={link}>
+                <h2>
+                  {creator.name}
+                </h2>
+              </Link>
+            </Col>
+            <Col xs={6} s={3} md={3}>
+              <CategoryList categories={creator.categories} cssClass={styles.cat_list} />
+            </Col>
+            <Col xs={6} s={3} md={3}>
+              <p>{creator.location}</p>
+            </Col>
+          </Row>
+        );
+      })
+    }
+  </Grid>
 );
 
 CreatorThumbList.propTypes = {
@@ -37,20 +47,21 @@ CreatorThumbList.propTypes = {
 };
 
 // Category list component
-const CategoryList = ({ categories }) => (
-  <ul>
+const CategoryList = ({ categories, cssClass }) => (
+  <ul className={cssClass}>
     {
       categories.map(ctg => (
-        <Link key={ctg.id} to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
+        <li key={ctg.id}>
+          <Link to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
+        </li>
       ))
     }
   </ul>
 );
 
-// <button type="button" key={ctg.id} onClick={() => filterByCategory(ctg.id)}>{ctg.name}</button>
-
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
+  cssClass: PropTypes.string,
 };
 
 export default CreatorThumbList;

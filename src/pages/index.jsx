@@ -75,6 +75,7 @@ export const query = graphql`
             name
             slug
           }
+          location
         }
       }
     }

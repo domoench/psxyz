@@ -1,26 +1,29 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
+import { Navbar } from 'react-bootstrap';
 
-const ListLink = ({ to, children }) => (
-  <li style={{ display: 'inline-block', marginRight: '1rem' }}>
-    <Link to={to}>{children}</Link>
-  </li>
-);
-
-ListLink.propTypes = {
-  to: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
-};
-
+// Using the bootstrap Nav and NavItem components doesn't allow me to use Gatsby's
+// Link components inside them, so here we hardcode the bootstrap HTML for those
+// components
 export default () => (
-  <header style={{ marginBottom: '1.5rem' }}>
-    <Link to="/" style={{ textShadow: 'none', backgroundImage: 'none' }}>
-      [PSxyz]
-    </Link>
-    <ul style={{ listStyle: 'none', float: 'right' }}>
-      <ListLink to="/">Home</ListLink>
-      <ListLink to="/about/">About</ListLink>
-    </ul>
-  </header>
+  <Navbar>
+    <Navbar.Header>
+      <Navbar.Brand>
+        <Link to="/">
+          [PSxyz]
+        </Link>
+      </Navbar.Brand>
+    </Navbar.Header>
+    <div className="collapse navbar-collapse">
+      <ul className="nav navbar-nav">
+        <li className="nav-item">
+          <Link to="/">Home</Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/about/">About</Link>
+        </li>
+      </ul>
+    </div>
+  </Navbar>
 );

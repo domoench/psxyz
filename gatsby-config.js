@@ -13,11 +13,6 @@ module.exports = {
       spaceId: process.env.CF_SPACE_ID,
       accessToken: process.env.CF_ACCESS_TOKEN,
     },
-  }, {
-    resolve: `gatsby-plugin-typography`,
-    options: {
-      pathToConfigModule: `src/util/typography.js`,
-    },
   },
   'gatsby-plugin-eslint',
 ]
