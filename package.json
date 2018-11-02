@@ -19,7 +19,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.1",
     "react-bootstrap": "^0.32.4",
-    "react-dom": "^16.5.1"
+    "react-dom": "^16.5.1",
+    "url-search-params": "^1.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
