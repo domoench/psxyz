@@ -7,6 +7,7 @@ module.exports = {
     title: `[PS]xyz`,
   },
   plugins: [
+  // Pulling data from contentful at build time
   {
     resolve: `gatsby-source-contentful`,
     options: {
@@ -14,7 +15,15 @@ module.exports = {
       accessToken: process.env.CF_ACCESS_TOKEN,
     },
   },
+
+  // Code style linter
   'gatsby-plugin-eslint',
+
+  // LESS css precompiler
   'gatsby-plugin-less',
+
+  // Image manipulation: https://www.gatsbyjs.org/packages/gatsby-image/
+  'gatsby-transformer-sharp',
+  'gatsby-plugin-sharp',
 ]
 }
