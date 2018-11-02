@@ -4,7 +4,7 @@ import { Link } from 'gatsby';
 import {
   Grid, Row, Col, Image,
 } from 'react-bootstrap';
-import styles from './creatorThumbList.module.less';
+import styles from '../css/creatorThumbList.module.less';
 
 // A list of creators, with name and picture
 const CreatorThumbList = ({ creators }) => (

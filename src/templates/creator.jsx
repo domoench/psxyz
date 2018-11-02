@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import Layout from '../components/layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './creator.module.less';
+import styles from '../css/creator.module.less';
 
 const Creator = ({ data }) => {
   const creator = data.contentfulCreator;
