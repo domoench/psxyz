@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import {
-  Grid, Row, Col, Image,
+  Grid, Row, Col,
 } from 'react-bootstrap';
+import Img from 'gatsby-image';
 import styles from '../css/creatorThumbList.module.less';
 
 // A list of creators, with name and picture
@@ -13,13 +14,12 @@ const CreatorThumbList = ({ creators }) => (
       creators.map(({ node }) => {
         const creator = node;
         const link = `/${creator.slug}`;
-        const image = `https:${creator.mainImage.file.url}`;
         const rowClasses = `show-grid ${styles.row}`;
         return (
           <Row className={rowClasses} key={creator.id}>
             <Col xs={12} s={12} md={3}>
               <Link to={link}>
-                <Image src={image} alt={creator.name} responsive />
+                <Img fluid={creator.mainImage.fluid} />
               </Link>
             </Col>
             <Col xs={12} s={6} md={3}>

@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import {
-  Grid, Image, Row, Col,
+  Grid, Row, Col,
 } from 'react-bootstrap';
+import Img from 'gatsby-image';
 import Layout from '../components/layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../css/creator.module.less';
@@ -20,7 +21,7 @@ const Creator = ({ data }) => {
             <ul>
               {creator.images.map(image => (
                 <li key={image.id}>
-                  <Image src={image.file.url} responsive />
+                  <Img fluid={image.fluid} />
                 </li>
               ))}
             </ul>
@@ -49,8 +50,8 @@ export const query = graphql`
       }
       images {
         id
-        file {
-          url
+        fluid(maxWidth: 1200) {
+          ...GatsbyContentfulFluid
         }
       }
     }

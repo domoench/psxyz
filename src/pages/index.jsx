@@ -58,17 +58,14 @@ export const query = graphql`
           name
           images {
             id
-            file {
-              url
-            }
           }
           bio {
             id
             bio
           }
           mainImage {
-            file {
-              url
+            fluid(maxWidth: 700) {
+              ...GatsbyContentfulFluid
             }
           }
           categories {
