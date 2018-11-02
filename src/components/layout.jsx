@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './header';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Layout = ({ children }) => (
-  <div style={{ margin: '0 auto', maxWidth: 650, padding: '1rem 1rem' }}>
+  <div>
     <Header />
     {children}
   </div>

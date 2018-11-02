@@ -1,17 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
+import URLSearchParams from 'url-search-params';
 import Layout from '../components/layout';
 import CreatorThumbList from '../components/creatorThumbList';
 
-const Index = ({ data }) => (
-  <Layout>
-    <CreatorThumbList data={data} />
-  </Layout>
-);
+// Returns a new creators array, filtered by category slug
+const filterByCategory = (catSlug, creators) => {
+  const filtered = [];
+  for (let i = 0; i < creators.length; i += 1) {
+    // If the current creator contains the category, append it to result list
+    if (creators[i].node.categories.findIndex(cat => cat.slug === catSlug) >= 0) {
+      filtered.push(creators[i]);
+    }
+  }
+  return filtered;
+};
+
+class Index extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      creators: props.data.allContentfulCreator.edges,
+    };
+  }
+
+  render() {
+    // Check URL for query params specifying category
+    const { location } = this.props;
+    const params = new URLSearchParams(location.search);
+    const categorySlug = params.get('cat');
+
+    const { creators } = this.state;
+    const creatorsToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, creators) : creators;
+    return (
+      <Layout>
+        <CreatorThumbList creators={creatorsToDisplay} />
+      </Layout>
+    );
+  }
+}
 
 Index.propTypes = {
   data: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default Index;
@@ -39,6 +71,12 @@ export const query = graphql`
               url
             }
           }
+          categories {
+            id
+            name
+            slug
+          }
+          location
         }
       }
     }
