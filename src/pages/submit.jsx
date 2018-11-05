@@ -12,7 +12,7 @@ import Layout from '../components/layout';
 const SubmitForm = ({ data }) => (
   <Layout>
     <Grid>
-      <form name="creatorSub" action="#" method="POST" netlify-honeypot="bot-field" netlify>
+      <form name="creatorSub" action="#" method="POST" netlify-honeypot="bot-field" data-netlify="true">
         <input type="hidden" name="bot-field" />
 
         <div className="field">
