@@ -59,12 +59,12 @@ SubmitForm.propTypes = {
 export default SubmitForm;
 
 const CategorySelect = ({ data }) => (
-  <label htmlFor="category">
+  <label htmlFor="categories">
     Categories
-    <select name="category" id="category" multiple>
+    <select name="categories" id="categories" multiple>
       {
         data.allContentfulCategory.edges.map(({ node }) => (
-          <option key={node.id} value={node.id}>{node.name}</option>
+          <option key={node.id} value={node.name}>{node.name}</option>
         ))
       }
     </select>
