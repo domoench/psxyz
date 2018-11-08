@@ -46,6 +46,14 @@ const SubmitForm = ({ data }) => (
             <input type="text" name="location" id="location" />
           </label>
         </div>
+
+        <div className="field">
+          <label htmlFor="images">
+            Images
+            <input type="file" multiple="multiple" name="images" id="images" />
+          </label>
+        </div>
+
         <input type="submit" value="Submit" />
       </form>
     </Grid>
