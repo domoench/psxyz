@@ -50,7 +50,7 @@ const SubmitForm = ({ data }) => (
         <div className="field">
           <label htmlFor="images">
             Images
-            <input type="file" multiple="multiple" name="images[]" id="images" />
+            <input type="file" name="images[]" id="images" multiple />
           </label>
         </div>
 
