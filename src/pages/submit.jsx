@@ -61,7 +61,7 @@ export default SubmitForm;
 const CategorySelect = ({ data }) => (
   <label htmlFor="categories">
     Categories
-    <select name="categories" id="categories" multiple>
+    <select name="categories[]" id="categories" multiple>
       {
         data.allContentfulCategory.edges.map(({ node }) => (
           <option key={node.id} value={node.name}>{node.name}</option>
