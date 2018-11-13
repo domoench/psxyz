@@ -65,12 +65,13 @@ class SubmitForm extends React.Component {
     return (
       <Layout>
         <Grid>
-          <form action="#" method="post" netlify-honeypot="bot-field" data-netlify="true">
+          <form name="creatorSub" action="#" method="post" netlify-honeypot="bot-field" data-netlify="true">
             <input type="hidden" name="bot-field" />
 
             <FormGroup controlId="formName" validationState={this.getNameValidationState()}>
               <ControlLabel>Creator Name</ControlLabel>
               <FormControl
+                name="name"
                 type="text"
                 value={name}
                 placeholder="Name"
@@ -82,6 +83,7 @@ class SubmitForm extends React.Component {
             <FormGroup controlId="formBio" validationState={this.getBioValidationState()}>
               <ControlLabel>Bio</ControlLabel>
               <FormControl
+                name="bio"
                 componentClass="textarea"
                 value={bio}
                 placeholder="What's your deal?"
@@ -105,6 +107,7 @@ class SubmitForm extends React.Component {
             <FormGroup controlId="formLoc" validationState={this.getLocValidationState()}>
               <ControlLabel>Location</ControlLabel>
               <FormControl
+                name="location"
                 type="text"
                 value={loc}
                 placeholder="location"
@@ -117,6 +120,7 @@ class SubmitForm extends React.Component {
             <FormGroup controlId="formImg" validationState={null}>
               <ControlLabel>Images</ControlLabel>
               <FormControl
+                name="images[]"
                 type="file"
                 onChange={() => null}
                 multiple
