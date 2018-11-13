@@ -1,87 +1,142 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
-import { Grid } from 'react-bootstrap';
+import {
+  Grid, FormGroup, ControlLabel,
+  FormControl, HelpBlock, Button,
+} from 'react-bootstrap';
 import Layout from '../components/layout';
 
-// TODO Lets start with a basic form. After that:
-//  * Pull categories and create a dropdown
-//  * Image upload
-//  * Add validation: Try the react-bootstrap form components: https://react-bootstrap.github.io/components/forms/
-//  * Implement token autocomplete for categories: https://react.rocks/example/react-token-autocomplete
-const SubmitForm = ({ data }) => (
-  <Layout>
-    <Grid>
-      <form name="creatorSub" action="#" method="POST" netlify-honeypot="bot-field" data-netlify="true">
-        <input type="hidden" name="bot-field" />
+class SubmitForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-        <div className="field">
-          <label htmlFor="name">
-            Name
-            <input type="text" name="name" id="name" />
-          </label>
-        </div>
+    this.handleBioChange = this.handleBioChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleLocChange = this.handleLocChange.bind(this);
 
-        <div className="field">
-          <label htmlFor="bio">
-            Bio
-            <textarea name="bio" id="bio" rows="6" defaultValue="bio" />
-          </label>
-        </div>
+    this.state = {
+      data: props.data,
+      name: '',
+      bio: '',
+      loc: '',
+    };
+  }
 
-        <div className="field">
-          <CategorySelect data={data} />
-        </div>
+  getBioValidationState() {
+    const { bio } = this.state;
+    if (bio.length > 0) return 'success';
+    return 'error';
+  }
 
-        <div className="field">
-          <label htmlFor="slug">
-            Slug
-            <input type="text" name="slug" id="slug" />
-          </label>
-        </div>
+  getLocValidationState() {
+    const { loc } = this.state;
+    const properFormat = s => /^[A-Za-z\s]+,\s[A-Z][A-Z]/.test(s);
+    if (loc.length > 0 && !properFormat(loc)) return 'error';
+    if (loc.length > 0) return 'success';
+    return null;
+  }
 
-        <div className="field">
-          <label htmlFor="location">
-            Location
-            <input type="text" name="location" id="location" />
-          </label>
-        </div>
+  getNameValidationState() {
+    const { name } = this.state;
+    if (name.length > 0) return 'success';
+    return 'error';
+  }
 
-        <div className="field">
-          <label htmlFor="images">
-            Images
-            <input type="file" name="images[]" id="images" multiple />
-          </label>
-        </div>
+  handleBioChange(e) {
+    this.setState({ bio: e.target.value });
+  }
 
-        <input type="submit" value="Submit" />
-      </form>
-    </Grid>
-  </Layout>
-);
+  handleLocChange(e) {
+    this.setState({ loc: e.target.value });
+  }
+
+  handleNameChange(e) {
+    this.setState({ name: e.target.value });
+  }
+
+  render() {
+    const {
+      data,
+      name,
+      bio,
+      loc,
+    } = this.state;
+    return (
+      <Layout>
+        <Grid>
+          <form action="#" method="post" netlify-honeypot="bot-field" data-netlify="true">
+            <input type="hidden" name="bot-field" />
+
+            <FormGroup controlId="formName" validationState={this.getNameValidationState()}>
+              <ControlLabel>Creator Name</ControlLabel>
+              <FormControl
+                type="text"
+                value={name}
+                placeholder="Name"
+                onChange={this.handleNameChange}
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+
+            <FormGroup controlId="formBio" validationState={this.getBioValidationState()}>
+              <ControlLabel>Bio</ControlLabel>
+              <FormControl
+                componentClass="textarea"
+                value={bio}
+                placeholder="What's your deal?"
+                onChange={this.handleBioChange}
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+
+            <FormGroup controlId="formCat">
+              <ControlLabel>Categories</ControlLabel>
+              <FormControl componentClass="select" name="categories[]" multiple>
+                {
+                  data.allContentfulCategory.edges.map(({ node }) => (
+                    <option key={node.id} value={node.name}>{node.name}</option>
+                  ))
+                }
+              </FormControl>
+              <HelpBlock>Select all that apply</HelpBlock>
+            </FormGroup>
+
+            <FormGroup controlId="formLoc" validationState={this.getLocValidationState()}>
+              <ControlLabel>Location</ControlLabel>
+              <FormControl
+                type="text"
+                value={loc}
+                placeholder="location"
+                onChange={this.handleLocChange}
+              />
+              <HelpBlock>Format must be [City Name], [State Initials]. e.g. New York, NY</HelpBlock>
+              <FormControl.Feedback />
+            </FormGroup>
+
+            <FormGroup controlId="formImg" validationState={null}>
+              <ControlLabel>Images</ControlLabel>
+              <FormControl
+                type="file"
+                onChange={() => null}
+                multiple
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+
+            <Button type="submit">Submit</Button>
+          </form>
+        </Grid>
+      </Layout>
+    );
+  }
+}
 
 SubmitForm.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
 export default SubmitForm;
-
-const CategorySelect = ({ data }) => (
-  <label htmlFor="categories">
-    Categories
-    <select name="categories[]" id="categories" multiple>
-      {
-        data.allContentfulCategory.edges.map(({ node }) => (
-          <option key={node.id} value={node.name}>{node.name}</option>
-        ))
-      }
-    </select>
-  </label>
-);
-
-CategorySelect.propTypes = {
-  data: PropTypes.object.isRequired,
-};
 
 export const query = graphql`
   {
