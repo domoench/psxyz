@@ -26,7 +26,7 @@ class SubmitForm extends React.Component {
   getBioValidationState() {
     const { bio } = this.state;
     if (bio.length > 0) return 'success';
-    return 'error';
+    return 'null';
   }
 
   getLocValidationState() {
@@ -40,7 +40,7 @@ class SubmitForm extends React.Component {
   getNameValidationState() {
     const { name } = this.state;
     if (name.length > 0) return 'success';
-    return 'error';
+    return 'null';
   }
 
   handleBioChange(e) {
@@ -86,7 +86,7 @@ class SubmitForm extends React.Component {
                 name="bio"
                 componentClass="textarea"
                 value={bio}
-                placeholder="What's your deal?"
+                placeholder="What's your deal&#63;"
                 onChange={this.handleBioChange}
               />
               <FormControl.Feedback />
@@ -110,22 +110,21 @@ class SubmitForm extends React.Component {
                 name="location"
                 type="text"
                 value={loc}
-                placeholder="location"
+                placeholder="Where are you based&#63;"
                 onChange={this.handleLocChange}
               />
               <HelpBlock>Format must be [City Name], [State Initials]. e.g. New York, NY</HelpBlock>
               <FormControl.Feedback />
             </FormGroup>
 
-            <FormGroup controlId="formImg" validationState={null}>
-              <ControlLabel>Images</ControlLabel>
+            <FormGroup controlId="formLinks" validationState={null}>
+              <ControlLabel>Links</ControlLabel>
               <FormControl
-                name="images[]"
-                type="file"
+                name="links"
+                componentClass="textarea"
+                placeholder="Links to websites, images, and video"
                 onChange={() => null}
-                multiple
               />
-              <FormControl.Feedback />
             </FormGroup>
 
             <Button type="submit">Submit</Button>
