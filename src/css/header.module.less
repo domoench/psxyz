@@ -1,0 +1,34 @@
+@nav-vert-padding: 15px;
+@header-font-size: 18px;
+@font-color: #5e5e5e;
+
+.header {
+  font-size: @header-font-size;
+  min-height: 50px;
+
+  .logo {
+    float: left;
+    padding: @nav-vert-padding 0;
+    a {
+      text-decoration: none;
+      color: @font-color;
+    }
+  }
+
+  nav {
+    float: left;
+    padding: @nav-vert-padding 0;
+    ul {
+      list-style: none;
+      li {
+        padding-right: 1em;
+        float: left;
+        a {
+          text-decoration: none;
+          color: @font-color;
+        }
+      }
+    }
+  }
+}
+
