@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import URLSearchParams from 'url-search-params';
-import Layout from '../components/layout';
-import CreatorThumbList from '../components/creatorThumbList';
+import Layout from '../components/Layout';
+import CreatorThumbList from '../components/CreatorThumbList';
 
 // Returns a new creators array, filtered by category slug
 const filterByCategory = (catSlug, creators) => {

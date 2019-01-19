@@ -20,7 +20,7 @@ exports.createPages = ({ graphql, actions }) => {
       result.data.allContentfulCreator.edges.forEach(({node}) => {
         createPage({
           path: node.slug,
-          component: path.resolve(`./src/templates/creator.jsx`),
+          component: path.resolve(`./src/templates/Creator.jsx`),
           context: {
             // Data passed to context is available in page queries as GraphQL variables.
             creatorID: node.id,

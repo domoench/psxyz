@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './header';
-import styles from './layout.module.less';
+import Header from './Header';
+import styles from './Layout.module.less';
 
 const Layout = ({ children }) => (
   <div className={styles.container}>

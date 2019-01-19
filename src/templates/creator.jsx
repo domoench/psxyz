@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import Img from 'gatsby-image';
-import Layout from '../components/layout';
-import styles from '../components/creator.module.less';
+import Layout from '../components/Layout';
+import styles from '../components/Creator.module.less';
 
 const Creator = ({ data }) => {
   const creator = data.contentfulCreator;

@@ -5,7 +5,7 @@ import {
   Button,
   TextField,
 } from '@material-ui/core';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import CategorySelect from '../components/CategorySelect';
 
 class SubmitForm extends React.Component {

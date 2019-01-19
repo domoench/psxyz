@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
-import styles from './header.module.less';
+import styles from './Header.module.less';
 
 export default () => (
   <header className={styles.header}>

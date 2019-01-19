@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import { Grid } from '@material-ui/core';
 import Img from 'gatsby-image';
-import styles from './creatorThumbList.module.less';
+import styles from './CreatorThumbList.module.less';
 
 // A list of creators, with name and picture
 // TODO: Does a grid really give you anyhting here? just style rows yourself?
