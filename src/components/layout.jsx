@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './header';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './layout.module.less';
 
 const Layout = ({ children }) => (
-  <div>
+  <div className={styles.container}>
     <Header />
     {children}
   </div>

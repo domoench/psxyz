@@ -2,18 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import {
-  Grid, FormGroup, ControlLabel,
-  FormControl, HelpBlock, Button,
-} from 'react-bootstrap';
+  Button,
+  TextField,
+} from '@material-ui/core';
 import Layout from '../components/layout';
+import CategorySelect from '../components/CategorySelect';
 
 class SubmitForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.handleBioChange = this.handleBioChange.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleLocChange = this.handleLocChange.bind(this);
 
     this.state = {
       data: props.data,
@@ -23,6 +20,7 @@ class SubmitForm extends React.Component {
     };
   }
 
+  /* TODO re-add validation and error messages
   getBioValidationState() {
     const { bio } = this.state;
     if (bio.length > 0) return 'success';
@@ -42,17 +40,14 @@ class SubmitForm extends React.Component {
     if (name.length > 0) return 'success';
     return 'null';
   }
+  */
 
-  handleBioChange(e) {
-    this.setState({ bio: e.target.value });
-  }
-
-  handleLocChange(e) {
-    this.setState({ loc: e.target.value });
-  }
-
-  handleNameChange(e) {
-    this.setState({ name: e.target.value });
+  handleChange(name) {
+    return (e) => {
+      this.setState({
+        [name]: e.target.value,
+      });
+    };
   }
 
   render() {
@@ -64,79 +59,57 @@ class SubmitForm extends React.Component {
     } = this.state;
     return (
       <Layout>
-        <Grid>
-          <form name="creatorSub" action="#" method="post" netlify-honeypot="bot-field" data-netlify="true">
-            <input type="hidden" name="bot-field" />
+        <form name="creatorSub" action="#" method="post" netlify-honeypot="bot-field" data-netlify="true">
+          <input type="hidden" name="bot-field" />
 
-            <FormGroup controlId="formName" validationState={this.getNameValidationState()}>
-              <ControlLabel>Creator Name</ControlLabel>
-              <FormControl
-                name="name"
-                type="text"
-                value={name}
-                placeholder="Name"
-                onChange={this.handleNameChange}
-              />
-              <FormControl.Feedback />
-            </FormGroup>
+          <TextField
+            id="name"
+            name="name"
+            label="Name"
+            value={name}
+            onChange={this.handleChange('name')}
+          />
+          <br />
 
-            <FormGroup controlId="formBio" validationState={this.getBioValidationState()}>
-              <ControlLabel>Bio</ControlLabel>
-              <FormControl
-                name="bio"
-                componentClass="textarea"
-                value={bio}
-                placeholder="What's your deal&#63;"
-                onChange={this.handleBioChange}
-              />
-              <FormControl.Feedback />
-            </FormGroup>
+          <TextField
+            multiline
+            id="bio"
+            name="bio"
+            label="Bio"
+            value={bio}
+            onChange={this.handleChange('bio')}
+          />
+          <br />
 
-            <FormGroup controlId="formCat">
-              <ControlLabel>Categories</ControlLabel>
-              <FormControl componentClass="select" name="categories[]" multiple>
-                {
-                  data.allContentfulCategory.edges.map(({ node }) => (
-                    <option key={node.id} value={node.name}>{node.name}</option>
-                  ))
-                }
-              </FormControl>
-              <HelpBlock>Select all that apply</HelpBlock>
-            </FormGroup>
+          <TextField
+            id="loc"
+            name="loc"
+            label="Location"
+            value={loc}
+            onChange={this.handleChange('loc')}
+          />
+          <br />
 
-            <FormGroup controlId="formLoc" validationState={this.getLocValidationState()}>
-              <ControlLabel>Location</ControlLabel>
-              <FormControl
-                name="location"
-                type="text"
-                value={loc}
-                placeholder="Where are you based&#63;"
-                onChange={this.handleLocChange}
-              />
-              <HelpBlock>Format must be [City Name], [State Initials]. e.g. New York, NY</HelpBlock>
-              <FormControl.Feedback />
-            </FormGroup>
+          <CategorySelect data={data} />
+          <br />
 
-            <FormGroup controlId="formLinks" validationState={null}>
-              <ControlLabel>Links</ControlLabel>
-              <FormControl
-                name="links"
-                componentClass="textarea"
-                placeholder="Links to websites, images, and video"
-                onChange={() => null}
-              />
-            </FormGroup>
+          <TextField
+            multiline
+            id="links"
+            name="links"
+            label="Links"
+          />
+          <br />
 
-            <Button type="submit">Submit</Button>
-          </form>
-        </Grid>
+          <Button type="submit">Submit</Button>
+        </form>
       </Layout>
     );
   }
 }
 
 SubmitForm.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired, // TODO
 };
 
 export default SubmitForm;
