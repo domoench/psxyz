@@ -1,10 +1,12 @@
 # PS.xyz
 
+A curated library of creators of color in fashion, beauty, and lifestyle–a digital tool for discovering POC talent around the world.
+
 ## Stack
-- Contentful (contentful.com): Headless CMS
-- React (reactjs.org): JS library for frontend UI
-- Gatsby (gatsbyjs.org): React site-building framework
-- Netlify (netlify.com): Site build/hosting service
+- [Contentful](https://www.contentful.com/): Headless CMS.
+- [React](https://reactjs.org/): JS library for frontend UI.
+- [Gatsby](https://www.gatsbyjs.org/): React static site-building framework.
+- [Netlify](https://www.netlify.com/): Static site build/hosting service.
 
 ## Running in development
 `gatsby develop`
