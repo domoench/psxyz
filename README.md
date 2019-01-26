@@ -1,5 +1,7 @@
 # PS.xyz
 
+*In Development*
+
 A curated library of creators of color in fashion, beauty, and lifestyle–a digital tool for discovering POC talent around the world.
 
 ## Stack
