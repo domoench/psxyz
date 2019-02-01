@@ -18,8 +18,12 @@ let nameDrawn = false;
 const truePercent = p => Math.random() < p;
 
 const getGridDimensions = () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  let width = 900;
+  let height = 600;
+  if (typeof window !== 'undefined') {
+    width = window.innerWidth;
+    height = window.innerHeight;
+  }
 
   // Pick target cell width based on screen dimensions
   // XS: [0px,575px] => 50px
