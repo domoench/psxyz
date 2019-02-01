@@ -2,23 +2,17 @@ import React from 'react';
 
 /*
  * TODO: Add some rules
- *  - Don't make white borders on squares
- *  - If rendering a circle within a square with a border, adjust the circle's dimensions so it wont
- *    interrupt the square's border
  *  - Try passing rules down when partitioning - so there's some consistency in a given partition. e.g. forbid a color in
  *    this partition and all it's child partitions, or set a max/min grid chunk size
- *  - Fit it to the screen:
- *    - detect screen dimension (probably round to nearest 5 pixels)
- *    - Use euclid algorithm to divide the space into squares to find biggest square tiles that will work
- *    - either multiply or divide that GCD square to produce a target size grid square
  */
 
 // Consts
+const DEBUG = false;
 const ns = 'http://www.w3.org/2000/svg';
 const numMovements = 100;
 
 // Flags
-let nameDrawn = false; // TODO: ugly
+let nameDrawn = false;
 
 // truePercent(0.5) returns true 50% of the time
 const truePercent = p => Math.random() < p;
@@ -57,12 +51,14 @@ const getGridDimensions = () => {
   const padW = Math.floor((width - viewW) / 2);
   const padH = Math.floor((height - viewH) / 2);
 
-  console.log(`getGridDimensions().
-    width:${width}. height:${height}.
-    viewW:${viewW}. viewH:${viewH}.
-    padW:${padW}.   padH:${padH}.
-    cellW:${targetCellW}
-  `);
+  if (DEBUG) {
+    console.log(`getGridDimensions().
+      width:${width}. height:${height}.
+      viewW:${viewW}. viewH:${viewH}.
+      padW:${padW}.   padH:${padH}.
+      cellW:${targetCellW}
+    `);
+  }
   return {
     viewW,
     viewH,
@@ -72,6 +68,7 @@ const getGridDimensions = () => {
   };
 };
 
+// Return a CSS string defining varied CSS keyframe animations
 const moveStyles = () => {
   let result = '';
   for (let i = 0; i < numMovements; i += 1) {
@@ -136,8 +133,9 @@ class Splash extends React.Component {
 
     // Return a random movement class
     const randomMoveClass = () => `mover${Math.floor(Math.random() * numMovements)}`;
-    const randomColor = () => {
-      const colors = ['#2F4FA2', '#F6F3F4', '#FE0000', '#229446', '#FDD316', '#FFF'];
+    const randomColor = (noWhite) => {
+      let colors = ['#2F4FA2', '#F6F3F4', '#FE0000', '#229446', '#FDD316'];
+      colors = noWhite ? colors : [...colors, '#FFF'];
       const i = Math.floor(Math.random() * colors.length);
       return colors[i];
     };
@@ -150,9 +148,11 @@ class Splash extends React.Component {
 
       const r = document.createElementNS(ns, 'rect');
       r.setAttribute('fill', randomColor());
+      // Maybe draw a border
+      let strokeWidth = 0;
       if (truePercent(0.5)) {
-        const strokeWidth = Math.floor(Math.random() * 10);
-        r.setAttribute('stroke', randomColor());
+        strokeWidth = Math.floor(Math.random() * w * 0.25);
+        r.setAttribute('stroke', randomColor(true));
         r.setAttribute('stroke-width', strokeWidth);
         w -= strokeWidth;
         trans = strokeWidth / 2;
@@ -163,6 +163,13 @@ class Splash extends React.Component {
       r.setAttribute('height', w);
       r.className.baseVal = randomMoveClass();
       svg.appendChild(r);
+
+      // TODO make the return values more consistent once you figure out what you're trying to do
+      return {
+        innerX: x + strokeWidth,
+        innerY: y + strokeWidth,
+        innerW: width - 2 * strokeWidth,
+      };
     };
 
     // fill the square defined by upper left hand corner (x,y) and width w
@@ -173,7 +180,7 @@ class Splash extends React.Component {
       const cy = y + r;
       const c = document.createElementNS(ns, 'circle');
       if (truePercent(0.5)) {
-        const strokeWidth = Math.floor(Math.random() * 10);
+        const strokeWidth = Math.floor(Math.random() * r * 0.75);
         c.setAttribute('stroke', randomColor());
         c.setAttribute('stroke-width', strokeWidth);
         r -= strokeWidth / 2;
@@ -189,7 +196,7 @@ class Splash extends React.Component {
     // Units in pixels
     const fillText = (x, y, w) => {
       const t = document.createElementNS(ns, 'text');
-      const textWidth = 0.75 * w;
+      const textWidth = 0.6 * w;
       // t.setAttribute('x', x + (w - textWidth) / 2);
       // t.setAttribute('y', y + w / 2);
       t.setAttribute('x', x + w / 2);
@@ -198,6 +205,7 @@ class Splash extends React.Component {
       t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
       t.setAttribute('text-anchor', 'middle');
       t.setAttribute('dominant-baseline', 'central');
+      t.setAttribute('style', `font-size:${0.2 * w}px`);
       t.className.baseVal = 'text';
       const textNode = document.createTextNode('PUBLIC SERVICE');
       t.appendChild(textNode);
@@ -206,11 +214,18 @@ class Splash extends React.Component {
 
     // Units in pixels
     const fillRandom = (x, y, w, basePercent) => {
+      let squareResults = null;
       if (truePercent(0.95 * basePercent)) {
-        fillSquare(x, y, w);
+        squareResults = fillSquare(x, y, w);
       }
       if (truePercent(0.75 * basePercent)) {
-        fillCircle(x, y, w);
+        // If drawing circle within a square, ensure it's inside the square's border
+        let [cx, cy, cw] = [x, y, w];
+        if (squareResults) {
+          const { innerX, innerY, innerW } = squareResults;
+          [cx, cy, cw] = [innerX, innerY, innerW];
+        }
+        fillCircle(cx, cy, cw);
       }
     };
 
@@ -220,16 +235,13 @@ class Splash extends React.Component {
     // h: height (in grid cells)
     // depth: recursion depth for debug logging
     const partition = (x, y, w, h, depth) => {
-      if (depth > 20) {
-        return;
+      if (DEBUG) {
+        let indent = '';
+        for (let i = 0; i < depth; i += 1) {
+          indent += '  ';
+        }
+        console.debug(`${indent}[D${depth}] partition(x:${x}, y:${y}, w:${w}, h:${h})`);
       }
-      /*
-      let indent = '';
-      for (let i = 0; i < depth; i += 1) {
-        indent += '  ';
-      }
-      console.log(`${indent}[D${depth}] partition(x:${x}, y:${y}, w:${w}, h:${h})`);
-      */
 
       // Convert grid cell dimensions to pixel dimensions
       const [xPx, yPx, wPx] = [x, y, w].map(e => e * cellW);
@@ -240,14 +252,14 @@ class Splash extends React.Component {
       }
       if (singleCell(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.1);
-        if (truePercent(0.1) && !nameDrawn) {
-          fillText(xPx, yPx, wPx);
-          nameDrawn = true;
-        }
         return;
       }
       if (depth > 0 && isSquare(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.6);
+        if (depth > 4 && !nameDrawn) {
+          fillText(xPx, yPx, wPx);
+          nameDrawn = true;
+        }
         return;
       }
 
