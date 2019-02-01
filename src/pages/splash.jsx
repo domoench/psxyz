@@ -21,8 +21,8 @@ const getGridDimensions = () => {
   let width = 900;
   let height = 600;
   if (typeof window !== 'undefined') {
-    width = window.innerWidth;
-    height = window.innerHeight;
+    width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   }
 
   // Pick target cell width based on screen dimensions
@@ -209,7 +209,7 @@ class Splash extends React.Component {
       t.setAttribute('lengthAdjust', 'spacingAndGlyphs');
       t.setAttribute('text-anchor', 'middle');
       t.setAttribute('dominant-baseline', 'central');
-      t.setAttribute('style', `font-size:${0.2 * w}px`);
+      t.setAttribute('style', `font-size:${0.12 * w}px`);
       t.className.baseVal = 'text';
       const textNode = document.createTextNode('PUBLIC SERVICE');
       t.appendChild(textNode);
