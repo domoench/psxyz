@@ -23,35 +23,53 @@ let nameDrawn = false; // TODO: ugly
 // truePercent(0.5) returns true 50% of the time
 const truePercent = p => Math.random() < p;
 
-// Iterative Euclid algorithm for GCD
-const gcd = (inA, inB) => {
-  // Make input numbers positive.
-  let a = Math.abs(inA);
-  let b = Math.abs(inB);
+const getGridDimensions = () => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-  // Subtract one number from another until both numbers would become the same.
-  // This will be out GCD. Also quit the loop if one of the numbers is zero.
-  while (a && b && a !== b) {
-    [a, b] = a > b ? [a - b, b] : [a, b - a];
+  // Pick target cell width based on screen dimensions
+  // XS: [0px,575px] => 50px
+  // SM: [576px,767px] => 50px
+  // MD: [768px,991px] => 75px
+  // LG: [992px,1199] => 100px
+  // XL: [1200px,∞px] => 120px
+  const breakpoints = [
+    { screen: 576, target: 50 },
+    { screen: 768, target: 75 },
+    { screen: 992, target: 100 },
+    { screen: 1200, target: 120 },
+  ];
+
+  let targetCellW = 50;
+  for (let i = 0; i < breakpoints.length; i += 1) {
+    const bp = breakpoints[i];
+    if (width < bp.screen) {
+      break;
+    }
+    targetCellW = bp.target;
   }
 
-  // Return the number that is not equal to zero since the last subtraction (it will be a GCD).
-  return a || b;
-};
+  // Round width and height to nearest multiples of target cell width
+  const viewW = width - (width % targetCellW);
+  const viewH = height - (height % targetCellW);
 
-const getGridDimensions = () => {
-  // Round window viewport dimensions to enforce a min cell size
-  const viewW = window.innerWidth - (window.innerWidth % 50);
-  const viewH = window.innerHeight - (window.innerHeight % 50);
+  // Calculate vertical and horizontal padding needed to center drawing in viewport
+  const padW = Math.floor((width - viewW) / 2);
+  const padH = Math.floor((height - viewH) / 2);
 
-  // Calculate the biggest square cells that will tile the viewport
-  const cellW = gcd(viewW, viewH);
-
-  // TODO figure out how to massage the drawing width/height and cell width to get towards
-  // a target cell size. Set that target based on screen size.
-
-  console.log(`updateWindowDimensions(). viewW:${viewW}. viewH:${viewH}. cellW:${cellW}`);
-  return { viewW, viewH, cellW };
+  console.log(`getGridDimensions().
+    width:${width}. height:${height}.
+    viewW:${viewW}. viewH:${viewH}.
+    padW:${padW}.   padH:${padH}.
+    cellW:${targetCellW}
+  `);
+  return {
+    viewW,
+    viewH,
+    padW,
+    padH,
+    cellW: targetCellW,
+  };
 };
 
 const moveStyles = () => {
@@ -84,10 +102,18 @@ const styles = moveStyles();
 class Splash extends React.Component {
   constructor(props) {
     super(props);
-    const { viewW, viewH, cellW } = getGridDimensions();
+    const {
+      viewW,
+      viewH,
+      padW,
+      padH,
+      cellW,
+    } = getGridDimensions();
     this.state = {
-      viewW, // width (pixels) of the browser window viewport
-      viewH, // height (pixels) of the browser window viewport
+      viewW, // calculated width (pixels) of the drawing div
+      viewH, // calculated height (pixels) of the drawing div
+      padW, // calculated horizontal padding to center drawing div in viewport
+      padH, // calculated vertical padding to center drawing div in viewport
       cellW, // grid cell width (pixels)
     };
   }
@@ -98,7 +124,7 @@ class Splash extends React.Component {
 
   draw() {
     const { viewW, viewH, cellW } = this.state;
-    console.log(`draw(). viewW:${viewW}. viewH:${viewH}. cellW:${cellW}.`);
+    // console.log(`draw(). viewW:${viewW}. viewH:${viewH}. cellW:${cellW}.`);
     const div = document.getElementById('drawing');
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('width', '100%');
@@ -106,7 +132,7 @@ class Splash extends React.Component {
     div.appendChild(svg);
 
     const singleCell = (w, h) => w === 1 && h === 1;
-    const square = (x, y) => x === y;
+    const isSquare = (x, y) => x === y;
 
     // Return a random movement class
     const randomMoveClass = () => `mover${Math.floor(Math.random() * numMovements)}`;
@@ -197,16 +223,16 @@ class Splash extends React.Component {
       if (depth > 20) {
         return;
       }
+      /*
       let indent = '';
       for (let i = 0; i < depth; i += 1) {
         indent += '  ';
       }
       console.log(`${indent}[D${depth}] partition(x:${x}, y:${y}, w:${w}, h:${h})`);
+      */
 
-      // Convert grid cell widths to pixel widths
-      const xPx = x * cellW;
-      const yPx = y * cellW;
-      const wPx = w * cellW;
+      // Convert grid cell dimensions to pixel dimensions
+      const [xPx, yPx, wPx] = [x, y, w].map(e => e * cellW);
 
       // Base cases: single cell, empty, or multi-cell square
       if (w === 0 || h === 0) {
@@ -220,7 +246,7 @@ class Splash extends React.Component {
         }
         return;
       }
-      if (square(w, h)) {
+      if (depth > 0 && isSquare(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.6);
         return;
       }
@@ -229,7 +255,6 @@ class Splash extends React.Component {
       // Randomly partition rectangle into 4 rectangles
       const xPart = Math.floor(Math.random() * w);
       const yPart = Math.floor(Math.random() * h);
-      // console.log(`${indent}[D${depth}] partition points: xPart:${xPart}. yPart:${yPart}`);
 
       // Top left quadrant
       partition(x, y, xPart, yPart, depth + 1);
@@ -245,7 +270,12 @@ class Splash extends React.Component {
   }
 
   render() {
-    const { viewW, viewH } = this.state;
+    const {
+      viewW,
+      viewH,
+      padW,
+      padH,
+    } = this.state;
     return (
       <React.Fragment>
         <div id="drawing">
@@ -253,10 +283,13 @@ class Splash extends React.Component {
             {
               `
                 ${styles}
-
+                body {
+                  margin: 0;
+                }
                 #drawing {
                   width: ${viewW}px;
                   height: ${viewH}px;
+                  margin: ${padH}px ${padW}px;
                 }
                 svg .text {
                   color: black;
