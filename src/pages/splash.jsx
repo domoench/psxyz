@@ -23,9 +23,9 @@ const getGridDimensions = () => {
   if (typeof window !== 'undefined') {
     width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    console.log(`clientWidth:${document.documentElement.clientWidth}. innerWidth:${window.innerWidth}`);
+    console.log(`clientHeight:${document.documentElement.clientHeight}. innerHeight:${window.innerHeight}`);
   }
-  console.log(`clientWidth:${document.documentElement.clientWidth}. innerWidth:${window.innerWidth}`);
-  console.log(`clientHeight:${document.documentElement.clientHeight}. innerHeight:${window.innerHeight}`);
 
   // Pick target cell width based on screen dimensions
   // XS: [0px,575px] => 50px
