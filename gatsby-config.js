@@ -22,6 +22,9 @@ module.exports = {
   // LESS css precompiler
   'gatsby-plugin-less',
 
+  // Styled JSX (for svg animation page)
+  'gatsby-plugin-styled-jsx',
+
   // Image manipulation: https://www.gatsbyjs.org/packages/gatsby-image/
   'gatsby-transformer-sharp',
   'gatsby-plugin-sharp',
