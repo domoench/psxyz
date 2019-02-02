@@ -155,7 +155,7 @@ class Splash extends React.Component {
       // Maybe draw a border
       let strokeWidth = 0;
       if (truePercent(0.5)) {
-        strokeWidth = Math.floor(Math.random() * w * 0.25);
+        strokeWidth = Math.floor(Math.random() * w * 0.15);
         r.setAttribute('stroke', randomColor(true));
         r.setAttribute('stroke-width', strokeWidth);
         w -= strokeWidth;
@@ -201,8 +201,6 @@ class Splash extends React.Component {
     const fillText = (x, y, w) => {
       const t = document.createElementNS(ns, 'text');
       const textWidth = 0.6 * w;
-      // t.setAttribute('x', x + (w - textWidth) / 2);
-      // t.setAttribute('y', y + w / 2);
       t.setAttribute('x', x + w / 2);
       t.setAttribute('y', y + w / 2);
       t.setAttribute('textLength', textWidth);
@@ -219,10 +217,10 @@ class Splash extends React.Component {
     // Units in pixels
     const fillRandom = (x, y, w, basePercent) => {
       let squareResults = null;
-      if (truePercent(0.95 * basePercent)) {
+      if (truePercent(0.85 * basePercent)) {
         squareResults = fillSquare(x, y, w);
       }
-      if (truePercent(0.75 * basePercent)) {
+      if (truePercent(0.65 * basePercent)) {
         // If drawing circle within a square, ensure it's inside the square's border
         let [cx, cy, cw] = [x, y, w];
         if (squareResults) {
@@ -258,9 +256,9 @@ class Splash extends React.Component {
         fillRandom(xPx, yPx, wPx, 0.1);
         return;
       }
-      if (depth > 0 && isSquare(w, h)) {
+      if (depth > 1 && isSquare(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.6);
-        if (depth > 4 && !nameDrawn) {
+        if (depth > 3 && !nameDrawn) {
           fillText(xPx, yPx, wPx);
           nameDrawn = true;
         }
