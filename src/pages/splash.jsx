@@ -42,19 +42,19 @@ const getGridDimensions = () => {
   }
 
   // Pick target cell width based on screen dimensions
-  // XS: [0px,575px] => 50px
-  // SM: [576px,767px] => 75px
+  // XS: [0px,575px] => 75px
+  // SM: [576px,767px] => 85
   // MD: [768px,991px] => 100px
   // LG: [992px,1199] => 120px
   // XL: [1200px,∞px] => 120px
   const breakpoints = [
-    { screen: 576, target: 50 },
-    { screen: 768, target: 75 },
+    { screen: 576, target: 75 },
+    { screen: 768, target: 85 },
     { screen: 992, target: 100 },
     { screen: 1200, target: 120 },
   ];
 
-  let targetCellW = 120;
+  let targetCellW = 140;
   for (let i = 0; i < breakpoints.length; i += 1) {
     const bp = breakpoints[i];
     if (width < bp.screen) {
