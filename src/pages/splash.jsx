@@ -27,9 +27,9 @@ const getGridDimensions = () => {
 
   // Pick target cell width based on screen dimensions
   // XS: [0px,575px] => 50px
-  // SM: [576px,767px] => 50px
-  // MD: [768px,991px] => 75px
-  // LG: [992px,1199] => 100px
+  // SM: [576px,767px] => 75px
+  // MD: [768px,991px] => 100px
+  // LG: [992px,1199] => 120px
   // XL: [1200px,∞px] => 120px
   const breakpoints = [
     { screen: 576, target: 50 },
@@ -38,13 +38,13 @@ const getGridDimensions = () => {
     { screen: 1200, target: 120 },
   ];
 
-  let targetCellW = 50;
+  let targetCellW = 120;
   for (let i = 0; i < breakpoints.length; i += 1) {
     const bp = breakpoints[i];
     if (width < bp.screen) {
+      targetCellW = bp.target;
       break;
     }
-    targetCellW = bp.target;
   }
 
   // Round width and height to nearest multiples of target cell width
@@ -151,12 +151,15 @@ class Splash extends React.Component {
       let trans = 0;
 
       const r = document.createElementNS(ns, 'rect');
-      r.setAttribute('fill', randomColor());
+      const fillColor = randomColor();
+      let borderColor = fillColor;
+      r.setAttribute('fill', fillColor);
       // Maybe draw a border
       let strokeWidth = 0;
       if (truePercent(0.5)) {
-        strokeWidth = Math.floor(Math.random() * w * 0.15);
-        r.setAttribute('stroke', randomColor(true));
+        borderColor = randomColor(true);
+        strokeWidth = Math.floor(Math.random() * w * 0.1);
+        r.setAttribute('stroke', borderColor);
         r.setAttribute('stroke-width', strokeWidth);
         w -= strokeWidth;
         trans = strokeWidth / 2;
@@ -173,6 +176,8 @@ class Splash extends React.Component {
         innerX: x + strokeWidth,
         innerY: y + strokeWidth,
         innerW: width - 2 * strokeWidth,
+        fillColor,
+        borderColor,
       };
     };
 
@@ -183,8 +188,10 @@ class Splash extends React.Component {
       const cx = x + r;
       const cy = y + r;
       const c = document.createElementNS(ns, 'circle');
-      if (truePercent(0.5)) {
-        const strokeWidth = Math.floor(Math.random() * r * 0.75);
+      if (truePercent(0.7)) {
+        // Circle border most likely to be thin
+        let strokeWidth = Math.floor(Math.random() * r * 0.1);
+        strokeWidth = truePercent(0.1) ? Math.floor(Math.random() * r * 0.75) : strokeWidth;
         c.setAttribute('stroke', randomColor());
         c.setAttribute('stroke-width', strokeWidth);
         r -= strokeWidth / 2;
@@ -214,14 +221,19 @@ class Splash extends React.Component {
       svg.appendChild(t);
     };
 
-    // Units in pixels
+    // fillRandom draws shapes in the square defined by x, y, and w. Units in pixels.
     const fillRandom = (x, y, w, basePercent) => {
       let squareResults = null;
       if (truePercent(0.85 * basePercent)) {
         squareResults = fillSquare(x, y, w);
       }
-      if (truePercent(0.65 * basePercent)) {
-        // If drawing circle within a square, ensure it's inside the square's border
+
+      // Make it rare for a circle to exist on its own (should mostly be inside squares)
+      const circlePercent = squareResults ? 0.5 : 0.03;
+      const notWhiteSquare = !squareResults || (squareResults && squareResults.fillColor !== '#FFF');
+      if (truePercent(circlePercent) && notWhiteSquare) {
+        console.log('squareResults: ', squareResults);
+        console.log(`notWhiteSquare:${notWhiteSquare}`);
         let [cx, cy, cw] = [x, y, w];
         if (squareResults) {
           const { innerX, innerY, innerW } = squareResults;
@@ -258,7 +270,7 @@ class Splash extends React.Component {
       }
       if (depth > 1 && isSquare(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.6);
-        if (depth > 3 && !nameDrawn) {
+        if (depth > 2 && !nameDrawn) {
           fillText(xPx, yPx, wPx);
           nameDrawn = true;
         }
