@@ -17,6 +17,22 @@ let nameDrawn = false;
 // truePercent(0.5) returns true 50% of the time
 const truePercent = p => Math.random() < p;
 
+// Iterative Euclid algorithm for GCD
+const gcd = (inA, inB) => {
+  // Make input numbers positive.
+  let a = Math.abs(inA);
+  let b = Math.abs(inB);
+
+  // Subtract one number from another until both numbers would become the same.
+  // This will be out GCD. Also quit the loop if one of the numbers is zero.
+  while (a && b && a !== b) {
+    [a, b] = a > b ? [a - b, b] : [a, b - a];
+  }
+
+  // Return the number that is not equal to zero since the last subtraction (it will be a GCD).
+  return a || b;
+};
+
 const getGridDimensions = () => {
   let width = 900;
   let height = 600;
@@ -125,7 +141,6 @@ class Splash extends React.Component {
 
   draw() {
     const { viewW, viewH, cellW } = this.state;
-    // console.log(`draw(). viewW:${viewW}. viewH:${viewH}. cellW:${cellW}.`);
     const div = document.getElementById('drawing');
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('width', '100%');
@@ -146,7 +161,7 @@ class Splash extends React.Component {
 
     // fill the square defined by upper left hand corner (x,y) and width
     // with a square SVG. Units in pixels.
-    const fillSquare = (x, y, width) => {
+    const fillSquare = (x, y, width, noBorder) => {
       let w = width;
       let trans = 0;
 
@@ -156,7 +171,7 @@ class Splash extends React.Component {
       r.setAttribute('fill', fillColor);
       // Maybe draw a border
       let strokeWidth = 0;
-      if (truePercent(0.5)) {
+      if (!noBorder && truePercent(0.5)) {
         borderColor = randomColor(true);
         strokeWidth = Math.floor(Math.random() * w * 0.1);
         r.setAttribute('stroke', borderColor);
@@ -225,15 +240,13 @@ class Splash extends React.Component {
     const fillRandom = (x, y, w, basePercent) => {
       let squareResults = null;
       if (truePercent(0.85 * basePercent)) {
-        squareResults = fillSquare(x, y, w);
+        squareResults = fillSquare(x, y, w, false);
       }
 
       // Make it rare for a circle to exist on its own (should mostly be inside squares)
       const circlePercent = squareResults ? 0.5 : 0.03;
       const notWhiteSquare = !squareResults || (squareResults && squareResults.fillColor !== '#FFF');
       if (truePercent(circlePercent) && notWhiteSquare) {
-        console.log('squareResults: ', squareResults);
-        console.log(`notWhiteSquare:${notWhiteSquare}`);
         let [cx, cy, cw] = [x, y, w];
         if (squareResults) {
           const { innerX, innerY, innerW } = squareResults;
@@ -258,21 +271,38 @@ class Splash extends React.Component {
       }
 
       // Convert grid cell dimensions to pixel dimensions
-      const [xPx, yPx, wPx] = [x, y, w].map(e => e * cellW);
+      const [xPx, yPx, wPx, hPx] = [x, y, w, h].map(e => e * cellW);
 
-      // Base cases: single cell, empty, or multi-cell square
+      // Base Cases I: empty cell
       if (w === 0 || h === 0) {
         return;
       }
+      // Base Case II: single cell
       if (singleCell(w, h)) {
         fillRandom(xPx, yPx, wPx, 0.1);
         return;
       }
+      // Base Case III: multi-cell square
       if (depth > 1 && isSquare(w, h)) {
-        fillRandom(xPx, yPx, wPx, 0.6);
-        if (depth > 2 && !nameDrawn) {
-          fillText(xPx, yPx, wPx);
-          nameDrawn = true;
+        // III.A: Fill it with a signle shape
+        if (truePercent(0.8)) {
+          fillRandom(xPx, yPx, wPx, 0.6);
+          if (depth > 2 && !nameDrawn) {
+            fillText(xPx, yPx, wPx);
+            nameDrawn = true;
+          }
+        // III.B: Dense fill
+        } else if (depth > 2) {
+          // Divide the space into squares
+          const divisor = truePercent(0.8) ? 2 : 4;
+          const tileW = Math.max(gcd(wPx, hPx) / divisor, 1);
+          // Draw in every square
+          for (let i = 0; i < wPx / tileW; i += 1) {
+            for (let j = 0; j < hPx / tileW; j += 1) {
+              const [currX, currY] = [xPx + i * tileW, yPx + j * tileW];
+              fillSquare(currX, currY, tileW, true);
+            }
+          }
         }
         return;
       }
