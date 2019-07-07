@@ -53,7 +53,7 @@ const CategoryList = ({ categories, className }) => (
 
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
-  className: PropTypes.object.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default CreatorThumbList;
