@@ -8,7 +8,6 @@
     "serve": "gatsby serve"
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.0",
     "@ungap/url-search-params": "^0.1.2",
     "babel-plugin-styled-components": "^1.10.6",
     "dotenv": "^6.1.0",

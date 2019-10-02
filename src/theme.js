@@ -4,6 +4,10 @@ export const colors = {
   black: '#000000',
 };
 
-export const fonts = {
-  // TODO
+export const breakpoints = {
+  xs: '0px',
+  sm: '600px',
+  md: '960px',
+  lg: '1280px',
+  xl: '1920px',
 };

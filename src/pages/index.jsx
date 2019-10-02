@@ -2,20 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import URLSearchParams from '@ungap/url-search-params';
-import Layout from '../components/Layout';
-import CreatorThumbList from '../components/CreatorThumbList';
 
-// Returns a new creators array, filtered by category slug
-const filterByCategory = (catSlug, creators) => {
-  const filtered = [];
-  for (let i = 0; i < creators.length; i += 1) {
-    // If the current creator contains the category, append it to result list
-    if (creators[i].node.categories.findIndex(cat => cat.slug === catSlug) >= 0) {
-      filtered.push(creators[i]);
-    }
-  }
-  return filtered;
-};
+import Layout from '../components/Layout';
+import ImageGrid from '../components/ImageGrid';
+import { filterByCategory } from '../utils';
 
 class Index extends React.Component {
   constructor(props) {
@@ -35,7 +25,7 @@ class Index extends React.Component {
     const creatorsToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, creators) : creators;
     return (
       <Layout>
-        <CreatorThumbList creators={creatorsToDisplay} />
+        <ImageGrid creators={creatorsToDisplay} />
       </Layout>
     );
   }
@@ -64,7 +54,7 @@ export const query = graphql`
             bio
           }
           mainImage {
-            fluid(maxWidth: 700) {
+            fluid(maxWidth: 700, maxHeight: 700) {
               ...GatsbyContentfulFluid
             }
           }
