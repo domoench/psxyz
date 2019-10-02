@@ -1,23 +1,24 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
-import styles from './Header.module.less';
+import { Link as GatsbyLink } from 'gatsby';
+import styled from 'styled-components';
+
+const HeaderList = styled.ul`
+  list-style: none;
+`;
+
+const Link = styled(GatsbyLink)`
+  text-decoration: none;
+`;
 
 export default () => (
-  <header className={styles.header}>
+  <header>
     <div className="container">
       <nav>
-        <ul>
+        <HeaderList>
           <li>
             <Link to="/">[PSxyz]</Link>
           </li>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/submit/">Submit</Link>
-          </li>
-        </ul>
+        </HeaderList>
       </nav>
     </div>
   </header>

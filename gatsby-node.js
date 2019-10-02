@@ -1,9 +1,8 @@
 const path = require(`path`)
 
 // Create a page for every Creator stored in Contentful
-exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
-  return new Promise((resolve, reject) => {
+exports.createPages = ({ graphql }) => (
+  new Promise((resolve) => {
     // Get all creators and generate a Creator page for each
     graphql(`
       {
@@ -17,20 +16,11 @@ exports.createPages = ({ graphql, actions }) => {
         }
       }
     `).then(result => {
-      result.data.allContentfulCreator.edges.forEach(({node}) => {
-        createPage({
-          path: node.slug,
-          component: path.resolve(`./src/templates/Creator.jsx`),
-          context: {
-            // Data passed to context is available in page queries as GraphQL variables.
-            creatorID: node.id,
-          },
-        })
-      })
+      result.data.allContentfulCreator.edges.forEach(({node}) => { })
     resolve()
   })
 })
-}
+);
 
 exports.onCreateNode = ({node, actions}) => {
   const { createNodeField } = actions
@@ -43,4 +33,4 @@ exports.onCreateNode = ({node, actions}) => {
       value: Math.random(),
     })
   }
-}
+};

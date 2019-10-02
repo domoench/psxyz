@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './Header';
-import Splash from './Splash';
-import styles from './Layout.module.less';
+import styled from 'styled-components';
 
-const Layout = ({ children }) => {
-  if (process.env.GATSBY_IN_DEV === 'true') {
-    return <Splash />;
-  }
-  return (
-    <div className={styles.container}>
-      <Header />
-      {children}
-    </div>
-  );
-};
+import Header from './Header';
+
+const Container = styled.div`
+  max-width: 970px;
+  margin: 0 auto;
+`;
+
+const Layout = ({ children }) => (
+  <Container>
+    <Header />
+    {children}
+  </Container>
+);
 
 Layout.propTypes = {
   children: PropTypes.element,

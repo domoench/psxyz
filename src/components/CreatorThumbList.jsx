@@ -1,36 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
-import { Grid } from '@material-ui/core';
+import { Grid as MUIGrid } from '@material-ui/core';
 import Img from 'gatsby-image';
-import styles from './CreatorThumbList.module.less';
+import { Link } from 'gatsby';
+import styled from 'styled-components';
+
+import { colors } from '../theme';
+
+const Name = styled.span`
+  text-align: center;
+`;
+
+const GridRow = styled(MUIGrid)`
+  padding: 1rem;
+`;
 
 // A list of creators, with name and picture
 // TODO: Does a grid really give you anyhting here? just style rows yourself?
 const CreatorThumbList = ({ creators }) => (
   creators.map(({ node }) => {
     const creator = node;
-    const link = `/${creator.slug}`;
     return (
-      <Grid container spacing={24} key={creator.id} className="creatorRow">
-        <Grid item xs={12} s={12} md={3}>
-          <Link to={link}>
-            <Img fluid={creator.mainImage.fluid} />
-          </Link>
-        </Grid>
+      <GridRow container spacing={24} key={creator.id}>
+        <MUIGrid item xs={12} s={12} md={3}>
+          <Img fluid={creator.mainImage.fluid} />
+        </MUIGrid>
 
-        <Grid item xs={12} s={6} md={3}>
-          <div className={styles.creatorName}>
-            <Link to={link}>{creator.name}</Link>
-          </div>
-        </Grid>
+        <MUIGrid item xs={12} s={6} md={3}>
+          <Name>
+            <span>{creator.name}</span>
+          </Name>
+        </MUIGrid>
 
-        <Grid item xs={6} s={3} md={3}>
-          <CategoryList categories={creator.categories} className={styles.catList} />
-        </Grid>
+        <MUIGrid item xs={6} s={3} md={3}>
+          <CategoryList categories={creator.categories} className="catList" />
+        </MUIGrid>
 
-        <Grid item xs={6} s={3} md={3}>{creator.location}</Grid>
-      </Grid>
+        <MUIGrid item xs={6} s={3} md={3}>{creator.location}</MUIGrid>
+      </GridRow>
     );
   })
 );
@@ -39,8 +46,18 @@ CreatorThumbList.propTypes = {
   creators: PropTypes.array.isRequired,
 };
 
-const CategoryList = ({ categories, className }) => (
-  <ul className={className}>
+const StyledCategoryList = styled.ul`
+  list-style: none;
+  text-align: center;
+  font-size: 18px;
+  margin: 0;
+  & a {
+    color: ${colors.blue};
+  }
+`;
+
+const CategoryList = ({ categories }) => (
+  <StyledCategoryList>
     {
       categories.map(ctg => (
         <li key={ctg.id}>
@@ -48,12 +65,11 @@ const CategoryList = ({ categories, className }) => (
         </li>
       ))
     }
-  </ul>
+  </StyledCategoryList>
 );
 
 CategoryList.propTypes = {
   categories: PropTypes.array.isRequired,
-  className: PropTypes.string.isRequired,
 };
 
 export default CreatorThumbList;
