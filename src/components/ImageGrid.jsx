@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import { Link } from 'gatsby';
@@ -7,9 +7,10 @@ import styled from 'styled-components';
 import {
   colors,
   gridColumnsForBreakpoint,
-  gridColorForColumn,
+  gridColorForIdx,
   mediaQuery,
 } from '../theme';
+import { hexToRGBA } from '../utils';
 
 const rowStyles = (numCols, numElems) => {
   const numRows = Math.floor(numElems / numCols);
@@ -22,7 +23,7 @@ const rowStyles = (numCols, numElems) => {
     const rowEnd = i * numCols + numCols;
     styles.push(`
       .image-maker:nth-child(n + ${rowStart}):nth-child(-n + ${rowEnd}) {
-        border-bottom: 2px solid ${gridColorForColumn(i)};
+        border-bottom: 2px solid ${gridColorForIdx(i)};
       }
     `);
   }
@@ -35,11 +36,10 @@ const colStyles = (numCols) => {
   for (let i = 1; i < numCols; i += 1) {
     styles.push(`
       .image-maker:nth-child(${numCols}n-${i}) {
-        border-right: 2px solid ${gridColorForColumn(i)};
+        border-right: 2px solid ${gridColorForIdx(i)};
       }
     `);
   }
-
   return styles;
 };
 
@@ -64,17 +64,53 @@ const Grid = styled.div`
   ${props => gridStyleForBreakpoint('xl', props.numImageMakers)}
 `;
 
+const Overlay = styled.div`
+  display: ${props => (props.show ? 'flex' : 'none')};
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 1em;
+  background: ${props => hexToRGBA(props.color, 0.65)};
+
+  & span {
+    width: 100%;
+    margin: 1em;
+  }
+`;
+
+const ImgWrap = styled.div`
+  position: relative;
+`;
+
+const ImageCell = ({ imageMaker, idx }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <ImgWrap className="image-maker" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+      <Img fluid={imageMaker.mainImage.fluid} style={{ position: 'static' }} />
+      <Overlay show={hover} color={gridColorForIdx(idx)}>
+        <span>{imageMaker.bio.bio}</span>
+      </Overlay>
+    </ImgWrap>
+  );
+};
+
+ImageCell.propTypes = {
+  imageMaker: PropTypes.object,
+  idx: PropTypes.number,
+};
+
 const ImageGrid = ({ imageMakers }) => {
   const duplicated = [...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers]; // TODO remove
   return (
     <Grid numImageMakers={duplicated.length}>
       {
-        duplicated.map(({ node }) => {
-          const creator = node;
-          return (
-            <Img className="image-maker" fluid={creator.mainImage.fluid} />
-          );
-        })
+        duplicated.map(({ node }, idx) => <ImageCell imageMaker={node} idx={idx} />)
       }
     </Grid>
   );

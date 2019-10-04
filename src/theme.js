@@ -37,7 +37,7 @@ export const gridColumnsForBreakpoint = {
   xl: 6,
 };
 
-export const gridColorForColumn = (i) => {
+export const gridColorForIdx = (i) => {
   const c = [colors.yellow, colors.blue, colors.red, colors.white, colors.green];
   return c[i % c.length];
 };
