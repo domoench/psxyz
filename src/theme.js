@@ -11,3 +11,17 @@ export const breakpoints = {
   lg: '1280px',
   xl: '1920px',
 };
+
+// Map from device size to number of grid columns
+export const gridColumnsForBreakpoint = {
+  xs: 2,
+  sm: 3,
+  md: 4,
+  lg: 5,
+  xl: 6,
+};
+
+export const gridColorForColumn = (i) => {
+  const c = ['red', 'blue', 'yellow', 'green', 'orange']; // TODO
+  return c[i % c.length];
+};

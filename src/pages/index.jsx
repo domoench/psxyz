@@ -11,7 +11,7 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      creators: props.data.allContentfulCreator.edges,
+      imageMakers: props.data.allContentfulCreator.edges, // TODO no need for this to be state
     };
   }
 
@@ -21,11 +21,11 @@ class Index extends React.Component {
     const params = new URLSearchParams(location.search);
     const categorySlug = params.get('cat');
 
-    const { creators } = this.state;
-    const creatorsToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, creators) : creators;
+    const { imageMakers } = this.state;
+    const imageMakersToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, imageMakers) : imageMakers;
     return (
       <Layout>
-        <ImageGrid creators={creatorsToDisplay} />
+        <ImageGrid imageMakers={imageMakersToDisplay} />
       </Layout>
     );
   }

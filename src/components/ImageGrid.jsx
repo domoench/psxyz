@@ -4,27 +4,71 @@ import Img from 'gatsby-image';
 import { Link } from 'gatsby';
 
 import styled from 'styled-components';
-import { breakpoints, colors } from '../theme';
+import {
+  breakpoints,
+  colors,
+  gridColumnsForBreakpoint,
+  gridColorForColumn,
+} from '../theme';
+
+const rowStyles = (numCols, numElems) => {
+  const numRows = Math.floor(numElems / numCols);
+
+  const styles = [];
+  for (let i = 0; i < numRows; i += 1) {
+    // NB: (nth-child is not zero indexed)
+    // Calculate selectors for element range: [i * numCols + 1, i*numCols + numCols]
+    const rowStart = i * numCols + 1;
+    const rowEnd = i * numCols + numCols;
+    styles.push(`
+      .image-maker:nth-child(n + ${rowStart}):nth-child(-n + ${rowEnd}) {
+        border-bottom: 1px solid ${gridColorForColumn(i)};
+      }
+    `);
+  }
+
+  return styles;
+};
+
+const gridStyleForBreakpoint = (bp, numElems) => {
+  const numCols = gridColumnsForBreakpoint[bp];
+
+  const colStyles = [];
+  for (let i = 0; i < numCols; i += 1) {
+    colStyles.push(`
+      .image-maker:nth-child(${numCols}n+${i}) {
+        border-right: 1px solid ${gridColorForColumn(i)};
+      }
+    `);
+  }
+
+  return (`
+    @media(min-width: ${breakpoints[bp]}) {
+      grid-template-columns: repeat(${numCols}, 1fr);
+      ${colStyles.join('\n')}
+      ${rowStyles(numCols, numElems).join('\n')}
+    }
+  `);
+};
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-
-  @media(max-width: ${breakpoints.sm}) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+  ${props => gridStyleForBreakpoint('xs', props.numImageMakers)}
+  ${props => gridStyleForBreakpoint('sm', props.numImageMakers)}
+  ${props => gridStyleForBreakpoint('md', props.numImageMakers)}
+  ${props => gridStyleForBreakpoint('lg', props.numImageMakers)}
+  ${props => gridStyleForBreakpoint('xl', props.numImageMakers)}
 `;
 
-const ImageGrid = ({ creators }) => {
-  const duplicated = [...creators, ...creators, ...creators, ...creators, ...creators]; // TODO
+const ImageGrid = ({ imageMakers }) => {
+  const duplicated = [...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers]; // TODO remove
   return (
-    <Grid>
+    <Grid numImageMakers={duplicated.length}>
       {
         duplicated.map(({ node }) => {
           const creator = node;
           return (
-            <Img fluid={creator.mainImage.fluid} />
+            <Img className="image-maker" fluid={creator.mainImage.fluid} />
           );
         })
       }
@@ -33,7 +77,7 @@ const ImageGrid = ({ creators }) => {
 };
 
 ImageGrid.propTypes = {
-  creators: PropTypes.array.isRequired,
+  imageMakers: PropTypes.array.isRequired,
 };
 
 const StyledCategoryList = styled.ul`
