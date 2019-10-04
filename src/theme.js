@@ -8,6 +8,11 @@ export const colors = {
   black: '#000000',
 };
 
+export const fonts = {
+  serif: 'Times New Roman, serif',
+  sansSerif: 'Arial, sans-serif',
+};
+
 export const breakpoints = {
   xs: ['0px', '599px'],
   sm: ['600px', '959px'],
