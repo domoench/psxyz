@@ -12,6 +12,8 @@ import {
 } from '../theme';
 import { hexToRGBA } from '../utils';
 
+const gridLineW = '2px';
+
 const rowStyles = (numCols, numElems) => {
   const numRows = Math.floor(numElems / numCols);
 
@@ -23,7 +25,7 @@ const rowStyles = (numCols, numElems) => {
     const rowEnd = i * numCols + numCols;
     styles.push(`
       .image-maker:nth-child(n + ${rowStart}):nth-child(-n + ${rowEnd}) {
-        border-bottom: 2px solid ${gridColorForIdx(i)};
+        box-shadow: 0px ${gridLineW} 0px 0px ${gridColorForIdx(i)};
       }
     `);
   }
@@ -36,7 +38,7 @@ const colStyles = (numCols) => {
   for (let i = 1; i < numCols; i += 1) {
     styles.push(`
       .image-maker:nth-child(${numCols}n-${i}) {
-        border-right: 2px solid ${gridColorForIdx(i)};
+        border-right: ${gridLineW} solid ${gridColorForIdx(i)};
       }
     `);
   }
@@ -86,6 +88,7 @@ const Overlay = styled.div`
 
 const ImgWrap = styled.div`
   position: relative;
+  margin-bottom: ${gridLineW};
 `;
 
 const ImageCell = ({ imageMaker, idx }) => {
