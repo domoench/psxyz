@@ -5,24 +5,37 @@ import { Link } from 'gatsby';
 
 import styled from 'styled-components';
 import {
-  breakpoints,
   colors,
   gridColumnsForBreakpoint,
   gridColorForColumn,
+  mediaQuery,
 } from '../theme';
 
 const rowStyles = (numCols, numElems) => {
   const numRows = Math.floor(numElems / numCols);
 
   const styles = [];
-  for (let i = 0; i < numRows; i += 1) {
+  for (let i = 0; i < numRows - 1; i += 1) {
     // NB: (nth-child is not zero indexed)
     // Calculate selectors for element range: [i * numCols + 1, i*numCols + numCols]
     const rowStart = i * numCols + 1;
     const rowEnd = i * numCols + numCols;
     styles.push(`
       .image-maker:nth-child(n + ${rowStart}):nth-child(-n + ${rowEnd}) {
-        border-bottom: 1px solid ${gridColorForColumn(i)};
+        border-bottom: 2px solid ${gridColorForColumn(i)};
+      }
+    `);
+  }
+
+  return styles;
+};
+
+const colStyles = (numCols) => {
+  const styles = [];
+  for (let i = 1; i < numCols; i += 1) {
+    styles.push(`
+      .image-maker:nth-child(${numCols}n-${i}) {
+        border-right: 2px solid ${gridColorForColumn(i)};
       }
     `);
   }
@@ -33,19 +46,10 @@ const rowStyles = (numCols, numElems) => {
 const gridStyleForBreakpoint = (bp, numElems) => {
   const numCols = gridColumnsForBreakpoint[bp];
 
-  const colStyles = [];
-  for (let i = 0; i < numCols; i += 1) {
-    colStyles.push(`
-      .image-maker:nth-child(${numCols}n+${i}) {
-        border-right: 1px solid ${gridColorForColumn(i)};
-      }
-    `);
-  }
-
   return (`
-    @media(min-width: ${breakpoints[bp]}) {
+    ${mediaQuery(bp)} {
       grid-template-columns: repeat(${numCols}, 1fr);
-      ${colStyles.join('\n')}
+      ${colStyles(numCols).join('\n')}
       ${rowStyles(numCols, numElems).join('\n')}
     }
   `);
