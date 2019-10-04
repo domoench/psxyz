@@ -34,7 +34,7 @@ const NavPill = ({ to, color, children }) => (
   <StyledLink
     color={color}
     to={to}
-    isActive={window.location.pathname === to}
+    isActive={typeof window !== 'undefined' ? window.location.pathname === to : false}
   >
     {children}
   </StyledLink>
