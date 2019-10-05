@@ -2,18 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Layout from '../components/Layout';
-import { breakpoints } from '../theme';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-flow: row wrap;
+  display: grid;
+  // grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 `;
 
 const Column = styled.div`
   padding: 1em;
-  flex-basis: 0;
-  flex-grow: 1;
-  min-width: 300px;
 
   & h1 {
     padding-bottom: 1.2em;
