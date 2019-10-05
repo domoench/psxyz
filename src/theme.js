@@ -8,6 +8,21 @@ export const colors = {
   black: '#000000',
 };
 
+export const overlayColors = [
+  colors.yellow,
+  colors.blue,
+  colors.red,
+  colors.green,
+];
+
+export const gridLineColors = [
+  colors.yellow,
+  colors.blue,
+  colors.red,
+  colors.white,
+  colors.green,
+];
+
 export const fonts = {
   serif: 'Times New Roman, serif',
   sansSerif: 'Arial, sans-serif',
@@ -45,3 +60,5 @@ export const gridColorForIdx = (i) => {
   const c = [colors.yellow, colors.blue, colors.red, colors.white, colors.green];
   return c[i % c.length];
 };
+
+export const colorForIdx = (i, colorArr) => colorArr[i % colorArr.length];

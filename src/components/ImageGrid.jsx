@@ -5,8 +5,11 @@ import styled from 'styled-components';
 
 import {
   gridColumnsForBreakpoint,
-  gridColorForIdx,
+  colorForIdx,
+  overlayColors,
+  gridLineColors,
   mediaQuery,
+  fonts,
 } from '../theme';
 import { hexToRGBA } from '../utils';
 
@@ -23,7 +26,7 @@ const rowStyles = (numCols, numElems) => {
     const rowEnd = i * numCols + numCols;
     styles.push(`
       .image-maker:nth-child(n + ${rowStart}):nth-child(-n + ${rowEnd}) {
-        box-shadow: 0px ${gridLineW} 0px 0px ${gridColorForIdx(i)};
+        box-shadow: 0px ${gridLineW} 0px 0px ${colorForIdx(i, gridLineColors)};
       }
     `);
   }
@@ -36,7 +39,7 @@ const colStyles = (numCols) => {
   for (let i = 1; i < numCols; i += 1) {
     styles.push(`
       .image-maker:nth-child(${numCols}n-${i}) {
-        border-right: ${gridLineW} solid ${gridColorForIdx(i)};
+        border-right: ${gridLineW} solid ${colorForIdx(i, gridLineColors)};
       }
     `);
   }
@@ -76,9 +79,10 @@ const Overlay = styled.div`
   align-items: center;
   color: white;
   padding: 1em;
-  background: ${props => hexToRGBA(props.color, 0.65)};
+  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
 
   & span {
+    font-family: ${fonts.serif};
     width: 100%;
     margin: 1em;
   }
@@ -89,7 +93,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
   return (
     <div className={className} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <Img fluid={imageMaker.mainImage.fluid} style={{ position: 'static' }} />
-      <Overlay show={hover} color={gridColorForIdx(idx)}>
+      <Overlay show={hover} color={colorForIdx(idx, overlayColors)}>
         <span>{imageMaker.bio.bio}</span>
       </Overlay>
     </div>
