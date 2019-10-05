@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
-import { Link } from 'gatsby';
-
 import styled from 'styled-components';
+
 import {
-  colors,
   gridColumnsForBreakpoint,
   gridColorForIdx,
   mediaQuery,
@@ -86,34 +84,35 @@ const Overlay = styled.div`
   }
 `;
 
-const ImgWrap = styled.div`
-  position: relative;
-  margin-bottom: ${gridLineW};
-`;
-
-const ImageCell = ({ imageMaker, idx }) => {
+const ImageCell = ({ className, imageMaker, idx }) => {
   const [hover, setHover] = useState(false);
   return (
-    <ImgWrap className="image-maker" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+    <div className={className} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <Img fluid={imageMaker.mainImage.fluid} style={{ position: 'static' }} />
       <Overlay show={hover} color={gridColorForIdx(idx)}>
         <span>{imageMaker.bio.bio}</span>
       </Overlay>
-    </ImgWrap>
+    </div>
   );
 };
 
 ImageCell.propTypes = {
+  className: PropTypes.string,
   imageMaker: PropTypes.object,
   idx: PropTypes.number,
 };
+
+const StyledImageCell = styled(ImageCell)`
+  position: relative;
+  margin-bottom: ${gridLineW};
+`;
 
 const ImageGrid = ({ imageMakers }) => {
   const duplicated = [...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers]; // TODO remove
   return (
     <Grid numImageMakers={duplicated.length}>
       {
-        duplicated.map(({ node }, idx) => <ImageCell imageMaker={node} idx={idx} />)
+        duplicated.map(({ node }, idx) => <StyledImageCell className="image-maker" imageMaker={node} idx={idx} />)
       }
     </Grid>
   );
@@ -121,32 +120,6 @@ const ImageGrid = ({ imageMakers }) => {
 
 ImageGrid.propTypes = {
   imageMakers: PropTypes.array.isRequired,
-};
-
-const StyledCategoryList = styled.ul`
-  list-style: none;
-  text-align: center;
-  font-size: 18px;
-  margin: 0;
-  & a {
-    color: ${colors.blue};
-  }
-`;
-
-const CategoryList = ({ categories }) => (
-  <StyledCategoryList>
-    {
-      categories.map(ctg => (
-        <li key={ctg.id}>
-          <Link to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
-        </li>
-      ))
-    }
-  </StyledCategoryList>
-);
-
-CategoryList.propTypes = {
-  categories: PropTypes.array.isRequired,
 };
 
 export default ImageGrid;
