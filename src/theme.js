@@ -13,6 +13,10 @@ export const fonts = {
   sansSerif: 'Arial, sans-serif',
 };
 
+export const fontSize = {
+  body: 18, // px
+};
+
 export const breakpoints = {
   xs: ['0px', '599px'],
   sm: ['600px', '959px'],

@@ -26,15 +26,19 @@ const StyledLink = styled(Link)`
   border-radius: 20%/50%;
   padding: 0.5em 1em;
   margin: 0 0.25em;
-  color: ${props => (props.isActive ? colors.white : colors.black)};
-  background: ${props => (props.isActive ? props.color : colors.white)};
+  color: ${colors.black};
+  background: ${colors.white};
+  &.active {
+    color: ${colors.white};
+    background: ${props => props.color};
+  }
 `;
 
 const NavPill = ({ to, color, children }) => (
   <StyledLink
     color={color}
     to={to}
-    isActive={typeof window !== 'undefined' ? window.location.pathname === to : false}
+    activeClassName="active"
   >
     {children}
   </StyledLink>
@@ -58,8 +62,8 @@ export default () => (
       <NavPillList>
         <li>
           <NavPill color={colors.blue} to="/">INDEX</NavPill>
-          <NavPill color={colors.red} to="/about">ABOUT</NavPill>
-          <NavPill color={colors.green} to="/support">SUPPORT</NavPill>
+          <NavPill color={colors.red} to="/about/">ABOUT</NavPill>
+          <NavPill color={colors.green} to="/support/">SUPPORT</NavPill>
         </li>
       </NavPillList>
     </nav>
