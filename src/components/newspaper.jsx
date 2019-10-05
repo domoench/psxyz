@@ -1,14 +1,21 @@
 import styled from 'styled-components';
 
-import { fonts, fontSize } from '../theme';
+import {
+  colors,
+  fonts,
+  fontSize,
+} from '../theme';
 
 export const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  min-height: 100%;
+  background: ${props => props.color};
 `;
 
 export const Column = styled.div`
   padding: 1.5em;
+  color: ${colors.white};
 
   & h1 {
     padding-bottom: 1.2em;

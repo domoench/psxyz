@@ -19,3 +19,13 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
+/* Hack to get 100% height despite gatsby-generated wrapper divs
+ * https://dev.to/hzburki/100-height-to-all-divs-gatsby-33nd
+ */
+html, body, #___gatsby {
+  height: 100%;
+}
+div[role="group"][tabindex] {
+  height: 100%;
+}

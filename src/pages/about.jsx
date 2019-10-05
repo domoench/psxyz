@@ -2,10 +2,11 @@ import React from 'react';
 
 import Layout from '../components/Layout';
 import { Column, Wrapper } from '../components/newspaper';
+import { colors } from '../theme';
 
 const About = () => (
   <Layout>
-    <Wrapper>
+    <Wrapper color={colors.green}>
       <Column>
         <h1>About Us</h1>
         <p>

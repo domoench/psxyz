@@ -61,9 +61,9 @@ export default () => (
     <nav>
       <NavPillList>
         <li>
-          <NavPill color={colors.blue} to="/">INDEX</NavPill>
-          <NavPill color={colors.red} to="/about/">ABOUT</NavPill>
-          <NavPill color={colors.green} to="/support/">SUPPORT</NavPill>
+          <NavPill color={colors.red} to="/">INDEX</NavPill>
+          <NavPill color={colors.green} to="/about/">ABOUT</NavPill>
+          <NavPill color={colors.blue} to="/support/">SUPPORT</NavPill>
         </li>
       </NavPillList>
     </nav>

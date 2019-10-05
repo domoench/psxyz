@@ -2,10 +2,11 @@ import React from 'react';
 
 import Layout from '../components/Layout';
 import { Wrapper, Column } from '../components/newspaper';
+import { colors } from '../theme';
 
 const Support = () => (
   <Layout>
-    <Wrapper>
+    <Wrapper color={colors.blue}>
       <Column>
         <h1>Supporting Public Service is an investment in diversifying imagemaking.</h1>
         <p>
