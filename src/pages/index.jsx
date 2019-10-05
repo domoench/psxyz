@@ -7,6 +7,7 @@ import Layout from '../components/Layout';
 import ImageGrid from '../components/ImageGrid';
 import { filterByCategory } from '../utils';
 
+// TODO change to functional style for consistency
 class Index extends React.Component {
   constructor(props) {
     super(props);
