@@ -10,6 +10,7 @@ import {
   gridLineColors,
   mediaQuery,
   fonts,
+  fontSize,
 } from '../theme';
 import { hexToRGBA } from '../utils';
 
@@ -75,26 +76,41 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   color: white;
   padding: 1em;
   background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
+  font-family: ${fonts.serif};
 
-  & span {
-    font-family: ${fonts.serif};
-    width: 100%;
-    margin: 1em;
+  & span.name {
+    font-size: ${fontSize.body * 1.2}px;
+  }
+  & span.category {
+    font-size: ${fontSize.body}px;
+    text-decoration: underline;
   }
 `;
 
 const ImageCell = ({ className, imageMaker, idx }) => {
   const [hover, setHover] = useState(false);
+  const cats = imageMaker.categories;
   return (
     <div className={className} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
       <Img fluid={imageMaker.mainImage.fluid} style={{ position: 'static' }} />
       <Overlay show={hover} color={colorForIdx(idx, overlayColors)}>
-        <span>{imageMaker.bio.bio}</span>
+        <p>
+          <span className="name">{`${imageMaker.name}. `}</span>
+          {cats.map((cat, i) => (
+            <span>
+              <span className="category">
+                {`${cat.name}`}
+              </span>
+              {i === cats.length - 1 ? '.' : '. '}
+            </span>
+          ))}
+        </p>
       </Overlay>
     </div>
   );

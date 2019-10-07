@@ -35,7 +35,7 @@ const About = () => (
           Breaking through these barriers requires a new approach.
         </p>
         <p>
-          Our first project is a ever-evolving curated directory of U.S.-based POC imagemakers–from directors to makeup artists to casting directors and everyone in between.
+          Our first project is an ever-evolving curated directory of U.S.-based POC imagemakers–from directors to makeup artists to casting directors and everyone in between.
           These are people whose work we find interesting, who help us see in new ways, who excite us, who have limitless potential.
           Use it as a tool to find POC talent for your next project. Share it. Spread the word.
         </p>
