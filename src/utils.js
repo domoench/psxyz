@@ -1,5 +1,9 @@
 // Returns a new imageMakers array, filtered by category slug
 export const filterByCategory = (catSlugs, imageMakers) => {
+  if (catSlugs.length === 0) {
+    return imageMakers;
+  }
+
   const filtered = [];
   for (let i = 0; i < imageMakers.length; i += 1) {
     // If the current imageMaker has all the queried categories, append it to result list

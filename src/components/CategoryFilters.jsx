@@ -9,6 +9,11 @@ const CategoryFilterWrapper = styled.div`
   align-items: baseline;
 `;
 
+const CheckIcon = styled.span`
+  width: 30px;
+  text-align: center;
+`;
+
 const CatFilterToggle = ({
   className,
   name,
@@ -22,15 +27,13 @@ const CatFilterToggle = ({
     role="button"
     tabIndex={0}
   >
+    <CheckIcon
+      role="img"
+      aria-label="checkmark"
+    >
+      {isSelected ? '✅' : ' '}
+    </CheckIcon>
     <span>{name}</span>
-    {isSelected && (
-      <span
-        role="img"
-        aria-label="checkmark"
-      >
-        {' ✅'}
-      </span>
-    )}
   </div>
 );
 
@@ -42,7 +45,9 @@ CatFilterToggle.propTypes = {
 };
 
 const StyledCatFilterToggle = styled(CatFilterToggle)`
-  padding: 0.2em 1em;
+  display: flex;
+  align-items: center;
+  height: 30px;
 `;
 
 const CategoryFilters = ({
