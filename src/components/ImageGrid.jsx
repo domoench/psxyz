@@ -103,7 +103,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
         <p>
           <span className="name">{`${imageMaker.name}. `}</span>
           {cats.map((cat, i) => (
-            <span>
+            <span key={cat.id}>
               <span className="category">
                 {`${cat.name}`}
               </span>
@@ -127,16 +127,13 @@ const StyledImageCell = styled(ImageCell)`
   margin-bottom: ${gridLineW};
 `;
 
-const ImageGrid = ({ imageMakers }) => {
-  const duplicated = [...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers, ...imageMakers]; // TODO remove
-  return (
-    <Grid numImageMakers={duplicated.length}>
-      {
-        duplicated.map(({ node }, idx) => <StyledImageCell className="image-maker" imageMaker={node} idx={idx} />)
-      }
-    </Grid>
-  );
-};
+const ImageGrid = ({ imageMakers }) => (
+  <Grid numImageMakers={imageMakers.length}>
+    {
+      imageMakers.map(({ node }, idx) => <StyledImageCell className="image-maker" imageMaker={node} key={node.id} idx={idx} />)
+    }
+  </Grid>
+);
 
 ImageGrid.propTypes = {
   imageMakers: PropTypes.array.isRequired,

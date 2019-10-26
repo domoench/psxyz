@@ -40,7 +40,7 @@ const Index = ({ data, location }) => {
     }
   );
 
-  const imageMakersToDisplay = queryParamCatSlugs.length > 0 ? filterByCategory(selected, imageMakers) : imageMakers;
+  const imageMakersToDisplay = filterByCategory(selected, imageMakers);
   return (
     <Layout>
       <CategoryFilters
