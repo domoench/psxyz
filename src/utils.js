@@ -1,16 +1,15 @@
-// Returns a new creators array, filtered by category slug
-export const filterByCategory = (catSlug, creators) => {
+// Returns a new imageMakers array, filtered by category slug
+export const filterByCategory = (catSlugs, imageMakers) => {
   const filtered = [];
-  for (let i = 0; i < creators.length; i += 1) {
-    // If the current creator contains the category, append it to result list
-    if (creators[i].node.categories.findIndex(cat => cat.slug === catSlug) >= 0) {
-      filtered.push(creators[i]);
+  for (let i = 0; i < imageMakers.length; i += 1) {
+    // If the current imageMaker has all the queried categories, append it to result list
+    const imageMakerSlugs = new Set(imageMakers[i].node.categories.map(c => c.slug));
+    if (catSlugs.every(slug => imageMakerSlugs.has(slug))) {
+      filtered.push(imageMakers[i]);
     }
   }
   return filtered;
 };
-
-export const noop = () => {}; // TODO remove
 
 // From https://stackoverflow.com/questions/21646738/convert-hex-to-rgba
 export const hexToRGBA = (hex, alpha) => {

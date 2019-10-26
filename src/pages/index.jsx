@@ -1,36 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'gatsby';
 import URLSearchParams from '@ungap/url-search-params';
+import { createBrowserHistory } from 'history';
 
 import Layout from '../components/Layout';
 import ImageGrid from '../components/ImageGrid';
+import CategoryFilters from '../components/CategoryFilters';
 import { filterByCategory } from '../utils';
 
-// TODO change to functional style for consistency
-class Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageMakers: props.data.allContentfulCreator.edges, // TODO no need for this to be state
-    };
-  }
+const Index = ({ data, location }) => {
+  const imageMakers = data.allContentfulCreator.edges;
+  const categories = data.allContentfulCategory.edges;
 
-  render() {
-    // Check URL for query params specifying category
-    const { location } = this.props;
-    const params = new URLSearchParams(location.search);
-    const categorySlug = params.get('cat');
+  // Read URL for query params specifying category
+  const queryParamCatSlugs = new URLSearchParams(location.search).getAll('cat');
 
-    const { imageMakers } = this.state;
-    const imageMakersToDisplay = (categorySlug !== null) ? filterByCategory(categorySlug, imageMakers) : imageMakers;
-    return (
-      <Layout>
-        <ImageGrid imageMakers={imageMakersToDisplay} />
-      </Layout>
-    );
-  }
-}
+  const [selected, setSelected] = useState(queryParamCatSlugs);
+
+  const updateSelected = categorySlug => (
+    () => {
+      const selectedSet = new Set(selected);
+      if (selectedSet.has(categorySlug)) {
+        selectedSet.delete(categorySlug);
+      } else {
+        selectedSet.add(categorySlug);
+      }
+      setSelected(Array.from(selectedSet));
+
+      // Update URL params to reflect filters
+      const params = new URLSearchParams();
+      selectedSet.forEach(cat => params.append('cat', cat));
+      const history = createBrowserHistory();
+      history.push({
+        pathname: '',
+        search: params.toString(),
+        state: {},
+      });
+    }
+  );
+
+  const imageMakersToDisplay = queryParamCatSlugs.length > 0 ? filterByCategory(selected, imageMakers) : imageMakers;
+  return (
+    <Layout>
+      <CategoryFilters
+        categories={categories}
+        selectedCats={selected}
+        updateSelected={updateSelected}
+        show
+      />
+      <ImageGrid imageMakers={imageMakersToDisplay} />
+    </Layout>
+  );
+};
 
 Index.propTypes = {
   data: PropTypes.object.isRequired,
@@ -65,6 +87,15 @@ export const query = graphql`
             slug
           }
           location
+        }
+      }
+    }
+    allContentfulCategory(sort: {fields: name}) {
+      edges {
+        node {
+          id
+          name
+          slug
         }
       }
     }

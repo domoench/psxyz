@@ -8,6 +8,8 @@ import {
   Select,
 } from '@material-ui/core';
 
+// TODO delete this file?
+
 class CategorySelect extends React.Component {
   constructor(props) {
     super(props);
