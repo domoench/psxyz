@@ -5,7 +5,7 @@ import URLSearchParams from '@ungap/url-search-params';
 import { createBrowserHistory } from 'history';
 
 import Layout from '../components/Layout';
-import ImageGrid from '../components/ImageGrid';
+import ImageGridAnimated from '../components/ImageGridAnimated';
 import CategoryFilters from '../components/CategoryFilters';
 import { filterByCategory } from '../utils';
 
@@ -49,7 +49,7 @@ const Index = ({ data, location }) => {
         updateSelected={updateSelected}
         show
       />
-      <ImageGrid imageMakers={imageMakersToDisplay} />
+      <ImageGridAnimated imageMakers={imageMakersToDisplay} />
     </Layout>
   );
 };

@@ -1,24 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import {
+  fonts,
+  colorForIdx,
+  overlayColors,
+} from '../theme';
 
 const CategoryFilterWrapper = styled.div`
-  width: 100%;
+  padding: 1em 0.5em;
+  display: grid;
+  grid-column-gap: 1em;
+  width: max-content;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto auto auto auto;
+  grid-template-columns: min-content;
+  white-space: nowrap;
+`;
+
+const CatFilterLabel = styled.div`
   display: flex;
-  flex-flow: column wrap;
-  align-items: baseline;
+  align-items: center;
+  height: 30px;
+  padding: 0 15px;
+  margin: 4px;
+  font-family: ${fonts.sansSerif};
+  border: 1px solid black;
+  border-radius: 30px/30px;
+  text-transform: uppercase;
+  &:hover {
+    ${props => `color: ${props.color};`}
+    ${props => `border: 1px solid ${props.color};`}
+  }
+  &.selected {
+    ${props => `background: ${props.color};`}
+    ${props => `border: 1px solid ${props.color};`}
+    color: white;
+  }
 `;
 
-const CheckIcon = styled.span`
-  width: 30px;
-  text-align: center;
-`;
-
-const CatFilterToggle = ({
+const CatFilter = ({
   className,
   name,
   isSelected,
   clickHandler,
+  color,
 }) => (
   <div
     className={className}
@@ -27,27 +53,28 @@ const CatFilterToggle = ({
     role="button"
     tabIndex={0}
   >
-    <CheckIcon
-      role="img"
-      aria-label="checkmark"
+    <CatFilterLabel
+      className={`${isSelected ? 'selected' : ''}`}
+      color={color}
     >
-      {isSelected ? '✅' : ' '}
-    </CheckIcon>
-    <span>{name}</span>
+      {name}
+    </CatFilterLabel>
   </div>
 );
 
-CatFilterToggle.propTypes = {
+CatFilter.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   isSelected: PropTypes.bool,
   clickHandler: PropTypes.func,
+  color: PropTypes.string,
 };
 
-const StyledCatFilterToggle = styled(CatFilterToggle)`
+const StyledCatFilter = styled(CatFilter)`
   display: flex;
-  align-items: center;
-  height: 30px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const CategoryFilters = ({
@@ -57,19 +84,22 @@ const CategoryFilters = ({
   show,
 }) => {
   if (!show) { return null; }
+  console.log(colorForIdx(3, overlayColors));
 
   return (
     <CategoryFilterWrapper>
       {
-        categories.map((cat) => {
+        categories.map((cat, idx) => {
           const isSelected = new Set(selectedCats).has(cat.node.slug);
           return (
-            <StyledCatFilterToggle
-              name={cat.node.name}
-              isSelected={isSelected}
-              clickHandler={updateSelected(cat.node.slug)}
-              key={cat.node.id}
-            />
+            <div key={cat.node.id}>
+              <StyledCatFilter
+                name={cat.node.name}
+                isSelected={isSelected}
+                clickHandler={updateSelected(cat.node.slug)}
+                color={colorForIdx(idx, overlayColors)}
+              />
+            </div>
           );
         })
       }

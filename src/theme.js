@@ -32,12 +32,34 @@ export const fontSize = {
   body: 18, // px
 };
 
+// TODO remove
 export const breakpoints = {
   xs: ['0px', '599px'],
   sm: ['600px', '959px'],
   md: ['960px', '1279px'],
   lg: ['1280px', '1919px'],
   xl: ['1920px', null],
+};
+
+export const breakpointsPx = {
+  xs: [0, 599],
+  sm: [600, 959],
+  md: [960, 1279],
+  lg: [1280, 1919],
+  xl: [1920, null],
+};
+
+// Given a pixel width, find the proper breakpoint name.
+export const deviceSize = (width) => {
+  const bps = Object.entries(breakpointsPx).sort((a, b) => a[1][0] - b[1][0]);
+  let dSize = '';
+  bps.forEach((bp) => {
+    const [bpName, bpLimits] = bp;
+    if (width >= bpLimits[0]) {
+      dSize = bpName;
+    }
+  });
+  return dSize;
 };
 
 export const mediaQuery = (bp) => {
