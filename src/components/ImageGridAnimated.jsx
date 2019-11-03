@@ -1,13 +1,11 @@
 import React, { useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import _debounce from 'lodash.debounce';
 
 /* TODO
- * - Implement FLIP Animation with starting points for newly entered
- *   cells at (0,0) so they don't simply appear in position
- *   Consider https://reactcommunity.org/react-transition-group/
+ * - Implement FLIP Animation?
  * - Cleanup
  */
 
@@ -35,16 +33,27 @@ ImageCell.propTypes = {
   imageMaker: PropTypes.object,
 };
 
-const PositionedImageCell = styled(ImageCell)(props => ({
-  position: 'absolute',
-  top: props.top,
-  left: props.left,
-  width: `${props.width - 2}px`,
-  height: `${props.width - 2}px`,
-  borderRight: `2px solid ${props.rightBorderColor}`,
-  boxShadow: `${props.bottomBorderColor} 0px 2px 0px 0px`,
-  transition: 'top 2s ease 0s, left 2s ease 0s, width 2s ease 0s, height 2s ease 0s, border-color 0s ease 0s',
-}));
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const PositionedImageCell = styled(ImageCell)`
+  position: absolute;
+  ${props => `top: ${props.top}px;`}
+  ${props => `left: ${props.left}px;`}
+  ${props => `width: ${props.width - 2}px;`}
+  ${props => `height: ${props.width - 2}px;`}
+  ${props => `border-right: 2px solid ${props.rightBorderColor};`}
+  ${props => `box-shadow: ${props.bottomBorderColor} 0px 2px 0px 0px;`}
+
+  /* Slide when existing cell must change grid position */
+  transition: top 2s ease 0s, left 2s ease 0s, width 2s ease 0s, height 2s ease 0s, border-color 0s ease 0s;
+
+  /* Fade in when new cells enter the grid */
+  animation: ${fadeIn} ease-in 1;
+  animation-duration: 0.5s;
+`;
 
 const ImageGridAnimated = ({ imageMakers }) => {
   const gridRef = React.createRef();
