@@ -4,6 +4,7 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 
 import { colors, fonts } from '../theme';
+import logo from '../logo.svg';
 
 const Header = styled.header`
   display: flex;
@@ -11,6 +12,10 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0.5em;
+`;
+
+const LogoImg = styled.img`
+  height: 60px;
 `;
 
 const NavPillList = styled.ul`
@@ -50,14 +55,9 @@ NavPill.propTypes = {
   children: PropTypes.element,
 };
 
-const Logo = styled.span`
-  font-size: 3em;
-  font-family: ${fonts.sansSerif};
-`;
-
 export default () => (
   <Header>
-    <Logo>PUBLIC SERVICE</Logo>
+    <LogoImg src={logo} alt="Logo" />
     <nav>
       <NavPillList>
         <li>
