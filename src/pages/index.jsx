@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 import Layout from '../components/Layout';
 import ImageGridAnimated from '../components/ImageGridAnimated';
 import CategoryFilters from '../components/CategoryFilters';
+import AboutBlurb from '../components/AboutBlurb';
 import { filterByCategory } from '../utils';
 
 const Index = ({ data, location }) => {
@@ -17,6 +18,7 @@ const Index = ({ data, location }) => {
   const queryParamCatSlugs = new URLSearchParams(location.search).getAll('cat');
 
   const [selected, setSelected] = useState(queryParamCatSlugs);
+  const [showFilters, setShowFilters] = useState(false);
 
   const updateSelected = categorySlug => (
     () => {
@@ -42,13 +44,14 @@ const Index = ({ data, location }) => {
 
   const imageMakersToDisplay = filterByCategory(selected, imageMakers);
   return (
-    <Layout>
+    <Layout setShowFilters={setShowFilters} showFilters={showFilters}>
       <CategoryFilters
         categories={categories}
         selectedCats={selected}
         updateSelected={updateSelected}
-        show
+        showFilters={showFilters}
       />
+      <AboutBlurb />
       <ImageGridAnimated imageMakers={imageMakersToDisplay} />
     </Layout>
   );

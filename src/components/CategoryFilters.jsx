@@ -8,15 +8,22 @@ import {
 } from '../theme';
 
 const CategoryFilterWrapper = styled.div`
-  padding: 1em 0.5em;
+  ${props => `padding: ${props.showFilters ? '1em 0.5em' : '0'};`}
   display: grid;
   grid-column-gap: 1em;
   width: max-content;
   grid-auto-flow: column;
-  grid-template-rows: auto auto auto auto auto;
+  grid-template-rows: repeat(3, 1fr); /* TODO mediaquery */
   grid-template-columns: min-content;
   white-space: nowrap;
+  overflow: hidden;
+  ${props => `height: ${props.showFilters ? '140px' : '0px'};`}
+  transition: height 0.5s ease 0s, padding 0.5s ease 0s;
 `;
+
+// TODO: Squishing header and about section
+// This library does exactly what we need: https://github.com/madou/react-sticky-header/blob/master/src/ReactStickyHeader.js
+// Use it, or re-implement yourself
 
 const CatFilterLabel = styled.div`
   display: flex;
@@ -25,6 +32,7 @@ const CatFilterLabel = styled.div`
   padding: 0 15px;
   margin: 4px;
   font-family: ${fonts.sansSerif};
+  font-weight: 600;
   border: 1px solid black;
   border-radius: 30px/30px;
   text-transform: uppercase;
@@ -81,37 +89,32 @@ const CategoryFilters = ({
   categories,
   selectedCats,
   updateSelected,
-  show,
-}) => {
-  if (!show) { return null; }
-  console.log(colorForIdx(3, overlayColors));
-
-  return (
-    <CategoryFilterWrapper>
-      {
-        categories.map((cat, idx) => {
-          const isSelected = new Set(selectedCats).has(cat.node.slug);
-          return (
-            <div key={cat.node.id}>
-              <StyledCatFilter
-                name={cat.node.name}
-                isSelected={isSelected}
-                clickHandler={updateSelected(cat.node.slug)}
-                color={colorForIdx(idx, overlayColors)}
-              />
-            </div>
-          );
-        })
-      }
-    </CategoryFilterWrapper>
-  );
-};
+  showFilters,
+}) => (
+  <CategoryFilterWrapper showFilters={showFilters}>
+    {
+      categories.map((cat, idx) => {
+        const isSelected = new Set(selectedCats).has(cat.node.slug);
+        return (
+          <div key={cat.node.id}>
+            <StyledCatFilter
+              name={cat.node.name}
+              isSelected={isSelected}
+              clickHandler={updateSelected(cat.node.slug)}
+              color={colorForIdx(idx, overlayColors)}
+            />
+          </div>
+        );
+      })
+    }
+  </CategoryFilterWrapper>
+);
 
 CategoryFilters.propTypes = {
   categories: PropTypes.array,
   selectedCats: PropTypes.array,
   updateSelected: PropTypes.func,
-  show: PropTypes.bool,
+  showFilters: PropTypes.bool,
 };
 
 export default CategoryFilters;

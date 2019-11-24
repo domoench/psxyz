@@ -9,15 +9,17 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Layout = ({ children }) => (
+const Layout = ({ children, setShowFilters, showFilters }) => (
   <Container>
-    <Header />
+    <Header setShowFilters={setShowFilters} showFilters={showFilters} />
     {children}
   </Container>
 );
 
 Layout.propTypes = {
   children: PropTypes.element,
+  setShowFilters: PropTypes.func,
+  showFilters: PropTypes.bool,
 };
 
 export default Layout;
