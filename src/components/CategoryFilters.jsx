@@ -7,8 +7,15 @@ import {
   overlayColors,
 } from '../theme';
 
+/* TODO:
+ * - Squishing header and about section
+ *   - This library does exactly what we need: https://github.com/madou/react-sticky-header/blob/master/src/ReactStickyHeader.js
+ *     Use it, or re-implement yourself
+ * - The filters don't wrap in mobile view. Is grid (with media queries) the right fit here? Flex?
+ */
+
 const CategoryFilterWrapper = styled.div`
-  ${props => `padding: ${props.showFilters ? '1em 0.5em' : '0'};`}
+  ${props => `padding: ${props.showFilters ? '0.5em' : '0'};`}
   display: grid;
   grid-column-gap: 1em;
   width: max-content;
@@ -17,13 +24,9 @@ const CategoryFilterWrapper = styled.div`
   grid-template-columns: min-content;
   white-space: nowrap;
   overflow: hidden;
-  ${props => `height: ${props.showFilters ? '140px' : '0px'};`}
+  ${props => `height: ${props.showFilters ? '120px' : '0px'};`}
   transition: height 0.5s ease 0s, padding 0.5s ease 0s;
 `;
-
-// TODO: Squishing header and about section
-// This library does exactly what we need: https://github.com/madou/react-sticky-header/blob/master/src/ReactStickyHeader.js
-// Use it, or re-implement yourself
 
 const CatFilterLabel = styled.div`
   display: flex;

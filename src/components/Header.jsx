@@ -4,7 +4,9 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 
 import { colors, fonts } from '../theme';
-import logo from '../logo.svg';
+import logo from '../assets/logo.svg';
+import saved from '../assets/saved.svg';
+import filters from '../assets/filters.svg';
 
 const StyledHeader = styled.header`
   display: flex;
@@ -31,7 +33,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   font-family: ${fonts.sansSerif};
   border: ${props => `1px solid ${props.color}`};
-  border-radius: 20%/50%;
+  border-radius: 30px/30px;
   color: ${colors.black};
   background: ${colors.white};
   padding: 0.5em 1em;
@@ -57,21 +59,36 @@ NavPill.propTypes = {
   children: PropTypes.element,
 };
 
-const FuncPill = ({ clickHandler, label }) => (
+const FuncPill = ({ clickHandler, children, className }) => (
   <span
+    className={className}
     onClick={clickHandler}
     onKeyDown={() => {}}
     role="button"
     tabIndex={0}
   >
-    {label}
+    {children}
   </span>
 );
 
 FuncPill.propTypes = {
   clickHandler: PropTypes.func,
-  label: PropTypes.string.isRequired,
+  children: PropTypes.element,
+  className: PropTypes.string,
 };
+
+// TODO: Lots of duplication from StyledNavPill. How to coallesce?
+const StyledFuncPill = styled(FuncPill)`
+  font-family: ${fonts.sansSerif};
+  border: ${props => `1px solid ${props.color}`};
+  border-radius: 30px/30px;
+  color: ${colors.black};
+  background: ${colors.white};
+  padding: 0.5em 1em;
+  &:focus {
+    outline: none;
+  }
+`;
 
 const Header = ({ setShowFilters, showFilters }) => (
   <StyledHeader>
@@ -79,22 +96,37 @@ const Header = ({ setShowFilters, showFilters }) => (
     <nav>
       <NavPillList>
         <li>
-          <NavPill color={colors.red} to="/">INDEX</NavPill>
+          <NavPill color={colors.red} to="/">
+            INDEX
+          </NavPill>
         </li>
         <li>
-          <NavPill color={colors.green} to="/about/">ABOUT</NavPill>
+          <NavPill color={colors.green} to="/about/">
+            ABOUT
+          </NavPill>
         </li>
         <li>
-          <NavPill color={colors.blue} to="/support/">SUPPORT</NavPill>
+          <NavPill color={colors.blue} to="/support/">
+            SUPPORT
+          </NavPill>
         </li>
         <li>
-          <FuncPill clickHandler={() => { console.log('TODO'); }} label="Saved" />
+          <StyledFuncPill
+            clickHandler={() => {
+              console.log('TODO');
+            }}
+            color={colors.blue}
+          >
+            <img src={saved} alt="saved creators" />
+          </StyledFuncPill>
         </li>
         <li>
-          <FuncPill
+          <StyledFuncPill
             clickHandler={() => setShowFilters(!showFilters)}
-            label="Filters"
-          />
+            color={colors.red}
+          >
+            <img src={filters} alt="category filters" />
+          </StyledFuncPill>
         </li>
       </NavPillList>
     </nav>

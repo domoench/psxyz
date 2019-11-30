@@ -5,7 +5,11 @@ import { Column, Wrapper } from '../components/newspaper';
 import { colors } from '../theme';
 
 const About = () => (
-  <Layout>
+  // TODO: What if a user clicks show filters on this page? Should we hide the filters button?
+  <Layout
+    setShowFilters={() => {}}
+    showFilters={false}
+  >
     <Wrapper color={colors.green}>
       <Column>
         <h1>About Us</h1>

@@ -5,7 +5,11 @@ import { Wrapper, Column } from '../components/newspaper';
 import { colors } from '../theme';
 
 const Support = () => (
-  <Layout>
+  // TODO: What if a user clicks show filters on this page? Should we hide the filters button?
+  <Layout
+    setShowFilters={() => {}}
+    showFilters={false}
+  >
     <Wrapper color={colors.blue}>
       <Column>
         <h1>Supporting Public Service is an investment in diversifying imagemaking.</h1>
