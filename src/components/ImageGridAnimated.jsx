@@ -14,7 +14,9 @@ import {
   gridLineColors,
   gridColumnsForBreakpoint,
   deviceSize,
+  overlayColors,
 } from '../theme';
+import { hexToRGBA } from '../utils';
 
 const Grid = styled.div`
   width: 100vw;
@@ -22,15 +24,46 @@ const Grid = styled.div`
   position: relative;
 `;
 
-const ImageCell = ({ className, imageMaker }) => (
+const RelativeWrapper = styled.div`
+  position: relative;
+  &:hover .image-overlay {
+    opacity: 1.0
+  }
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
+  transition: opacity 0.5s ease 0s;
+  color: white;
+  & span {
+    padding: 1em;
+  }
+`;
+
+const ImageCell = ({ className, imageMaker, idx }) => (
   <div className={className}>
-    <Img fluid={imageMaker.mainImage.fluid} />
+    <RelativeWrapper>
+      <Img fluid={imageMaker.mainImage.fluid} />
+      <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
+        <span>{`${imageMaker.name} is a ${imageMaker.categories.map(c => c.name).join(', ')}`}</span>
+      </Overlay>
+    </RelativeWrapper>
   </div>
 );
 
 ImageCell.propTypes = {
   className: PropTypes.string,
   imageMaker: PropTypes.object,
+  idx: PropTypes.number,
 };
 
 const fadeIn = keyframes`
@@ -89,7 +122,7 @@ const ImageGridAnimated = ({ imageMakers }) => {
               top={gridRow * cellWidth}
               imageMaker={node}
               key={node.id}
-              i={i}
+              idx={i}
               rightBorderColor={colorForIdx(gridCol, gridLineColors)}
               bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
             />
