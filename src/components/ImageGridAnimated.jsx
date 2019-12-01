@@ -49,12 +49,38 @@ const Overlay = styled.div`
   }
 `;
 
+const isVowel = (char) => {
+  const c = char.toLowerCase();
+  return c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u';
+};
+
+const categoryString = (categories) => {
+  const n = categories.length;
+  const parts = categories.map((c, idx) => {
+    let part = '';
+    const name = c.practitionerName;
+    const startsWithVowel = isVowel(name.charAt(0));
+    if (idx === 0) {
+      part += startsWithVowel ? 'an ' : 'a ';
+    } else if (n > 1 && idx === n - 1) {
+      part += startsWithVowel ? 'and an' : 'and a ';
+    }
+    part += name;
+    return part;
+  });
+  return parts.join(', ');
+};
+
+const imageMakerBlurb = imageMaker => (
+  `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
+);
+
 const ImageCell = ({ className, imageMaker, idx }) => (
   <div className={className}>
     <RelativeWrapper>
       <Img fluid={imageMaker.mainImage.fluid} />
       <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-        <span>{`${imageMaker.name} is a ${imageMaker.categories.map(c => c.name).join(', ')}`}</span>
+        <span>{imageMakerBlurb(imageMaker)}</span>
       </Overlay>
     </RelativeWrapper>
   </div>
