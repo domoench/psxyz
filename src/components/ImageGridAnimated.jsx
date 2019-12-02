@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import styled, { keyframes } from 'styled-components';
@@ -17,6 +17,7 @@ import {
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
+import { GlobalDispatchContext } from '../context/GlobalContextProvider';
 
 const Grid = styled.div`
   width: 100vw;
@@ -75,16 +76,29 @@ const imageMakerBlurb = imageMaker => (
   `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
 );
 
-const ImageCell = ({ className, imageMaker, idx }) => (
-  <div className={className}>
-    <RelativeWrapper>
-      <Img fluid={imageMaker.mainImage.fluid} />
-      <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-        <span>{imageMakerBlurb(imageMaker)}</span>
-      </Overlay>
-    </RelativeWrapper>
-  </div>
-);
+const ImageCell = ({ className, imageMaker, idx }) => {
+  const dispatch = useContext(GlobalDispatchContext);
+
+  return (
+    <div className={className}>
+      <RelativeWrapper>
+        <Img fluid={imageMaker.mainImage.fluid} />
+        <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
+          <span>{imageMakerBlurb(imageMaker)}</span>
+          <button
+            type="button"
+            onClick={() => dispatch({
+              type: 'ADD_SAVED_IMAGEMAKER',
+              value: imageMaker.id,
+            })}
+          >
+            Save
+          </button>
+        </Overlay>
+      </RelativeWrapper>
+    </div>
+  );
+};
 
 ImageCell.propTypes = {
   className: PropTypes.string,

@@ -97,28 +97,23 @@ const Header = ({ setShowFilters, showFilters }) => (
       <NavPillList>
         <li>
           <NavPill color={colors.red} to="/">
-            INDEX
+            <span>INDEX</span>
           </NavPill>
         </li>
         <li>
           <NavPill color={colors.green} to="/about/">
-            ABOUT
+            <span>ABOUT</span>
           </NavPill>
         </li>
         <li>
           <NavPill color={colors.blue} to="/support/">
-            SUPPORT
+            <span>SUPPORT</span>
           </NavPill>
         </li>
         <li>
-          <StyledFuncPill
-            clickHandler={() => {
-              console.log('TODO');
-            }}
-            color={colors.blue}
-          >
+          <NavPill color={colors.blue} to="/saved/">
             <img src={saved} alt="saved creators" />
-          </StyledFuncPill>
+          </NavPill>
         </li>
         <li>
           <StyledFuncPill

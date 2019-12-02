@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'gatsby';
 import URLSearchParams from '@ungap/url-search-params';
 import { createBrowserHistory } from 'history';
+import { graphql } from 'gatsby';
 
 import Layout from '../components/Layout';
 import ImageGridAnimated from '../components/ImageGridAnimated';
@@ -17,6 +17,7 @@ const Index = ({ data, location }) => {
   // Read URL for query params specifying category
   const queryParamCatSlugs = new URLSearchParams(location.search).getAll('cat');
 
+  // TODO move filter state into global state context
   const [selected, setSelected] = useState(queryParamCatSlugs);
   const [showFilters, setShowFilters] = useState(false);
 
