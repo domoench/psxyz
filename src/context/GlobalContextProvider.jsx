@@ -4,30 +4,39 @@ import PropTypes from 'prop-types';
 export const GlobalStateContext = React.createContext();
 export const GlobalDispatchContext = React.createContext();
 
+const savedImageMakerIdsKey = 'savedImageMakerIds';
+
+// TODO clean up. Create a schema of keys and default values?
 const initialState = {
-  imageMakers: [],
-  savedImageMakerIds: [],
+  [savedImageMakerIdsKey]: JSON.parse(localStorage.getItem(savedImageMakerIdsKey)) || [],
+};
+
+console.log('initialState', initialState);
+
+const persistStateToLocalStorage = (state) => {
+  Object.entries(state).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v)));
+  return state;
 };
 
 function reducer(state, action) {
-  console.log('reducer state', state);
-  console.log('reducer action', action);
   switch (action.type) {
     case 'ADD_SAVED_IMAGEMAKER': {
       const savedImageMakerIdsSet = new Set(state.savedImageMakerIds);
       savedImageMakerIdsSet.add(action.value);
-      return {
+      const newState = {
         ...state,
         savedImageMakerIds: Array.from(savedImageMakerIdsSet),
       };
+      return persistStateToLocalStorage(newState);
     }
     case 'DELETE_SAVED_IMAGEMAKER': {
       const savedImageMakerIdsSet = new Set(state.savedImageMakerIds);
       savedImageMakerIdsSet.delete(action.value);
-      return {
+      const newState = {
         ...state,
         savedImageMakerIds: Array.from(savedImageMakerIdsSet),
       };
+      return persistStateToLocalStorage(newState);
     }
     default:
       throw new Error('Bad Action Type');

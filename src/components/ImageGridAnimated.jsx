@@ -10,6 +10,7 @@ import _debounce from 'lodash.debounce';
  */
 
 import {
+  colors,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
@@ -17,7 +18,8 @@ import {
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
-import { GlobalDispatchContext } from '../context/GlobalContextProvider';
+import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
+import saved from '../assets/saved.svg';
 
 const Grid = styled.div`
   width: 100vw;
@@ -39,15 +41,16 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0;
   background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
   transition: opacity 0.5s ease 0s;
   color: white;
-  & span {
-    padding: 1em;
-  }
+`;
+
+const OverlayButtons = styled.div`
+  display: flex;
 `;
 
 const isVowel = (char) => {
@@ -76,24 +79,78 @@ const imageMakerBlurb = imageMaker => (
   `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
 );
 
+const SaveButton = ({ isSaved, clickHandler, className }) => (
+  <button
+    type="button"
+    onClick={clickHandler}
+    className={className}
+  >
+    { isSaved ?
+      (
+        <span>
+          <img src={saved} alt="saved creators" />
+          Remove
+        </span>
+      ) :
+      (
+        <span>
+          <img src={saved} alt="saved creators" />
+          Save
+        </span>
+      )
+    }
+  </button>
+);
+
+SaveButton.propTypes = {
+  isSaved: PropTypes.bool,
+  clickHandler: PropTypes.func,
+  className: PropTypes.string,
+};
+
+const StyledSaveButton = styled(SaveButton)`
+  padding: 0.5em 1em;
+  margin: 1em;
+  border-radius: 20px/20px;
+  border: 1px solid ${colors.black}};
+  &:hover {
+    ${props => `background-color: ${props.isSaved ? 'red' : 'green'};`}
+  }
+  & span {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  & img {
+    padding-right: 0.5em;
+  }
+`;
+
+const Blurb = styled.span`
+  padding: 1em;
+`;
+
 const ImageCell = ({ className, imageMaker, idx }) => {
   const dispatch = useContext(GlobalDispatchContext);
+  const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
+  const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
+  const isSaved = savedImageMakerIdSet.has(imageMaker.id);
 
   return (
     <div className={className}>
       <RelativeWrapper>
         <Img fluid={imageMaker.mainImage.fluid} />
         <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-          <span>{imageMakerBlurb(imageMaker)}</span>
-          <button
-            type="button"
-            onClick={() => dispatch({
-              type: 'ADD_SAVED_IMAGEMAKER',
-              value: imageMaker.id,
-            })}
-          >
-            Save
-          </button>
+          <Blurb>{imageMakerBlurb(imageMaker)}</Blurb>
+          <OverlayButtons>
+            <StyledSaveButton
+              isSaved={isSaved}
+              clickHandler={() => dispatch({
+                type: isSaved ? 'DELETE_SAVED_IMAGEMAKER' : 'ADD_SAVED_IMAGEMAKER',
+                value: imageMaker.id,
+              })}
+            />
+          </OverlayButtons>
         </Overlay>
       </RelativeWrapper>
     </div>
