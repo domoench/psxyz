@@ -44,7 +44,7 @@ const Overlay = styled.div`
   flex-direction: column;
   justify-content: space-between;
   opacity: 0;
-  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
+  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)} 0%, 85%, ${hexToRGBA(props.color, 0.3)}) 100%`};
   transition: opacity 0.5s ease 0s;
   color: white;
 `;

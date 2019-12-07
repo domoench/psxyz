@@ -14,7 +14,10 @@ const Saved = ({ data }) => {
   const imageMakersToDisplay = imageMakers.filter(e => savedImageMakerIdSet.has(e.node.id));
 
   return (
-    <Layout>
+    <Layout
+      setShowFilters={() => {}}
+      showFilters={false}
+    >
       <span>{`Saved Creators: ${imageMakersToDisplay.map(e => e.node.name).join(', ')}`}</span>
     </Layout>
   );
