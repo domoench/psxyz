@@ -90,14 +90,14 @@ const StyledCatFilter = styled(CatFilter)`
 
 const CategoryFilters = ({
   categories,
-  selectedCats,
+  categoryFilterSlugs,
   updateSelected,
   showFilters,
 }) => (
   <CategoryFilterWrapper showFilters={showFilters}>
     {
       categories.map((cat, idx) => {
-        const isSelected = new Set(selectedCats).has(cat.node.slug);
+        const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
         return (
           <div key={cat.node.id}>
             <StyledCatFilter
@@ -115,7 +115,7 @@ const CategoryFilters = ({
 
 CategoryFilters.propTypes = {
   categories: PropTypes.array,
-  selectedCats: PropTypes.array,
+  categoryFilterSlugs: PropTypes.array,
   updateSelected: PropTypes.func,
   showFilters: PropTypes.bool,
 };

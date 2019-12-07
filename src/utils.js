@@ -1,6 +1,7 @@
-// Returns a new imageMakers array, filtered by category slug
-export const filterByCategory = (catSlugs, imageMakers) => {
-  if (catSlugs.length === 0) {
+// Returns a new imageMakers array, filtered to those matching all category slug in
+// the given list
+export const filterByCategory = (selectedCats, imageMakers) => {
+  if (selectedCats.length === 0) {
     return imageMakers;
   }
 
@@ -8,7 +9,7 @@ export const filterByCategory = (catSlugs, imageMakers) => {
   for (let i = 0; i < imageMakers.length; i += 1) {
     // If the current imageMaker has all the queried categories, append it to result list
     const imageMakerSlugs = new Set(imageMakers[i].node.categories.map(c => c.slug));
-    if (catSlugs.every(slug => imageMakerSlugs.has(slug))) {
+    if (selectedCats.every(slug => imageMakerSlugs.has(slug))) {
       filtered.push(imageMakers[i]);
     }
   }

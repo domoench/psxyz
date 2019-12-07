@@ -19,7 +19,7 @@ import {
 } from '../theme';
 import { hexToRGBA } from '../utils';
 import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
-import saved from '../assets/saved.svg';
+import SavedSVGIcon from './svg/saved';
 
 const Grid = styled.div`
   width: 100vw;
@@ -88,13 +88,13 @@ const SaveButton = ({ isSaved, clickHandler, className }) => (
     { isSaved ?
       (
         <span>
-          <img src={saved} alt="saved creators" />
+          <SavedSVGIcon color={colors.black} />
           Remove
         </span>
       ) :
       (
         <span>
-          <img src={saved} alt="saved creators" />
+          <SavedSVGIcon color={colors.black} />
           Save
         </span>
       )
@@ -121,7 +121,7 @@ const StyledSaveButton = styled(SaveButton)`
     justify-content: space-evenly;
     align-items: center;
   }
-  & img {
+  & svg {
     padding-right: 0.5em;
   }
 `;
