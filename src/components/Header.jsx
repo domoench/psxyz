@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 
-import { colors, fonts } from '../theme';
+import { colors as themeColors, fonts } from '../theme';
 import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
+import { Pill, colorsType } from './Pill';
 import SavedSVGIcon from './svg/saved';
 import FiltersSVGIcon from './svg/filters';
 
@@ -33,17 +34,9 @@ const NavPillList = styled.ul`
 const StyledLink = styled(Link)`
   text-decoration: none;
   font-family: ${fonts.sansSerif};
-  border: ${props => `1px solid ${props.color}`};
-  border-radius: 30px/30px;
-  color: ${colors.black};
-  background: ${colors.white};
-  padding: 0.5em 1em;
-  &.active {
-    color: ${colors.white};
-    background: ${props => props.color};
-    & svg path {
-      fill: ${colors.white};
-    }
+  ${props => `color: ${props.color};`}
+  & svg path {
+    ${props => `fill: ${props.color};`}
   }
 `;
 
@@ -64,7 +57,7 @@ const DirtyIndicator = ({
         cy={Math.floor(radius + borderWidth)}
         r={radius}
         fill={color}
-        stroke={colors.white}
+        stroke={themeColors.white}
         strokeWidth={borderWidth}
       />
     </svg>
@@ -90,25 +83,51 @@ const NavPill = ({
   children,
   className,
   dirty,
-}) => (
-  <div className={className}>
-    {dirty && (
-      <StyledDirtyIndicator
-        color={dirtyIndicatorColor}
-        radius={5}
-        top={-12}
-        right={-2}
-      />
-    )}
-    <StyledLink
-      color={color}
-      to={to}
-      activeClassName="active"
+}) => {
+  const [hover, setHover] = useState(false);
+  const [active, setActive] = useState(false);
+  const colors = hover ? {
+    color: themeColors.white,
+    borderColor: color,
+    bgColor: color,
+  } : {
+    color: active ? themeColors.white : color,
+    borderColor: color,
+    bgColor: active ? color : themeColors.white,
+  };
+
+  return (
+    <div
+      className={className}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
     >
-      {children}
-    </StyledLink>
-  </div>
-);
+      {dirty && (
+        <StyledDirtyIndicator
+          color={dirtyIndicatorColor}
+          radius={5}
+          top={-12}
+          right={-2}
+        />
+      )}
+      <Pill
+        borderRadius={20}
+        colors={colors}
+      >
+        <StyledLink
+          color={colors.color}
+          to={to}
+          getProps={({ isCurrent }) => {
+            setActive(isCurrent);
+          }}
+          activeClassName="active"
+        >
+          {children}
+        </StyledLink>
+      </Pill>
+    </div>
+  );
+};
 
 NavPill.propTypes = {
   to: PropTypes.string.isRequired,
@@ -123,52 +142,53 @@ const StyledNavPill = styled(NavPill)`
   position: relative;
 `;
 
-const FuncPill = ({
+const FilterTogglePill = ({
   clickHandler,
-  children,
-  className,
   dirty,
   dirtyIndicatorColor,
-}) => (
-  <span
-    className={className}
-    onClick={clickHandler}
-    onKeyDown={() => {}}
-    role="button"
-    tabIndex={0}
-  >
-    {dirty && (
-      <StyledDirtyIndicator
-        color={dirtyIndicatorColor}
-        radius={5}
-        top={-4}
-        right={-4}
-      />
-    )}
-    {children}
-  </span>
-);
+  className,
+  defaultColors,
+  hoverColors,
+}) => {
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
 
-FuncPill.propTypes = {
+  return (
+    <Pill
+      borderRadius={20}
+      colors={colors}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={clickHandler}
+      className={className}
+    >
+      {dirty && (
+        <StyledDirtyIndicator
+          color={dirtyIndicatorColor}
+          radius={5}
+          top={-4}
+          right={-4}
+        />
+      )}
+      <FiltersSVGIcon color={colors.color} />
+    </Pill>
+  );
+};
+
+FilterTogglePill.propTypes = {
   clickHandler: PropTypes.func,
-  children: PropTypes.element,
-  className: PropTypes.string,
   dirty: PropTypes.bool,
   dirtyIndicatorColor: PropTypes.string,
+  defaultColors: colorsType.isRequired,
+  hoverColors: colorsType.isRequired,
+  className: PropTypes.string,
 };
 
 // TODO: Lots of duplication from StyledNavPill. How to coallesce?
-const StyledFuncPill = styled(FuncPill)`
+const StyledFilterTogglePill = styled(FilterTogglePill)`
   font-family: ${fonts.sansSerif};
-  border: ${props => `1px solid ${props.color}`};
-  border-radius: 30px/30px;
-  color: ${colors.black};
-  background: ${colors.white};
   padding: 0.5em 1em;
   position: relative;
-  &:focus {
-    outline: none;
-  }
 `;
 
 // TODO update styled component usage to this pattern wherever possible
@@ -184,44 +204,49 @@ const Header = ({ setShowFilters, showFilters }) => {
       <nav>
         <NavPillList>
           <li>
-            <StyledNavPill color={colors.red} to="/">
+            <StyledNavPill color={themeColors.red} to="/">
               <span>INDEX</span>
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={colors.green} to="/about/">
+            <StyledNavPill color={themeColors.green} to="/about/">
               <span>ABOUT</span>
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={colors.blue} to="/support/">
+            <StyledNavPill color={themeColors.blue} to="/support/">
               <span>SUPPORT</span>
             </StyledNavPill>
           </li>
           <li>
             <StyledNavPill
               to="/saved/"
-              color={colors.black}
+              color={themeColors.black}
               dirty={savedDirty}
-              dirtyIndicatorColor={colors.red}
+              dirtyIndicatorColor={themeColors.red}
             >
               <span>
-                <SavedSVGIcon color={colors.black} />
+                <SavedSVGIcon color={themeColors.black} />
                 {' SAVED'}
               </span>
             </StyledNavPill>
           </li>
           <li>
-            <StyledFuncPill
+            <StyledFilterTogglePill
               clickHandler={() => setShowFilters(!showFilters)}
-              color={colors.black}
               dirty={filtersDirty}
-              dirtyIndicatorColor={colors.green}
-            >
-              <FiltersSVGIcon
-                color={showFilters ? colors.red : colors.black}
-              />
-            </StyledFuncPill>
+              dirtyIndicatorColor={themeColors.green}
+              defaultColors={{
+                color: themeColors.black,
+                borderColor: themeColors.black,
+                bgColor: themeColors.white,
+              }}
+              hoverColors={{
+                color: themeColors.white,
+                borderColor: themeColors.green,
+                bgColor: themeColors.green,
+              }}
+            />
           </li>
         </NavPillList>
       </nav>

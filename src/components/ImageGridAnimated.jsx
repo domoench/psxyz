@@ -99,15 +99,10 @@ const SaveButtonContent = styled.span`
   }
 `;
 
-const Button = styled.button`
-  ${props => `background: ${props.colors.bgColor};`}
-  ${props => `color: ${props.colors.color};`}
-`;
-
+// TODO: This is very similar to FilterTogglePill. Refactor?
 const SaveButton = ({
   isSaved,
   clickHandler,
-  className,
   defaultColors,
   hoverColors,
 }) => {
@@ -120,28 +115,22 @@ const SaveButton = ({
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={clickHandler}
     >
-      <Button
-        type="button"
-        onClick={clickHandler}
-        className={className}
-        colors={colors}
-      >
-        {isSaved ?
-          (
-            <SaveButtonContent>
-              <SavedSVGIcon color={colors.color} />
-              Remove
-            </SaveButtonContent>
-          ) :
-          (
-            <SaveButtonContent>
-              <SavedSVGIcon color={colors.color} />
-              Save
-            </SaveButtonContent>
-          )
-        }
-      </Button>
+      {isSaved ?
+        (
+          <SaveButtonContent>
+            <SavedSVGIcon color={colors.color} />
+            Remove
+          </SaveButtonContent>
+        ) :
+        (
+          <SaveButtonContent>
+            <SavedSVGIcon color={colors.color} />
+            Save
+          </SaveButtonContent>
+        )
+      }
     </Pill>
   );
 };
@@ -149,7 +138,6 @@ const SaveButton = ({
 SaveButton.propTypes = {
   isSaved: PropTypes.bool,
   clickHandler: PropTypes.func,
-  className: PropTypes.string,
   defaultColors: colorsType,
   hoverColors: colorsType,
 };

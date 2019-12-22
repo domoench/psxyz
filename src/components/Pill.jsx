@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  colors as themeColors,
-} from '../theme';
 
 // TODO move this to another file
 export const colorsType = PropTypes.shape({
@@ -13,14 +10,13 @@ export const colorsType = PropTypes.shape({
 });
 
 const Pill = styled.span`
-  border-radius: ${props => `${props.borderRadius}px/${props.borderRadius}px`};
-  border: 1px solid ${themeColors.black}};
   padding: 0.5em;
   display: flex;
   justify-content: center;
   align-items: center;
 
-
+  ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
+  ${props => `border: 1px solid ${props.colors.borderColor};`}
   ${props => `background: ${props.colors.bgColor};`}
   ${props => `color: ${props.colors.color};`}
 `;
@@ -61,6 +57,7 @@ const LinkPill = ({
   defaultColors,
   hoverColors,
 }) => {
+  // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
 
