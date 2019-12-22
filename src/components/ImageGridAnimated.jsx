@@ -7,10 +7,14 @@ import _debounce from 'lodash.debounce';
 /* TODO
  * - Implement FLIP Animation?
  * - Cleanup
+ *   - One major thing is we have a consistant visual look for pill-like buttons across
+ *     the site. But in the code each button is individually styled. Should refactor so
+ *     there is a single pill style component that looks the same regardless of whether
+ *     it is a link or a click-handler/button.
  */
 
 import {
-  colors,
+  colors as themeColors,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
@@ -20,6 +24,7 @@ import {
 import { hexToRGBA } from '../utils';
 import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
 import SavedSVGIcon from './svg/saved';
+import { LinkPill, Pill, colorsType } from './Pill';
 
 const Grid = styled.div`
   width: 100vw;
@@ -51,6 +56,12 @@ const Overlay = styled.div`
 
 const OverlayButtons = styled.div`
   display: flex;
+  align-items: center;
+  padding: 1em;
+`;
+
+const OverlayButton = styled.div`
+  padding: 0 0.25em;
 `;
 
 const isVowel = (char) => {
@@ -79,52 +90,69 @@ const imageMakerBlurb = imageMaker => (
   `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
 );
 
-const SaveButton = ({ isSaved, clickHandler, className }) => (
-  <button
-    type="button"
-    onClick={clickHandler}
-    className={className}
-  >
-    { isSaved ?
-      (
-        <span>
-          <SavedSVGIcon color={colors.black} />
-          Remove
-        </span>
-      ) :
-      (
-        <span>
-          <SavedSVGIcon color={colors.black} />
-          Save
-        </span>
-      )
-    }
-  </button>
-);
+const SaveButtonContent = styled.span`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  & svg {
+    padding-right: 0.5em;
+  }
+`;
+
+const Button = styled.button`
+  ${props => `background: ${props.colors.bgColor};`}
+  ${props => `color: ${props.colors.color};`}
+`;
+
+const SaveButton = ({
+  isSaved,
+  clickHandler,
+  className,
+  defaultColors,
+  hoverColors,
+}) => {
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
+
+  return (
+    <Pill
+      borderRadius={20}
+      colors={colors}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Button
+        type="button"
+        onClick={clickHandler}
+        className={className}
+        colors={colors}
+      >
+        {isSaved ?
+          (
+            <SaveButtonContent>
+              <SavedSVGIcon color={colors.color} />
+              Remove
+            </SaveButtonContent>
+          ) :
+          (
+            <SaveButtonContent>
+              <SavedSVGIcon color={colors.color} />
+              Save
+            </SaveButtonContent>
+          )
+        }
+      </Button>
+    </Pill>
+  );
+};
 
 SaveButton.propTypes = {
   isSaved: PropTypes.bool,
   clickHandler: PropTypes.func,
   className: PropTypes.string,
+  defaultColors: colorsType,
+  hoverColors: colorsType,
 };
-
-const StyledSaveButton = styled(SaveButton)`
-  padding: 0.5em 1em;
-  margin: 1em;
-  border-radius: 20px/20px;
-  border: 1px solid ${colors.black}};
-  &:hover {
-    ${props => `background-color: ${props.isSaved ? 'red' : 'green'};`}
-  }
-  & span {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-  }
-  & svg {
-    padding-right: 0.5em;
-  }
-`;
 
 const Blurb = styled.span`
   padding: 1em;
@@ -143,13 +171,45 @@ const ImageCell = ({ className, imageMaker, idx }) => {
         <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
           <Blurb>{imageMakerBlurb(imageMaker)}</Blurb>
           <OverlayButtons>
-            <StyledSaveButton
-              isSaved={isSaved}
-              clickHandler={() => dispatch({
-                type: isSaved ? 'DELETE_SAVED_IMAGEMAKER' : 'ADD_SAVED_IMAGEMAKER',
-                value: imageMaker.id,
-              })}
-            />
+            <OverlayButton>
+              {!!imageMaker.source && (
+                <LinkPill
+                  href={imageMaker.source}
+                  text="SOURCE"
+                  altText="imagemaker source url"
+                  defaultColors={{
+                    color: themeColors.black,
+                    borderColor: themeColors.black,
+                    bgColor: themeColors.white,
+                  }}
+                  hoverColors={{
+                    color: themeColors.white,
+                    borderColor: themeColors.white,
+                    bgColor: themeColors.black,
+                  }}
+                  borderRadius={20}
+                />
+              )}
+            </OverlayButton>
+            <OverlayButton>
+              <SaveButton
+                isSaved={isSaved}
+                defaultColors={{
+                  color: themeColors.black,
+                  borderColor: themeColors.black,
+                  bgColor: themeColors.white,
+                }}
+                hoverColors={{
+                  color: themeColors.white,
+                  borderColor: themeColors.white,
+                  bgColor: themeColors.black,
+                }}
+                clickHandler={() => dispatch({
+                  type: isSaved ? 'DELETE_SAVED_IMAGEMAKER' : 'ADD_SAVED_IMAGEMAKER',
+                  value: imageMaker.id,
+                })}
+              />
+            </OverlayButton>
           </OverlayButtons>
         </Overlay>
       </RelativeWrapper>

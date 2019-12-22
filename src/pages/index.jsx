@@ -81,6 +81,7 @@ export const query = graphql`
           id
           slug
           name
+          source
           images {
             id
           }
@@ -99,7 +100,6 @@ export const query = graphql`
             slug
             practitionerName
           }
-          location
         }
       }
     }
