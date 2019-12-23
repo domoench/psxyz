@@ -28,6 +28,7 @@ const CategoryFilterWrapper = styled.div`
   transition: height 0.5s ease 0s, padding 0.5s ease 0s;
 `;
 
+// TODO make use of Pill component
 const CatFilterLabel = styled.div`
   display: flex;
   align-items: center;

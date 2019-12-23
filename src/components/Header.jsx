@@ -35,6 +35,9 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   font-family: ${fonts.sansSerif};
   ${props => `color: ${props.color};`}
+  & svg {
+    padding-right: 0.4em;
+  }
   & svg path {
     ${props => `fill: ${props.color};`}
   }
@@ -91,7 +94,7 @@ const NavPill = ({
     borderColor: color,
     bgColor: color,
   } : {
-    color: active ? themeColors.white : color,
+    color: active ? themeColors.white : themeColors.black,
     borderColor: color,
     bgColor: active ? color : themeColors.white,
   };
@@ -106,25 +109,25 @@ const NavPill = ({
         <StyledDirtyIndicator
           color={dirtyIndicatorColor}
           radius={5}
-          top={-12}
-          right={-2}
+          top={-4}
+          right={-1}
         />
       )}
-      <Pill
-        borderRadius={20}
-        colors={colors}
+      <StyledLink
+        color={colors.color}
+        to={to}
+        getProps={({ isCurrent }) => {
+          setActive(isCurrent);
+        }}
+        activeClassName="active"
       >
-        <StyledLink
-          color={colors.color}
-          to={to}
-          getProps={({ isCurrent }) => {
-            setActive(isCurrent);
-          }}
-          activeClassName="active"
+        <Pill
+          borderRadius={20}
+          colors={colors}
         >
           {children}
-        </StyledLink>
-      </Pill>
+        </Pill>
+      </StyledLink>
     </div>
   );
 };
@@ -171,6 +174,7 @@ const FilterTogglePill = ({
         />
       )}
       <FiltersSVGIcon color={colors.color} />
+      FILTER
     </Pill>
   );
 };
@@ -187,8 +191,11 @@ FilterTogglePill.propTypes = {
 // TODO: Lots of duplication from StyledNavPill. How to coallesce?
 const StyledFilterTogglePill = styled(FilterTogglePill)`
   font-family: ${fonts.sansSerif};
-  padding: 0.5em 1em;
   position: relative;
+
+  & svg {
+    padding-right: 0.5em;
+  }
 `;
 
 // TODO update styled component usage to this pattern wherever possible
@@ -225,10 +232,8 @@ const Header = ({ setShowFilters, showFilters }) => {
               dirty={savedDirty}
               dirtyIndicatorColor={themeColors.red}
             >
-              <span>
-                <SavedSVGIcon color={themeColors.black} />
-                {' SAVED'}
-              </span>
+              <SavedSVGIcon color={themeColors.black} />
+              SAVED
             </StyledNavPill>
           </li>
           <li>

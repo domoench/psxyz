@@ -24,7 +24,9 @@ import {
 import { hexToRGBA } from '../utils';
 import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
 import SavedSVGIcon from './svg/saved';
-import { LinkPill, Pill, colorsType } from './Pill';
+import SourceSVGIcon from './svg/source';
+import { Pill, colorsType } from './Pill';
+import Anchor from './reusable/Anchor';
 
 const Grid = styled.div`
   width: 100vw;
@@ -90,17 +92,17 @@ const imageMakerBlurb = imageMaker => (
   `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
 );
 
-const SaveButtonContent = styled.span`
+const OverlayButtonContent = styled.span`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   & svg {
-    padding-right: 0.5em;
+    padding-right: 0.25em;
   }
 `;
 
 // TODO: This is very similar to FilterTogglePill. Refactor?
-const SaveButton = ({
+const SavePill = ({
   isSaved,
   clickHandler,
   defaultColors,
@@ -119,25 +121,64 @@ const SaveButton = ({
     >
       {isSaved ?
         (
-          <SaveButtonContent>
+          <OverlayButtonContent>
             <SavedSVGIcon color={colors.color} />
-            Remove
-          </SaveButtonContent>
+            REMOVE
+          </OverlayButtonContent>
         ) :
         (
-          <SaveButtonContent>
+          <OverlayButtonContent>
             <SavedSVGIcon color={colors.color} />
-            Save
-          </SaveButtonContent>
+            SAVE
+          </OverlayButtonContent>
         )
       }
     </Pill>
   );
 };
 
-SaveButton.propTypes = {
+SavePill.propTypes = {
   isSaved: PropTypes.bool,
   clickHandler: PropTypes.func,
+  defaultColors: colorsType,
+  hoverColors: colorsType,
+};
+
+const SourcePill = ({
+  href,
+  defaultColors,
+  hoverColors,
+}) => {
+  // TODO I do this hover management in many components. refactor?
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Anchor
+        href={href}
+        alt="imagemaker source url"
+        textColor={colors.color}
+      >
+        <Pill
+          borderRadius={20}
+          colors={colors}
+        >
+          <OverlayButtonContent>
+            <SourceSVGIcon color={colors.color} />
+            SOURCE
+          </OverlayButtonContent>
+        </Pill>
+      </Anchor>
+    </div>
+  );
+};
+
+SourcePill.propTypes = {
+  href: PropTypes.string.isRequired,
   defaultColors: colorsType,
   hoverColors: colorsType,
 };
@@ -161,10 +202,8 @@ const ImageCell = ({ className, imageMaker, idx }) => {
           <OverlayButtons>
             <OverlayButton>
               {!!imageMaker.source && (
-                <LinkPill
+                <SourcePill
                   href={imageMaker.source}
-                  text="SOURCE"
-                  altText="imagemaker source url"
                   defaultColors={{
                     color: themeColors.black,
                     borderColor: themeColors.black,
@@ -172,15 +211,14 @@ const ImageCell = ({ className, imageMaker, idx }) => {
                   }}
                   hoverColors={{
                     color: themeColors.white,
-                    borderColor: themeColors.white,
+                    borderColor: themeColors.black,
                     bgColor: themeColors.black,
                   }}
-                  borderRadius={20}
                 />
               )}
             </OverlayButton>
             <OverlayButton>
-              <SaveButton
+              <SavePill
                 isSaved={isSaved}
                 defaultColors={{
                   color: themeColors.black,
@@ -189,7 +227,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
                 }}
                 hoverColors={{
                   color: themeColors.white,
-                  borderColor: themeColors.white,
+                  borderColor: themeColors.black,
                   bgColor: themeColors.black,
                 }}
                 clickHandler={() => dispatch({
