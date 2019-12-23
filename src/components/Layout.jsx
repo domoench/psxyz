@@ -9,17 +9,16 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Layout = ({ children, setShowFilters, showFilters }) => (
+const Layout = ({ children, toggleFiltersDrawer }) => (
   <Container>
-    <Header setShowFilters={setShowFilters} showFilters={showFilters} />
+    <Header toggleFiltersDrawer={toggleFiltersDrawer} />
     {children}
   </Container>
 );
 
 Layout.propTypes = {
   children: PropTypes.element,
-  setShowFilters: PropTypes.func,
-  showFilters: PropTypes.bool,
+  toggleFiltersDrawer: PropTypes.func,
 };
 
 export default Layout;

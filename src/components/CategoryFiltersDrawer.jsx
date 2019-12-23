@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Drawer from '@material-ui/core/Drawer';
+
 import {
   fonts,
   colorForIdx,
@@ -15,17 +17,9 @@ import {
  */
 
 const CategoryFilterWrapper = styled.div`
-  ${props => `padding: ${props.showFilters ? '0.5em' : '0'};`}
-  display: grid;
-  grid-column-gap: 1em;
-  width: max-content;
-  grid-auto-flow: column;
-  grid-template-rows: repeat(3, 1fr); /* TODO mediaquery */
-  grid-template-columns: min-content;
-  white-space: nowrap;
-  overflow: hidden;
-  ${props => `height: ${props.showFilters ? '120px' : '0px'};`}
-  transition: height 0.5s ease 0s, padding 0.5s ease 0s;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
 `;
 
 // TODO make use of Pill component
@@ -89,36 +83,45 @@ const StyledCatFilter = styled(CatFilter)`
   }
 `;
 
-const CategoryFilters = ({
+// TODO add Close and Clear All buttons
+const CategoryFiltersDrawer = ({
   categories,
   categoryFilterSlugs,
   updateSelected,
   showFilters,
+  toggleFiltersDrawer,
 }) => (
-  <CategoryFilterWrapper showFilters={showFilters}>
-    {
-      categories.map((cat, idx) => {
-        const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
-        return (
-          <div key={cat.node.id}>
-            <StyledCatFilter
-              name={cat.node.name}
-              isSelected={isSelected}
-              clickHandler={updateSelected(cat.node.slug)}
-              color={colorForIdx(idx, overlayColors)}
-            />
-          </div>
-        );
-      })
-    }
-  </CategoryFilterWrapper>
+  <Drawer
+    open={showFilters}
+    anchor="right"
+    onClose={toggleFiltersDrawer}
+  >
+    <CategoryFilterWrapper>
+      {
+        categories.map((cat, idx) => {
+          const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
+          return (
+            <div key={cat.node.id}>
+              <StyledCatFilter
+                name={cat.node.name}
+                isSelected={isSelected}
+                clickHandler={updateSelected(cat.node.slug)}
+                color={colorForIdx(idx, overlayColors)}
+              />
+            </div>
+          );
+        })
+      }
+    </CategoryFilterWrapper>
+  </Drawer>
 );
 
-CategoryFilters.propTypes = {
+CategoryFiltersDrawer.propTypes = {
   categories: PropTypes.array,
   categoryFilterSlugs: PropTypes.array,
   updateSelected: PropTypes.func,
   showFilters: PropTypes.bool,
+  toggleFiltersDrawer: PropTypes.bool,
 };
 
-export default CategoryFilters;
+export default CategoryFiltersDrawer;

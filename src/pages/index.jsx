@@ -6,7 +6,7 @@ import { graphql } from 'gatsby';
 
 import Layout from '../components/Layout';
 import ImageGridAnimated from '../components/ImageGridAnimated';
-import CategoryFilters from '../components/CategoryFilters';
+import CategoryFiltersDrawer from '../components/CategoryFiltersDrawer';
 import AboutBlurb from '../components/AboutBlurb';
 import { filterByCategory } from '../utils';
 import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
@@ -51,14 +51,23 @@ const Index = ({ data, location }) => {
     }
   );
 
+  const toggleFiltersDrawer = (event) => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setShowFilters(!showFilters);
+  };
+
   const imageMakersToDisplay = filterByCategory(categoryFilterSlugs, imageMakers);
   return (
-    <Layout setShowFilters={setShowFilters} showFilters={showFilters}>
-      <CategoryFilters
+    <Layout toggleFiltersDrawer={toggleFiltersDrawer} showFilters={showFilters}>
+      <CategoryFiltersDrawer
         categories={categories}
         categoryFilterSlugs={categoryFilterSlugs}
         updateSelected={updateSelected}
         showFilters={showFilters}
+        toggleFiltersDrawer={toggleFiltersDrawer}
       />
       <AboutBlurb />
       <ImageGridAnimated imageMakers={imageMakersToDisplay} />

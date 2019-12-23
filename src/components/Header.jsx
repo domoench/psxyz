@@ -200,7 +200,7 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
-const Header = ({ setShowFilters, showFilters }) => {
+const Header = ({ toggleFiltersDrawer }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(GlobalStateContext);
   const savedDirty = savedImageMakerIds.length > 0;
   const filtersDirty = categoryFilterSlugs.length > 0;
@@ -238,7 +238,7 @@ const Header = ({ setShowFilters, showFilters }) => {
           </li>
           <li>
             <StyledFilterTogglePill
-              clickHandler={() => setShowFilters(!showFilters)}
+              clickHandler={toggleFiltersDrawer}
               dirty={filtersDirty}
               dirtyIndicatorColor={themeColors.green}
               defaultColors={{
@@ -260,8 +260,7 @@ const Header = ({ setShowFilters, showFilters }) => {
 };
 
 Header.propTypes = {
-  setShowFilters: PropTypes.func,
-  showFilters: PropTypes.bool,
+  toggleFiltersDrawer: PropTypes.func,
 };
 
 export default Header;

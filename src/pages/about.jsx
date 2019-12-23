@@ -7,7 +7,7 @@ import { colors } from '../theme';
 const About = () => (
   // TODO: What if a user clicks show filters on this page? Should we hide the filters button?
   <Layout
-    setShowFilters={() => {}}
+    toggleFiltersDrawer={() => {}}
     showFilters={false}
   >
     <Wrapper color={colors.green}>
