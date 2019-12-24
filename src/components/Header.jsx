@@ -6,7 +6,8 @@ import styled from 'styled-components';
 import { colors as themeColors, fonts } from '../theme';
 import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
-import { Pill, colorsType } from './Pill';
+import Pill from './reusable/Pill';
+import { colorsType } from './reusable/types';
 import SavedSVGIcon from './svg/saved';
 import FiltersSVGIcon from './svg/filters';
 
@@ -188,7 +189,6 @@ FilterTogglePill.propTypes = {
   className: PropTypes.string,
 };
 
-// TODO: Lots of duplication from StyledNavPill. How to coallesce?
 const StyledFilterTogglePill = styled(FilterTogglePill)`
   font-family: ${fonts.sansSerif};
   position: relative;

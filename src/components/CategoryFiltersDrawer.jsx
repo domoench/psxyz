@@ -10,7 +10,8 @@ import {
   colorForIdx,
   overlayColors,
 } from '../theme';
-import { Pill, colorsType } from './Pill';
+import Pill from './reusable/Pill';
+import { colorsType } from './reusable/types';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
 
 /* TODO:

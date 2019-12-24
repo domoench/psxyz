@@ -7,10 +7,6 @@ import _debounce from 'lodash.debounce';
 /* TODO
  * - Implement FLIP Animation?
  * - Cleanup
- *   - One major thing is we have a consistant visual look for pill-like buttons across
- *     the site. But in the code each button is individually styled. Should refactor so
- *     there is a single pill style component that looks the same regardless of whether
- *     it is a link or a click-handler/button.
  */
 
 import {
@@ -25,7 +21,8 @@ import { hexToRGBA } from '../utils';
 import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
 import SavedSVGIcon from './svg/saved';
 import SourceSVGIcon from './svg/source';
-import { Pill, colorsType } from './Pill';
+import Pill from './reusable/Pill';
+import { colorsType } from './reusable/types';
 import Anchor from './reusable/Anchor';
 
 const Grid = styled.div`
