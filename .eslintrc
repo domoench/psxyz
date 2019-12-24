@@ -1,10 +1,12 @@
 {
   "rules": {
-    "max-len": [1, 120, 2, {"ignoreTemplateLiterals": true}],
+    "max-len": [0, 120, 2, {"ignoreTemplateLiterals": true}],
     "react/forbid-prop-types": [0],
     "react/require-default-props": [0, {}],
     "jsx-a11y/label-has-for": [0, {}],
     "operator-linebreak": [0, {}],
+    "react/jsx-filename-extension": [1, {}],
+    "import/prefer-default-export": [1, {}],
   },
   "extends": "airbnb",
   "env": {

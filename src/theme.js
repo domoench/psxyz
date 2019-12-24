@@ -9,7 +9,6 @@ export const colors = {
 };
 
 export const overlayColors = [
-  colors.yellow,
   colors.blue,
   colors.red,
   colors.green,

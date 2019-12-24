@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import styled, { keyframes } from 'styled-components';
@@ -10,6 +10,7 @@ import _debounce from 'lodash.debounce';
  */
 
 import {
+  colors as themeColors,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
@@ -17,6 +18,12 @@ import {
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
+import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
+import SavedSVGIcon from './svg/saved';
+import SourceSVGIcon from './svg/source';
+import Pill from './reusable/Pill';
+import { colorsType } from './reusable/types';
+import Anchor from './reusable/Anchor';
 
 const Grid = styled.div`
   width: 100vw;
@@ -38,15 +45,22 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   opacity: 0;
-  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)}, ${hexToRGBA(props.color, 0.3)})`};
+  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)} 0%, 85%, ${hexToRGBA(props.color, 0.3)}) 100%`};
   transition: opacity 0.5s ease 0s;
   color: white;
-  & span {
-    padding: 1em;
-  }
+`;
+
+const OverlayButtons = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1em;
+`;
+
+const OverlayButton = styled.div`
+  padding: 0 0.25em;
 `;
 
 const isVowel = (char) => {
@@ -75,16 +89,156 @@ const imageMakerBlurb = imageMaker => (
   `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
 );
 
-const ImageCell = ({ className, imageMaker, idx }) => (
-  <div className={className}>
-    <RelativeWrapper>
-      <Img fluid={imageMaker.mainImage.fluid} />
-      <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-        <span>{imageMakerBlurb(imageMaker)}</span>
-      </Overlay>
-    </RelativeWrapper>
-  </div>
-);
+const OverlayButtonContent = styled.span`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  & svg {
+    padding-right: 0.25em;
+  }
+`;
+
+// TODO: This is very similar to FilterTogglePill. Refactor?
+const SavePill = ({
+  isSaved,
+  clickHandler,
+  defaultColors,
+  hoverColors,
+}) => {
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
+
+  return (
+    <Pill
+      borderRadius={20}
+      colors={colors}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={clickHandler}
+    >
+      {isSaved ?
+        (
+          <OverlayButtonContent>
+            <SavedSVGIcon color={colors.color} />
+            REMOVE
+          </OverlayButtonContent>
+        ) :
+        (
+          <OverlayButtonContent>
+            <SavedSVGIcon color={colors.color} />
+            SAVE
+          </OverlayButtonContent>
+        )
+      }
+    </Pill>
+  );
+};
+
+SavePill.propTypes = {
+  isSaved: PropTypes.bool,
+  clickHandler: PropTypes.func,
+  defaultColors: colorsType,
+  hoverColors: colorsType,
+};
+
+const SourcePill = ({
+  href,
+  defaultColors,
+  hoverColors,
+}) => {
+  // TODO I do this hover management in many components. refactor?
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      <Anchor
+        href={href}
+        alt="imagemaker source url"
+        textColor={colors.color}
+      >
+        <Pill
+          borderRadius={20}
+          colors={colors}
+        >
+          <OverlayButtonContent>
+            <SourceSVGIcon color={colors.color} />
+            SOURCE
+          </OverlayButtonContent>
+        </Pill>
+      </Anchor>
+    </div>
+  );
+};
+
+SourcePill.propTypes = {
+  href: PropTypes.string.isRequired,
+  defaultColors: colorsType,
+  hoverColors: colorsType,
+};
+
+const Blurb = styled.span`
+  padding: 1em;
+`;
+
+const ImageCell = ({ className, imageMaker, idx }) => {
+  const dispatch = useContext(GlobalDispatchContext);
+  const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
+  const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
+  const isSaved = savedImageMakerIdSet.has(imageMaker.id);
+
+  return (
+    <div className={className}>
+      <RelativeWrapper>
+        <Img fluid={imageMaker.mainImage.fluid} />
+        <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
+          <Blurb>{imageMakerBlurb(imageMaker)}</Blurb>
+          <OverlayButtons>
+            <OverlayButton>
+              {!!imageMaker.source && (
+                <SourcePill
+                  href={imageMaker.source}
+                  defaultColors={{
+                    color: themeColors.black,
+                    borderColor: themeColors.black,
+                    bgColor: themeColors.white,
+                  }}
+                  hoverColors={{
+                    color: themeColors.white,
+                    borderColor: themeColors.black,
+                    bgColor: themeColors.black,
+                  }}
+                />
+              )}
+            </OverlayButton>
+            <OverlayButton>
+              <SavePill
+                isSaved={isSaved}
+                defaultColors={{
+                  color: themeColors.black,
+                  borderColor: themeColors.black,
+                  bgColor: themeColors.white,
+                }}
+                hoverColors={{
+                  color: themeColors.white,
+                  borderColor: themeColors.black,
+                  bgColor: themeColors.black,
+                }}
+                clickHandler={() => dispatch({
+                  type: isSaved ? 'DELETE_SAVED_IMAGEMAKER' : 'ADD_SAVED_IMAGEMAKER',
+                  value: imageMaker.id,
+                })}
+              />
+            </OverlayButton>
+          </OverlayButtons>
+        </Overlay>
+      </RelativeWrapper>
+    </div>
+  );
+};
 
 ImageCell.propTypes = {
   className: PropTypes.string,
