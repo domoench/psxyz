@@ -1,11 +1,29 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
+import styled from 'styled-components';
 
+import { colors as themeColors, fontSize, fonts } from '../theme';
+import ImageGridAnimated from '../components/ImageGridAnimated';
 import Layout from '../components/Layout';
 import {
   GlobalStateContext,
 } from '../context/GlobalContextProvider';
+
+const NoSavedImageMakers = styled.div`
+  padding: 2em;
+  font-family: ${fonts.serif};
+  font-size: ${fontSize.body * 1.2}px;
+  & p {
+    padding-bottom: 0.25em;
+  }
+  & a {
+    color: ${themeColors.black};
+    &:hover {
+      color: ${themeColors.red};
+    }
+  }
+`;
 
 const Saved = ({ data }) => {
   const state = useContext(GlobalStateContext);
@@ -18,7 +36,19 @@ const Saved = ({ data }) => {
       setShowFilters={() => {}}
       showFilters={false}
     >
-      <span>{`Saved Creators: ${imageMakersToDisplay.map(e => e.node.name).join(', ')}`}</span>
+      {imageMakersToDisplay.length === 0 && (
+        <NoSavedImageMakers>
+          <p>You haven&apos;t saved any profiles yet.</p>
+          <p>
+            <Link
+              to="/"
+            >
+              Browse the Index →
+            </Link>
+          </p>
+        </NoSavedImageMakers>
+      )}
+      <ImageGridAnimated imageMakers={imageMakersToDisplay} />
     </Layout>
   );
 };

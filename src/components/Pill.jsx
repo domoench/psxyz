@@ -10,6 +10,7 @@ export const colorsType = PropTypes.shape({
   bgColor: PropTypes.string.isRequired,
 });
 
+// TODO add font size prop
 const Pill = styled.span`
   padding: 0.2em 0.5em;
   display: flex;
