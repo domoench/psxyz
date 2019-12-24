@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import { fonts, fontSize } from '../theme';
+
 // TODO move this to another file
 export const colorsType = PropTypes.shape({
   color: PropTypes.string.isRequired,
@@ -15,6 +17,9 @@ const Pill = styled.span`
   align-items: center;
   font-family: Arial,sans-serif;
   font-weight: 600;
+  font-size: ${fontSize.body * 2.5};
+  font-family: ${fonts.sansSerif};
+  width: fit-content;
 
   ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
   ${props => `border: 1px solid ${props.colors.borderColor};`}

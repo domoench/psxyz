@@ -109,7 +109,7 @@ const NavPill = ({
         <StyledDirtyIndicator
           color={dirtyIndicatorColor}
           radius={5}
-          top={-4}
+          top={-6}
           right={-1}
         />
       )}
@@ -169,8 +169,8 @@ const FilterTogglePill = ({
         <StyledDirtyIndicator
           color={dirtyIndicatorColor}
           radius={5}
-          top={-4}
-          right={-4}
+          top={-7}
+          right={-10}
         />
       )}
       <FiltersSVGIcon color={colors.color} />

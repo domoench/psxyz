@@ -69,6 +69,12 @@ function reducer(state, action) {
         categoryFilterSlugs: Array.from(categoryFilterSet),
       };
     }
+    case 'CLEAR_CATEGORY_FILTERS': {
+      return {
+        ...state,
+        categoryFilterSlugs: [],
+      };
+    }
     default:
       throw new Error('Bad Action Type');
   }

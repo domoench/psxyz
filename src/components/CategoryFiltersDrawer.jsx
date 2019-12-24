@@ -1,120 +1,211 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 
 import {
   fonts,
+  fontSize,
+  colors as themeColors,
   colorForIdx,
   overlayColors,
 } from '../theme';
+import { Pill, colorsType } from './Pill';
+import { GlobalDispatchContext } from '../context/GlobalContextProvider';
 
 /* TODO:
  * - Squishing header and about section
  *   - This library does exactly what we need: https://github.com/madou/react-sticky-header/blob/master/src/ReactStickyHeader.js
  *     Use it, or re-implement yourself
- * - The filters don't wrap in mobile view. Is grid (with media queries) the right fit here? Flex?
  */
 
 const CategoryFilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em;
+  & h2 {
+    font-family: ${fonts.sansSerif};
+    font-weight: 400;
+    font-size: ${fontSize.body * 2};
+    color: ${themeColors.gray};
+    padding-bottom: 1em;
+  }
 `;
 
-// TODO make use of Pill component
 const CatFilterLabel = styled.div`
   display: flex;
   align-items: center;
-  height: 30px;
-  padding: 0 15px;
-  margin: 4px;
-  font-family: ${fonts.sansSerif};
-  font-weight: 600;
-  border: 1px solid black;
-  border-radius: 30px/30px;
   text-transform: uppercase;
-  &:hover {
-    ${props => `color: ${props.color};`}
-    ${props => `border: 1px solid ${props.color};`}
-  }
-  &.selected {
-    ${props => `background: ${props.color};`}
-    ${props => `border: 1px solid ${props.color};`}
-    color: white;
+`;
+
+const StyledCatFilter = styled.div`
+  display: flex;
+  padding: 0.25em 0em;
+  &:focus {
+    outline: none;
   }
 `;
 
 const CatFilter = ({
-  className,
   name,
   isSelected,
   clickHandler,
   color,
-}) => (
-  <div
-    className={className}
-    onClick={clickHandler}
-    onKeyDown={() => {}}
-    role="button"
-    tabIndex={0}
-  >
-    <CatFilterLabel
-      className={`${isSelected ? 'selected' : ''}`}
-      color={color}
-    >
-      {name}
-    </CatFilterLabel>
-  </div>
-);
+}) => {
+  const [hover, setHover] = useState(false);
+  const colors = hover ? {
+    color: themeColors.white,
+    borderColor: color,
+    bgColor: color,
+  } : {
+    color: isSelected ? themeColors.white : themeColors.black,
+    borderColor: themeColors.black,
+    bgColor: isSelected ? themeColors.black : themeColors.white,
+  };
+
+  return (
+    <StyledCatFilter>
+      <Pill
+        borderRadius={16}
+        colors={colors}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={clickHandler}
+      >
+        <CatFilterLabel
+          className={`${isSelected ? 'selected' : ''}`}
+          color={color}
+        >
+          {name}
+        </CatFilterLabel>
+      </Pill>
+    </StyledCatFilter>
+  );
+};
 
 CatFilter.propTypes = {
-  className: PropTypes.string,
   name: PropTypes.string,
   isSelected: PropTypes.bool,
   clickHandler: PropTypes.func,
   color: PropTypes.string,
 };
 
-const StyledCatFilter = styled(CatFilter)`
-  display: flex;
-  &:focus {
-    outline: none;
+const StyledControlPill = styled.div`
+  padding: 1em;
+`;
+
+const ControlPill = ({
+  defaultColors,
+  hoverColors,
+  clickHandler,
+  children,
+}) => {
+  // TODO: This hover state pattern is really everywhere. refactor.
+  // Maybe a withHover state 'decorator'?
+  const [hover, setHover] = useState(false);
+  const colors = hover ? hoverColors : defaultColors;
+
+  return (
+    <StyledControlPill>
+      <Pill
+        borderRadius={16}
+        colors={colors}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onClick={clickHandler}
+      >
+        {children}
+      </Pill>
+    </StyledControlPill>
+  );
+};
+
+ControlPill.propTypes = {
+  defaultColors: colorsType,
+  hoverColors: colorsType,
+  clickHandler: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+};
+
+const StyledDrawer = styled(Drawer)`
+  & .MuiBackdrop-root {
+    background-color: rgba(0, 0, 0, 0.0);;
   }
 `;
 
-// TODO add Close and Clear All buttons
+const ControlPills = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const CategoryFiltersDrawer = ({
   categories,
   categoryFilterSlugs,
   updateSelected,
   showFilters,
   toggleFiltersDrawer,
-}) => (
-  <Drawer
-    open={showFilters}
-    anchor="right"
-    onClose={toggleFiltersDrawer}
-  >
-    <CategoryFilterWrapper>
-      {
-        categories.map((cat, idx) => {
-          const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
-          return (
-            <div key={cat.node.id}>
-              <StyledCatFilter
-                name={cat.node.name}
-                isSelected={isSelected}
-                clickHandler={updateSelected(cat.node.slug)}
-                color={colorForIdx(idx, overlayColors)}
-              />
-            </div>
-          );
-        })
-      }
-    </CategoryFilterWrapper>
-  </Drawer>
-);
+}) => {
+  const dispatch = useContext(GlobalDispatchContext);
+
+  return (
+    <StyledDrawer
+      open={showFilters}
+      anchor="right"
+      onClose={toggleFiltersDrawer}
+    >
+      <ControlPills>
+        <ControlPill
+          clickHandler={toggleFiltersDrawer}
+          defaultColors={{
+            color: themeColors.black,
+            borderColor: themeColors.black,
+            bgColor: themeColors.white,
+          }}
+          hoverColors={{
+            color: themeColors.white,
+            borderColor: themeColors.black,
+            bgColor: themeColors.black,
+          }}
+        >
+          X CLOSE
+        </ControlPill>
+        <ControlPill
+          clickHandler={() => dispatch({ type: 'CLEAR_CATEGORY_FILTERS' })}
+          defaultColors={{
+            color: themeColors.red,
+            borderColor: themeColors.red,
+            bgColor: themeColors.white,
+          }}
+          hoverColors={{
+            color: themeColors.white,
+            borderColor: themeColors.red,
+            bgColor: themeColors.red,
+          }}
+        >
+          CLEAR ALL
+        </ControlPill>
+      </ControlPills>
+      <CategoryFilterWrapper>
+        <h2>CATEGORY</h2>
+        {
+          categories.map((cat, idx) => {
+            const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
+            return (
+              <div key={cat.node.id}>
+                <CatFilter
+                  name={cat.node.name}
+                  isSelected={isSelected}
+                  clickHandler={updateSelected(cat.node.slug)}
+                  color={colorForIdx(idx, overlayColors)}
+                />
+              </div>
+            );
+          })
+        }
+      </CategoryFilterWrapper>
+    </StyledDrawer>
+  );
+};
 
 CategoryFiltersDrawer.propTypes = {
   categories: PropTypes.array,
