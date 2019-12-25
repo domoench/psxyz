@@ -24,6 +24,7 @@ export const Column = styled.div`
   }
 
   & h2 {
+    padding-top: 1em;
     padding-bottom: 1.2em;
     text-transform: uppercase;
     font-size: ${fontSize.body * 1.2}px;

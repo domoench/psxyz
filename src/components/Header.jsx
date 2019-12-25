@@ -21,6 +21,7 @@ const StyledHeader = styled.header`
 
 const LogoImg = styled.img`
   height: 60px;
+  padding: 0.5em;
 `;
 
 const NavPillList = styled.ul`
@@ -216,12 +217,12 @@ const Header = ({ toggleFiltersDrawer }) => {
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={themeColors.green} to="/about/">
+            <StyledNavPill color={themeColors.blue} to="/about/">
               <span>ABOUT</span>
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={themeColors.blue} to="/support/">
+            <StyledNavPill color={themeColors.green} to="/support/">
               <span>SUPPORT</span>
             </StyledNavPill>
           </li>

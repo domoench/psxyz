@@ -10,7 +10,7 @@ const About = () => (
     toggleFiltersDrawer={() => {}}
     showFilters={false}
   >
-    <Wrapper color={colors.green}>
+    <Wrapper color={colors.blue}>
       <Column>
         <h1>About Us</h1>
         <p>
@@ -23,9 +23,7 @@ const About = () => (
           These are people whose work we find interesting, who help us see in new ways, who excite us, who have limitless potential.
           Use it as a tool to find POC talent for your next project. Share it. Spread the word.
         </p>
-      </Column>
 
-      <Column>
         <h2>Our Story</h2>
         <p>
           Public Service was born out of our own needs.
@@ -43,15 +41,15 @@ const About = () => (
           These are people whose work we find interesting, who help us see in new ways, who excite us, who have limitless potential.
           Use it as a tool to find POC talent for your next project. Share it. Spread the word.
         </p>
-      </Column>
 
-      <Column>
         <h2>People</h2>
         <p>
           Public Service is Anu Lingala, David Ouyang Moench, Eshia Alvarado, Inyegumena Nosegbe, Kaity Wong, Lulu Mu Park, Sheila Reyes.
           For collabs or talent submissions e-mail us people@publicservice.com
         </p>
       </Column>
+
+      <Column />
     </Wrapper>
   </Layout>
 );

@@ -8,7 +8,6 @@ const Pill = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Arial,sans-serif;
   font-weight: 600;
   font-size: ${fontSize.body * 2.5};
   font-family: ${fonts.sansSerif};

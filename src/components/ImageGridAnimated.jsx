@@ -22,13 +22,14 @@ import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalCont
 import SavedSVGIcon from './svg/saved';
 import SourceSVGIcon from './svg/source';
 import Pill from './reusable/Pill';
-import { colorsType } from './reusable/types';
 import Anchor from './reusable/Anchor';
+import { colorsType } from './reusable/types';
 
 const Grid = styled.div`
   width: 100vw;
-  background: blue;
+  display: block;
   position: relative;
+  ${props => `height: ${props.height}px;`}
 `;
 
 const RelativeWrapper = styled.div`
@@ -141,7 +142,7 @@ SavePill.propTypes = {
   hoverColors: colorsType,
 };
 
-const SourcePill = ({
+const AnchorPill = ({
   href,
   defaultColors,
   hoverColors,
@@ -174,11 +175,12 @@ const SourcePill = ({
   );
 };
 
-SourcePill.propTypes = {
+AnchorPill.propTypes = {
   href: PropTypes.string.isRequired,
-  defaultColors: colorsType,
-  hoverColors: colorsType,
+  defaultColors: colorsType.isRequired,
+  hoverColors: colorsType.isRequired,
 };
+
 
 const Blurb = styled.span`
   padding: 1em;
@@ -199,7 +201,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
           <OverlayButtons>
             <OverlayButton>
               {!!imageMaker.source && (
-                <SourcePill
+                <AnchorPill
                   href={imageMaker.source}
                   defaultColors={{
                     color: themeColors.black,
@@ -289,8 +291,14 @@ const ImageGridAnimated = ({ imageMakers }) => {
 
   const numCols = gridColumnsForBreakpoint[deviceSize(width)];
   const cellWidth = width / numCols;
+  const numRows = Math.ceil(imageMakers.length / numCols);
+  const height = numRows * cellWidth;
   return (
-    <Grid ref={gridRef} numImageMakers={imageMakers.length}>
+    <Grid
+      ref={gridRef}
+      numImageMakers={imageMakers.length}
+      height={height}
+    >
       {
         imageMakers.map(({ node }, i) => {
           const gridCol = i % numCols;

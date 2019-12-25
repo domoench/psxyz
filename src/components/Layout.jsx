@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Header from './Header';
+import Footer from './Footer';
 
 const Container = styled.div`
   height: 100%;
@@ -13,6 +14,7 @@ const Layout = ({ children, toggleFiltersDrawer }) => (
   <Container>
     <Header toggleFiltersDrawer={toggleFiltersDrawer} />
     {children}
+    <Footer />
   </Container>
 );
 
