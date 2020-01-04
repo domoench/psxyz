@@ -67,8 +67,9 @@ const CatFilter = ({
   return (
     <StyledCatFilter>
       <Pill
-        borderRadius={16}
+        borderRadius={18}
         colors={colors}
+        fontSize={fontSize.body * 1.0}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
@@ -111,6 +112,7 @@ const ControlPill = ({
       <Pill
         borderRadius={16}
         colors={colors}
+        fontSize={fontSize.body * 0.66}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}

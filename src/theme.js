@@ -25,6 +25,7 @@ export const gridLineColors = [
 export const fonts = {
   serif: 'Times New Roman, serif',
   sansSerif: 'Arial, sans-serif',
+  druk: "'DrukWide', Arial, sans-serif",
 };
 
 export const fontSize = {

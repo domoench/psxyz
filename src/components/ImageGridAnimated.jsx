@@ -11,6 +11,7 @@ import _debounce from 'lodash.debounce';
 
 import {
   colors as themeColors,
+  fontSize,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
@@ -113,6 +114,7 @@ const SavePill = ({
     <Pill
       borderRadius={20}
       colors={colors}
+      fontSize={fontSize.body * 0.7}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
@@ -164,6 +166,7 @@ const AnchorPill = ({
         <Pill
           borderRadius={20}
           colors={colors}
+          fontSize={fontSize.body * 0.7}
         >
           <OverlayButtonContent>
             <SourceSVGIcon color={colors.color} />

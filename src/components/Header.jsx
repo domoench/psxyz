@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 
-import { colors as themeColors, fonts } from '../theme';
+import {
+  colors as themeColors,
+  fonts,
+  fontSize,
+} from '../theme';
 import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
 import Pill from './reusable/Pill';
@@ -126,6 +130,7 @@ const NavPill = ({
         <Pill
           borderRadius={20}
           colors={colors}
+          fontSize={fontSize.body * 0.9}
         >
           {children}
         </Pill>
@@ -166,6 +171,7 @@ const FilterTogglePill = ({
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
       className={className}
+      fontSize={fontSize.body * 0.9}
     >
       {dirty && (
         <StyledDirtyIndicator
@@ -191,7 +197,6 @@ FilterTogglePill.propTypes = {
 };
 
 const StyledFilterTogglePill = styled(FilterTogglePill)`
-  font-family: ${fonts.sansSerif};
   position: relative;
 
   & svg {
