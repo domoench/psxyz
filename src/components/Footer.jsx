@@ -104,6 +104,7 @@ const StyledFooter = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  background: ${themeColors.white};
 `;
 
 const Pills = styled.div`
