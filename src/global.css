@@ -29,3 +29,9 @@ html, body, #___gatsby {
 div[role="group"][tabindex] {
   height: 100%;
 }
+
+@font-face {
+  font-family: DrukWide;
+  src: url('./fonts/DrukWide-Medium.otf') format('opentype');
+  font-display: swap;
+}
