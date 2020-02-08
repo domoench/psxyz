@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import {
   colors as themeColors,
+  minWidthMediaQuery,
   fonts,
   fontSize,
 } from '../theme';
@@ -30,10 +31,13 @@ const LogoImg = styled.img`
 
 const NavPillList = styled.ul`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   list-style: none;
-  padding: 1em;
+  padding: 0.25em;
   & li {
     margin: 0 0.25em;
+    padding-bottom: 0.25em;
   }
 `;
 
@@ -41,9 +45,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   font-family: ${fonts.sansSerif};
   ${props => `color: ${props.color};`}
-  & svg {
-    padding-right: 0.4em;
-  }
   & svg path {
     ${props => `fill: ${props.color};`}
   }
@@ -152,6 +153,15 @@ const StyledNavPill = styled(NavPill)`
   position: relative;
 `;
 
+// Text that disappears on small screens
+const BigScreenText = styled.span`
+  padding-left: 0.4em;
+  display: none;
+  ${minWidthMediaQuery('sm')} {
+    display: initial;
+  }
+`;
+
 const FilterTogglePill = ({
   clickHandler,
   dirty,
@@ -178,11 +188,13 @@ const FilterTogglePill = ({
           color={dirtyIndicatorColor}
           radius={5}
           top={-7}
-          right={-10}
+          right={-3}
         />
       )}
-      <FiltersSVGIcon color={colors.color} />
-      FILTER
+      <FiltersSVGIcon color={colors.color} width={18} />
+      <BigScreenText>
+        FILTER
+      </BigScreenText>
     </Pill>
   );
 };
@@ -198,10 +210,6 @@ FilterTogglePill.propTypes = {
 
 const StyledFilterTogglePill = styled(FilterTogglePill)`
   position: relative;
-
-  & svg {
-    padding-right: 0.5em;
-  }
 `;
 
 // TODO update styled component usage to this pattern wherever possible
@@ -213,7 +221,10 @@ const Header = ({ toggleFiltersDrawer }) => {
 
   return (
     <StyledHeader>
-      <LogoImg src={logo} alt="Logo" />
+
+      <Link to="/">
+        <LogoImg src={logo} alt="Logo" />
+      </Link>
       <nav>
         <NavPillList>
           <li>
@@ -238,8 +249,10 @@ const Header = ({ toggleFiltersDrawer }) => {
               dirty={savedDirty}
               dirtyIndicatorColor={themeColors.red}
             >
-              <SavedSVGIcon color={themeColors.black} />
-              SAVED
+              <SavedSVGIcon color={themeColors.black} width={18} />
+              <BigScreenText>
+                SAVED
+              </BigScreenText>
             </StyledNavPill>
           </li>
           <li>
