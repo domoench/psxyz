@@ -122,13 +122,13 @@ const SavePill = ({
       {isSaved ?
         (
           <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} />
+            <SavedSVGIcon color={colors.color} width={16} />
             REMOVE
           </OverlayButtonContent>
         ) :
         (
           <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} />
+            <SavedSVGIcon color={colors.color} width={16} />
             SAVE
           </OverlayButtonContent>
         )
@@ -169,7 +169,7 @@ const AnchorPill = ({
           fontSize={fontSize.body * 0.7}
         >
           <OverlayButtonContent>
-            <SourceSVGIcon color={colors.color} />
+            <SourceSVGIcon color={colors.color} width={16} />
             SOURCE
           </OverlayButtonContent>
         </Pill>
