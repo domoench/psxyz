@@ -102,7 +102,7 @@ AnchorPill.propTypes = {
 
 const StyledFooter = styled.div`
   display: flex;
-  padding: 1em 1em;
+  padding: 0.25em 1em;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;

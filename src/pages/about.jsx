@@ -1,8 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import Layout from '../components/Layout';
 import { Column, Wrapper } from '../components/newspaper';
 import { colors } from '../theme';
+
+const Anchor = ({ href, children, className }) => (
+  <a
+    href={href}
+    className={className}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {children}
+  </a>
+);
+
+Anchor.propTypes = {
+  href: PropTypes.string.isRequired,
+  children: PropTypes.element,
+  className: PropTypes.string,
+};
+
+const SocialLink = styled(Anchor)`
+  text-decoration: underline;
+  color: ${colors.white};
+  filter: brightness(95%);
+  &:hover {
+    color: ${colors.red};
+  }
+`;
 
 const About = () => (
   // TODO: What if a user clicks show filters on this page? Should we hide the filters button?
@@ -44,8 +72,38 @@ const About = () => (
 
         <h2>People</h2>
         <p>
-          Public Service is Anu Lingala, David Ouyang Moench, Eshia Alvarado, Inyegumena Nosegbe, Kaity Wong, Lulu Mu Park, Sheila Reyes.
-          For collabs or talent submissions e-mail us people@publicservice.com
+          Public Service is
+          {' '}
+          <SocialLink href="https://www.instagram.com/anoozle/">
+            Anu Lingala
+          </SocialLink>
+          {', '}
+          David Ouyang Moench
+          {', '}
+          <SocialLink href="https://www.instagram.com/eshiaanne/">
+            Eshia Alvarado
+          </SocialLink>
+          {', '}
+          <SocialLink href="https://www.instagram.com/inyebynature/">
+            Inyegumena Nosegbe
+          </SocialLink>
+          {', '}
+          <SocialLink href="https://www.instagram.com/kaity.wong">
+            Kaity Wong
+          </SocialLink>
+          {', '}
+          <SocialLink href="https://www.instagram.com/______lulu________/">
+            Lulu Mu Park
+          </SocialLink>
+          {', '}
+          <SocialLink href="https://www.instagram.com/whosheila/">
+            Sheila Reyes
+          </SocialLink>
+          .
+        </p>
+
+        <p>
+          For collabs or talent submissions e-mail us at people@publicservice.com
         </p>
       </Column>
 
