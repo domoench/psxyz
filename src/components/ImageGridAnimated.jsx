@@ -79,12 +79,12 @@ const categoryString = (categories) => {
     if (idx === 0) {
       part += startsWithVowel ? 'an ' : 'a ';
     } else if (n > 1 && idx === n - 1) {
-      part += startsWithVowel ? 'and an' : 'and a ';
+      part += startsWithVowel ? 'and an ' : 'and a ';
     }
     part += name;
     return part;
   });
-  return parts.join(', ');
+  return parts.join(', ').toLowerCase();
 };
 
 const imageMakerBlurb = imageMaker => (
