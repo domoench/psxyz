@@ -28,9 +28,20 @@ export const fonts = {
   druk: "'DrukWide', Arial, sans-serif",
 };
 
-export const fontSize = {
-  body: 18, // px
+const figmaFontSize = {
+  body: 20, // px TODO deprecate
+  body1: 22,
+  display2: 30,
 };
+
+// The font sizes in figma don't map exactly into the web browser sizes.
+const figmaScaleFactor = 0.8;
+
+export const fontSize = Object.fromEntries(
+  Object.entries(figmaFontSize).map(([fontLabel, size]) => (
+    [fontLabel, Math.ceil(size * figmaScaleFactor)]
+  )),
+);
 
 // TODO remove
 export const breakpoints = {

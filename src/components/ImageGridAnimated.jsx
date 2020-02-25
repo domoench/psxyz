@@ -70,27 +70,6 @@ const isVowel = (char) => {
   return c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u';
 };
 
-const categoryString = (categories) => {
-  const n = categories.length;
-  const parts = categories.map((c, idx) => {
-    let part = '';
-    const name = c.practitionerName;
-    const startsWithVowel = isVowel(name.charAt(0));
-    if (idx === 0) {
-      part += startsWithVowel ? 'an ' : 'a ';
-    } else if (n > 1 && idx === n - 1) {
-      part += startsWithVowel ? 'and an ' : 'and a ';
-    }
-    part += name;
-    return part;
-  });
-  return parts.join(', ').toLowerCase();
-};
-
-const imageMakerBlurb = imageMaker => (
-  `${imageMaker.name} is ${categoryString(imageMaker.categories)}`
-);
-
 const OverlayButtonContent = styled.span`
   display: flex;
   justify-content: space-evenly;
@@ -184,10 +163,49 @@ AnchorPill.propTypes = {
   hoverColors: colorsType.isRequired,
 };
 
+const categorySentence = (categories) => {
+  const n = categories.length;
+  const parts = categories.map((c, idx) => {
+    let article;
+    const name = c.practitionerName;
+    const startsWithVowel = isVowel(name.charAt(0));
+
+    if (idx === 0) {
+      article = startsWithVowel ? ' an ' : ' a ';
+    } else if (n > 1 && idx === n - 1) {
+      article = startsWithVowel ? ' and an ' : ' and a ';
+    }
+    return (
+      <>
+        {`${idx > 0 ? ',' : ''} `}
+        {article}
+        <CategoryText>{name}</CategoryText>
+      </>
+    );
+  });
+  return parts;
+};
 
 const Blurb = styled.span`
   padding: 1em;
+  font-size: ${fontSize.display2}px;
 `;
+
+const CategoryText = styled.span`
+  text-decoration: underline;
+`;
+
+const ImageMakerBlurb = ({ imageMaker }) => (
+  <Blurb>
+    {`${imageMaker.name} is`}
+    {categorySentence(imageMaker.categories)}
+    .
+  </Blurb>
+);
+
+ImageMakerBlurb.propTypes = {
+  imageMaker: PropTypes.object,
+};
 
 const ImageCell = ({ className, imageMaker, idx }) => {
   const dispatch = useContext(GlobalDispatchContext);
@@ -200,7 +218,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
       <RelativeWrapper>
         <Img fluid={imageMaker.mainImage.fluid} />
         <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-          <Blurb>{imageMakerBlurb(imageMaker)}</Blurb>
+          <ImageMakerBlurb imageMaker={imageMaker} />
           <OverlayButtons>
             <OverlayButton>
               {!!imageMaker.source && (
