@@ -249,10 +249,12 @@ const Header = ({ toggleFiltersDrawer }) => {
               dirty={savedDirty}
               dirtyIndicatorColor={themeColors.red}
             >
-              <SavedSVGIcon color={themeColors.black} width={18} />
-              <BigScreenText>
-                SAVED
-              </BigScreenText>
+              <>
+                <SavedSVGIcon color={themeColors.black} width={18} />
+                <BigScreenText>
+                  SAVED
+                </BigScreenText>
+              </>
             </StyledNavPill>
           </li>
           <li>

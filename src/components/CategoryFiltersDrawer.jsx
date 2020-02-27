@@ -117,7 +117,7 @@ const ControlPill = ({
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
       >
-        {children}
+        <span>{children}</span>
       </Pill>
     </StyledControlPill>
   );
@@ -170,7 +170,7 @@ const CategoryFiltersDrawer = ({
             bgColor: themeColors.black,
           }}
         >
-          X CLOSE
+          <span>X CLOSE</span>
         </ControlPill>
         <ControlPill
           clickHandler={() => dispatch({ type: 'CLEAR_CATEGORY_FILTERS' })}
@@ -185,7 +185,7 @@ const CategoryFiltersDrawer = ({
             bgColor: themeColors.red,
           }}
         >
-          CLEAR ALL
+          <span>CLEAR ALL</span>
         </ControlPill>
       </ControlPills>
       <CategoryFilterWrapper>
@@ -215,7 +215,7 @@ CategoryFiltersDrawer.propTypes = {
   categoryFilterSlugs: PropTypes.array,
   updateSelected: PropTypes.func,
   showFilters: PropTypes.bool,
-  toggleFiltersDrawer: PropTypes.bool,
+  toggleFiltersDrawer: PropTypes.func,
 };
 
 export default CategoryFiltersDrawer;

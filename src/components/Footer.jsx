@@ -78,7 +78,7 @@ const AnchorPill = ({
     >
       <Anchor
         href={href}
-        alt="imagemaker source url"
+        altText="imagemaker source url"
         textColor={colors.color}
       >
         <Pill
@@ -97,7 +97,7 @@ AnchorPill.propTypes = {
   href: PropTypes.string.isRequired,
   defaultColors: colorsType.isRequired,
   hoverColors: colorsType.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.string.isRequired,
 };
 
 const StyledFooter = styled.div`

@@ -11,11 +11,11 @@ import _debounce from 'lodash.debounce';
 
 import {
   colors as themeColors,
-  fontSize,
+  fontSize as fontSizes,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
-  deviceSize,
+  deviceSizeForWidth,
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
@@ -25,6 +25,14 @@ import SourceSVGIcon from './svg/source';
 import Pill from './reusable/Pill';
 import Anchor from './reusable/Anchor';
 import { colorsType } from './reusable/types';
+
+const fontScaleForDevice = {
+  xs: 0.7,
+  sm: 0.8,
+  md: 0.9,
+  lg: 1.0,
+  xl: 1.0,
+};
 
 const Grid = styled.div`
   width: 100vw;
@@ -85,6 +93,7 @@ const SavePill = ({
   clickHandler,
   defaultColors,
   hoverColors,
+  deviceSize,
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
@@ -93,7 +102,7 @@ const SavePill = ({
     <Pill
       borderRadius={20}
       colors={colors}
-      fontSize={fontSize.body * 0.7}
+      fontSize={fontSizes.imageGridPill * fontScaleForDevice[deviceSize]}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
@@ -121,12 +130,14 @@ SavePill.propTypes = {
   clickHandler: PropTypes.func,
   defaultColors: colorsType,
   hoverColors: colorsType,
+  deviceSize: PropTypes.string,
 };
 
 const AnchorPill = ({
   href,
   defaultColors,
   hoverColors,
+  deviceSize,
 }) => {
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
@@ -139,13 +150,13 @@ const AnchorPill = ({
     >
       <Anchor
         href={href}
-        alt="imagemaker source url"
+        altText="imagemaker source url"
         textColor={colors.color}
       >
         <Pill
           borderRadius={20}
           colors={colors}
-          fontSize={fontSize.body * 0.7}
+          fontSize={fontSizes.imageGridPill * fontScaleForDevice[deviceSize]}
         >
           <OverlayButtonContent>
             <SourceSVGIcon color={colors.color} width={16} />
@@ -161,6 +172,7 @@ AnchorPill.propTypes = {
   href: PropTypes.string.isRequired,
   defaultColors: colorsType.isRequired,
   hoverColors: colorsType.isRequired,
+  deviceSize: PropTypes.string.isRequired,
 };
 
 const categorySentence = (categories) => {
@@ -176,11 +188,11 @@ const categorySentence = (categories) => {
       article = startsWithVowel ? ' and an ' : ' and a ';
     }
     return (
-      <>
+      <React.Fragment key={c.id}>
         {`${idx > 0 ? ',' : ''} `}
         {article}
         <CategoryText>{name}</CategoryText>
-      </>
+      </React.Fragment>
     );
   });
   return parts;
@@ -188,15 +200,15 @@ const categorySentence = (categories) => {
 
 const Blurb = styled.span`
   padding: 1em;
-  font-size: ${fontSize.display2}px;
+  font-size: ${({ fontSize }) => fontSize}px;
 `;
 
 const CategoryText = styled.span`
   text-decoration: underline;
 `;
 
-const ImageMakerBlurb = ({ imageMaker }) => (
-  <Blurb>
+const ImageMakerBlurb = ({ imageMaker, deviceSize }) => (
+  <Blurb fontSize={fontSizes.display2 * fontScaleForDevice[deviceSize]}>
     {`${imageMaker.name} is`}
     {categorySentence(imageMaker.categories)}
     .
@@ -204,26 +216,34 @@ const ImageMakerBlurb = ({ imageMaker }) => (
 );
 
 ImageMakerBlurb.propTypes = {
-  imageMaker: PropTypes.object,
+  imageMaker: PropTypes.object.isRequired,
+  deviceSize: PropTypes.string.isRequired,
 };
 
-const ImageCell = ({ className, imageMaker, idx }) => {
+const ImageCell = ({
+  className,
+  imageMaker,
+  idx,
+  deviceSize,
+  style,
+}) => {
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
   const isSaved = savedImageMakerIdSet.has(imageMaker.id);
 
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       <RelativeWrapper>
         <Img fluid={imageMaker.mainImage.fluid} />
         <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
-          <ImageMakerBlurb imageMaker={imageMaker} />
+          <ImageMakerBlurb imageMaker={imageMaker} deviceSize={deviceSize} />
           <OverlayButtons>
             <OverlayButton>
               {!!imageMaker.source && (
                 <AnchorPill
                   href={imageMaker.source}
+                  deviceSize={deviceSize}
                   defaultColors={{
                     color: themeColors.black,
                     borderColor: themeColors.black,
@@ -240,6 +260,7 @@ const ImageCell = ({ className, imageMaker, idx }) => {
             <OverlayButton>
               <SavePill
                 isSaved={isSaved}
+                deviceSize={deviceSize}
                 defaultColors={{
                   color: themeColors.black,
                   borderColor: themeColors.black,
@@ -267,6 +288,8 @@ ImageCell.propTypes = {
   className: PropTypes.string,
   imageMaker: PropTypes.object,
   idx: PropTypes.number,
+  deviceSize: PropTypes.string,
+  style: PropTypes.object,
 };
 
 const fadeIn = keyframes`
@@ -274,19 +297,11 @@ const fadeIn = keyframes`
   to { opacity: 1; }
 `;
 
+// Styling the positioned cells with styled component classes was pretty expensive.
+// Let's try inline styles for the position + dimension attributes
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
-  ${props => `top: ${props.top}px;`}
-  ${props => `left: ${props.left}px;`}
-  ${props => `width: ${props.width - 2}px;`}
-  ${props => `height: ${props.width - 2}px;`}
-  ${props => `border-right: 2px solid ${props.rightBorderColor};`}
-  ${props => `box-shadow: ${props.bottomBorderColor} 0px 2px 0px 0px;`}
-
-  /* Slide when existing cell must change grid position */
   transition: top 2s ease 0s, left 2s ease 0s, width 2s ease 0s, height 2s ease 0s, border-color 0s ease 0s;
-
-  /* Fade in when new cells enter the grid */
   animation: ${fadeIn} ease-in 1;
   animation-duration: 0.5s;
 `;
@@ -303,14 +318,25 @@ const ImageGridAnimated = ({ imageMakers }) => {
 
   useLayoutEffect(() => {
     setVizDimensions();
-    const debouncedSetDimensions = _debounce(() => setVizDimensions(), 100);
+    const debouncedSetDimensions = _debounce(() => setVizDimensions(), 160);
     window.addEventListener('resize', debouncedSetDimensions);
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
     };
   });
 
-  const numCols = gridColumnsForBreakpoint[deviceSize(width)];
+  // If we haven't calculated width yet (first load) render an empty grid on the
+  // first paint.
+  if (!width) {
+    return (
+      <Grid
+        ref={gridRef}
+      />
+    );
+  }
+
+  const deviceSize = deviceSizeForWidth(width);
+  const numCols = gridColumnsForBreakpoint[deviceSize];
   const cellWidth = width / numCols;
   const numRows = Math.ceil(imageMakers.length / numCols);
   const height = numRows * cellWidth;
@@ -326,14 +352,21 @@ const ImageGridAnimated = ({ imageMakers }) => {
           const gridRow = Math.floor(i / numCols);
           return (
             <PositionedImageCell
-              width={cellWidth}
-              left={gridCol * cellWidth}
-              top={gridRow * cellWidth}
               imageMaker={node}
               key={node.id}
               idx={i}
-              rightBorderColor={colorForIdx(gridCol, gridLineColors)}
               bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
+              deviceSize={deviceSize}
+              // Doing inline style instead of styled components here because this was generating
+              // so many css classes when resizing and noticably hurting performance
+              style={{
+                top: gridRow * cellWidth,
+                left: gridCol * cellWidth,
+                width: cellWidth - 2,
+                height: cellWidth - 2,
+                borderRight: `2px solid ${colorForIdx(gridCol, gridLineColors)}`,
+                boxShadow: `${colorForIdx(gridRow, gridLineColors)} 0px 2px 0px 0px`,
+              }}
             />
           );
         })

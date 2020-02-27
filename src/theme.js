@@ -29,14 +29,20 @@ export const fonts = {
 };
 
 const figmaFontSize = {
-  body: 20, // px TODO deprecate
+  body: 20, // TODO depricate
+  imageGridPill: 16,
+
   body1: 22,
   display2: 30,
+
+  mWebTitle2: 9,
+  mWebBody1: 16,
 };
 
-// The font sizes in figma don't map exactly into the web browser sizes.
+// Map the font sizes from figma into the web browser pixel sizes.
 const figmaScaleFactor = 0.8;
 
+// font sizes in pixels
 export const fontSize = Object.fromEntries(
   Object.entries(figmaFontSize).map(([fontLabel, size]) => (
     [fontLabel, Math.ceil(size * figmaScaleFactor)]
@@ -61,9 +67,9 @@ export const breakpointsPx = {
 };
 
 // Given a pixel width, find the proper breakpoint name.
-export const deviceSize = (width) => {
+export const deviceSizeForWidth = (width) => {
   const bps = Object.entries(breakpointsPx).sort((a, b) => a[1][0] - b[1][0]);
-  let dSize = '';
+  let dSize = 'xs';
   bps.forEach((bp) => {
     const [bpName, bpLimits] = bp;
     if (width >= bpLimits[0]) {

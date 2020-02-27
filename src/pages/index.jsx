@@ -62,15 +62,17 @@ const Index = ({ data, location }) => {
   const imageMakersToDisplay = filterByCategory(categoryFilterSlugs, imageMakers);
   return (
     <Layout toggleFiltersDrawer={toggleFiltersDrawer} showFilters={showFilters}>
-      <CategoryFiltersDrawer
-        categories={categories}
-        categoryFilterSlugs={categoryFilterSlugs}
-        updateSelected={updateSelected}
-        showFilters={showFilters}
-        toggleFiltersDrawer={toggleFiltersDrawer}
-      />
-      <AboutBlurb />
-      <ImageGridAnimated imageMakers={imageMakersToDisplay} />
+      <>
+        <CategoryFiltersDrawer
+          categories={categories}
+          categoryFilterSlugs={categoryFilterSlugs}
+          updateSelected={updateSelected}
+          showFilters={showFilters}
+          toggleFiltersDrawer={toggleFiltersDrawer}
+        />
+        <AboutBlurb />
+        <ImageGridAnimated imageMakers={imageMakersToDisplay} />
+      </>
     </Layout>
   );
 };
