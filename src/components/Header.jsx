@@ -7,7 +7,7 @@ import {
   colors as themeColors,
   minWidthMediaQuery,
   fonts,
-  fontSize,
+  fontSize as fontSizes,
 } from '../theme';
 import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
@@ -36,8 +36,8 @@ const NavPillList = styled.ul`
   list-style: none;
   padding: 0.25em;
   & li {
-    margin: 0 0.25em;
-    padding-bottom: 0.25em;
+    margin: 0 0.35em;
+    padding-bottom: 0.4em;
   }
 `;
 
@@ -131,7 +131,7 @@ const NavPill = ({
         <Pill
           borderRadius={20}
           colors={colors}
-          fontSize={fontSize.body * 0.9}
+          fontSize={fontSizes.body * 0.9}
         >
           {children}
         </Pill>
@@ -172,6 +172,7 @@ const FilterTogglePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
+  const fontSize = fontSizes.body * 0.9;
 
   return (
     <Pill
@@ -181,7 +182,7 @@ const FilterTogglePill = ({
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
       className={className}
-      fontSize={fontSize.body * 0.9}
+      fontSize={fontSize}
     >
       {dirty && (
         <StyledDirtyIndicator
@@ -191,7 +192,7 @@ const FilterTogglePill = ({
           right={-3}
         />
       )}
-      <FiltersSVGIcon color={colors.color} width={18} />
+      <FiltersSVGIcon color={colors.color} width={fontSize} />
       <BigScreenText>
         FILTER
       </BigScreenText>
@@ -218,6 +219,7 @@ const Header = ({ toggleFiltersDrawer }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(GlobalStateContext);
   const savedDirty = savedImageMakerIds.length > 0;
   const filtersDirty = categoryFilterSlugs.length > 0;
+  const fontSize = fontSizes.body * 0.9;
 
   return (
     <StyledHeader>
@@ -250,7 +252,7 @@ const Header = ({ toggleFiltersDrawer }) => {
               dirtyIndicatorColor={themeColors.red}
             >
               <>
-                <SavedSVGIcon color={themeColors.black} width={18} />
+                <SavedSVGIcon color={themeColors.black} width={fontSize} />
                 <BigScreenText>
                   SAVED
                 </BigScreenText>

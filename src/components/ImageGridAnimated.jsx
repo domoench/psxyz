@@ -97,12 +97,13 @@ const SavePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
+  const fontSize = fontSizes.imageGridPill * fontScaleForDevice[deviceSize];
 
   return (
     <Pill
       borderRadius={20}
       colors={colors}
-      fontSize={fontSizes.imageGridPill * fontScaleForDevice[deviceSize]}
+      fontSize={fontSize}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
@@ -110,13 +111,13 @@ const SavePill = ({
       {isSaved ?
         (
           <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} width={16} />
+            <SavedSVGIcon color={colors.color} width={fontSize} />
             REMOVE
           </OverlayButtonContent>
         ) :
         (
           <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} width={16} />
+            <SavedSVGIcon color={colors.color} width={fontSize} />
             SAVE
           </OverlayButtonContent>
         )
@@ -142,6 +143,7 @@ const AnchorPill = ({
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
+  const fontSize = fontSizes.imageGridPill * fontScaleForDevice[deviceSize];
 
   return (
     <div
@@ -156,10 +158,10 @@ const AnchorPill = ({
         <Pill
           borderRadius={20}
           colors={colors}
-          fontSize={fontSizes.imageGridPill * fontScaleForDevice[deviceSize]}
+          fontSize={fontSize}
         >
           <OverlayButtonContent>
-            <SourceSVGIcon color={colors.color} width={16} />
+            <SourceSVGIcon color={colors.color} width={fontSize} />
             SOURCE
           </OverlayButtonContent>
         </Pill>

@@ -10,9 +10,10 @@ const Pill = styled.span`
   font-weight: 500;
   font-family: ${fonts.druk};
   width: fit-content;
+  height: 1.5em;
 
   ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
-  ${props => `border: 1px solid ${props.colors.borderColor};`}
+  ${props => `border: 2px solid ${props.colors.borderColor};`}
   ${props => `background: ${props.colors.bgColor};`}
   ${props => `color: ${props.colors.color};`}
   ${props => `font-size: ${props.fontSize}px`};
