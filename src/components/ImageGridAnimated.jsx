@@ -73,7 +73,7 @@ const OverlayButton = styled.div`
   padding: 0 0.25em;
 `;
 
-const isVowel = (char) => {
+const isVowel = char => {
   const c = char.toLowerCase();
   return c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u';
 };
@@ -177,7 +177,7 @@ AnchorPill.propTypes = {
   deviceSize: PropTypes.string.isRequired,
 };
 
-const categorySentence = (categories) => {
+const categorySentence = categories => {
   const n = categories.length;
   const parts = categories.map((c, idx) => {
     let article;

@@ -42,12 +42,14 @@ const figmaFontSize = {
 // Map the font sizes from figma into the web browser pixel sizes.
 const figmaScaleFactor = 0.8;
 
-// font sizes in pixels
-export const fontSize = Object.fromEntries(
-  Object.entries(figmaFontSize).map(([fontLabel, size]) => (
-    [fontLabel, Math.ceil(size * figmaScaleFactor)]
-  )),
-);
+/* eslint-disable no-param-reassign */
+export const fontSize = Object.entries(figmaFontSize).map(([fontLabel, size]) => (
+  [fontLabel, Math.ceil(size * figmaScaleFactor)]
+)).reduce((result, [k, v]) => {
+  result[k] = v;
+  return result;
+}, {});
+
 
 // TODO remove
 export const breakpoints = {
