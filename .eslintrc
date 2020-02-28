@@ -6,7 +6,9 @@
     "jsx-a11y/label-has-for": [0, {}],
     "operator-linebreak": [0, {}],
     "react/jsx-filename-extension": [1, {}],
-    "import/prefer-default-export": [1, {}],
+    "import/prefer-default-export": [1],
+    "arrow-parens": [1, "as-needed"],
+    "react/jsx-curly-newline": [0],
   },
   "extends": "airbnb",
   "env": {
