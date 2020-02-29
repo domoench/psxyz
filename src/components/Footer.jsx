@@ -79,7 +79,7 @@ const AnchorPill = ({
       <Anchor
         href={href}
         altText="imagemaker source url"
-        textColor={colors.color}
+        color={colors.color}
       >
         <Pill
           borderRadius={20}
