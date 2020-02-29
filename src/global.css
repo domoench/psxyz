@@ -23,11 +23,11 @@ time, mark, audio, video {
 /* Hack to get 100% height despite gatsby-generated wrapper divs
  * https://dev.to/hzburki/100-height-to-all-divs-gatsby-33nd
  */
-html, body, #___gatsby {
-  height: 100%;
+html, body, #___gatsby, #gatsby-focus-wrapper {
+  height: 100vh;
 }
 div[role="group"][tabindex] {
-  height: 100%;
+  height: 100vh;
 }
 
 @font-face {

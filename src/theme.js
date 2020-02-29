@@ -32,6 +32,7 @@ const figmaFontSize = {
   body: 20, // TODO depricate
   imageGridPill: 16,
 
+  title1: 24,
   body1: 22,
   display2: 30,
 

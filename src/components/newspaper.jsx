@@ -17,12 +17,6 @@ export const Column = styled.div`
   padding: 1.5em;
   color: ${colors.white};
 
-  & h1 {
-    padding-bottom: 1.2em;
-    font-family: ${fonts.serif};
-    font-size: ${fontSize.body * 2}px;
-  }
-
   & h2 {
     padding-top: 1em;
     padding-bottom: 1.2em;
@@ -37,4 +31,10 @@ export const Column = styled.div`
     font-size: ${fontSize.body}px;
     line-height: 1.5;
   }
+`;
+
+export const Title1 = styled.h1`
+  padding-bottom: 1.2em;
+  font-size: ${fontSize.title1}px;
+  font-family: ${fonts.druk};
 `;

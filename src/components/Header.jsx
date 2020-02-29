@@ -240,11 +240,6 @@ const Header = ({ toggleFiltersDrawer }) => {
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={themeColors.green} to="/support/">
-              <span>SUPPORT</span>
-            </StyledNavPill>
-          </li>
-          <li>
             <StyledNavPill
               to="/saved/"
               color={themeColors.black}
