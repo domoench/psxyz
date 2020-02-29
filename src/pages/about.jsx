@@ -92,7 +92,7 @@ const About = () => (
           For collabs, conversation, brand partnerships, talent submissions, etc. e-mail us
           {' '}
           <Anchor
-            href="people@publicservice.com"
+            href="mailto:people@publicservice.com"
             altText="people@publicservice.com"
             underline
           >
