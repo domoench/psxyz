@@ -17,18 +17,10 @@ export const Column = styled.div`
   padding: 1.5em;
   color: ${colors.white};
 
-  & h2 {
-    padding-top: 1em;
-    padding-bottom: 1.2em;
-    text-transform: uppercase;
-    font-size: ${fontSize.body * 1.2}px;
-    font-family: ${fonts.sansSerif};
-  }
-
   & p {
     padding-bottom: 1em;
     font-family: ${fonts.serif};
-    font-size: ${fontSize.body}px;
+    font-size: ${fontSize.body1}px;
     line-height: 1.5;
   }
 `;
