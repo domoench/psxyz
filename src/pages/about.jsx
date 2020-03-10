@@ -50,7 +50,7 @@ const About = () => (
           .
         </p>
         <p>
-          Our first project is a ever-evolving curated directory of U.S.-based POC imagemakers–from directors to makeup artists to casting directors and everyone in between. These are people whose work we find interesting, who help us see in new ways, who excite us, who have limitless potential. Use it as a resource to find POC talent for your next project. Share it. Spread the word. Please note our directory is an ever-growing list so reach out with talent submissions – we’d love to hear from you.
+          Our first project is an ever-evolving curated directory of U.S.-based POC imagemakers–from directors to makeup artists to casting directors and everyone in between. These are people whose work we find interesting, who help us see in new ways, who excite us, who have limitless potential. Use it as a resource to find POC talent for your next project. Share it. Spread the word. Please note our directory is an ever-growing list so reach out with talent submissions – we’d love to hear from you.
         </p>
 
       </Column>
