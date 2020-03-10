@@ -84,8 +84,8 @@ export const gridColumnsForBreakpoint = {
   xs: 2,
   sm: 3,
   md: 4,
-  lg: 5,
-  xl: 6,
+  lg: 4,
+  xl: 4,
 };
 
 export const gridColorForIdx = (i) => {
