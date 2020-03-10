@@ -28,9 +28,9 @@ import { colorsType } from './reusable/types';
 
 const fontScaleForDevice = {
   xs: 0.7,
-  sm: 0.8,
-  md: 0.9,
-  lg: 1.0,
+  sm: 0.75,
+  md: 0.8,
+  lg: 0.9,
   xl: 1.0,
 };
 

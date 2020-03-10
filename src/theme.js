@@ -28,7 +28,7 @@ export const fonts = {
   druk: "'DrukWide', Arial, sans-serif",
 };
 
-const figmaFontSize = {
+export const fontSize = {
   body: 20, // TODO depricate
   imageGridPill: 16,
 
@@ -39,18 +39,6 @@ const figmaFontSize = {
   mWebTitle2: 9,
   mWebBody1: 16,
 };
-
-// Map the font sizes from figma into the web browser pixel sizes.
-const figmaScaleFactor = 0.8;
-
-/* eslint-disable no-param-reassign */
-export const fontSize = Object.entries(figmaFontSize).map(([fontLabel, size]) => (
-  [fontLabel, Math.ceil(size * figmaScaleFactor)]
-)).reduce((result, [k, v]) => {
-  result[k] = v;
-  return result;
-}, {});
-
 
 // TODO remove
 export const breakpoints = {
