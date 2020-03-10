@@ -59,7 +59,7 @@ const Overlay = styled.div`
   justify-content: space-between;
   opacity: 0;
   background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)} 0%, 85%, ${hexToRGBA(props.color, 0.3)}) 100%`};
-  transition: opacity 0.5s ease 0s;
+  transition: opacity 0.4s ease-out 0s;
   color: white;
 `;
 
@@ -303,9 +303,9 @@ const fadeIn = keyframes`
 // Let's try inline styles for the position + dimension attributes
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
-  transition: top 2s ease 0s, left 2s ease 0s, width 2s ease 0s, height 2s ease 0s, border-color 0s ease 0s;
-  animation: ${fadeIn} ease-in 1;
-  animation-duration: 0.5s;
+  transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s, height 0.5s ease 0s, border-color 0s ease 0s;
+  animation: ${fadeIn} ease 1;
+  animation-duration: 0.3s;
 `;
 
 const ImageGridAnimated = ({ imageMakers }) => {
