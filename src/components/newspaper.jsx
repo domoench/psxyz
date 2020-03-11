@@ -11,11 +11,12 @@ export const Wrapper = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   min-height: 100%;
   background: ${props => props.color};
+  padding: 25px 30px;
 `;
 
 export const Column = styled.div`
-  padding: 1.5em;
   color: ${colors.white};
+  padding: 25px 30px;
 
   & p {
     padding-bottom: 18px;
