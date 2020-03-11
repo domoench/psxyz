@@ -27,7 +27,7 @@ const CategoryFilterWrapper = styled.div`
   & h2 {
     font-family: ${fonts.sansSerif};
     font-weight: 400;
-    font-size: ${fontSize.body * 2};
+    font-size: ${fontSize.title1};
     color: ${themeColors.gray};
     padding-bottom: 1em;
   }
@@ -67,7 +67,7 @@ const CatFilter = ({
   return (
     <StyledCatFilter>
       <Pill
-        borderRadius={18}
+        borderRadius={22}
         colors={colors}
         fontSize={fontSize.body * 1.0}
         onMouseEnter={() => setHover(true)}
@@ -196,7 +196,7 @@ const CategoryFiltersDrawer = ({
             return (
               <div key={cat.node.id}>
                 <CatFilter
-                  name={cat.node.name}
+                  name={cat.node.practitionerName}
                   isSelected={isSelected}
                   clickHandler={updateSelected(cat.node.slug)}
                   color={colorForIdx(idx, overlayColors)}
