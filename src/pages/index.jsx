@@ -109,7 +109,6 @@ export const query = graphql`
             id
             name
             slug
-            practitionerName
           }
         }
       }
@@ -120,7 +119,6 @@ export const query = graphql`
           id
           name
           slug
-          practitionerName
         }
       }
     }

@@ -181,7 +181,7 @@ const categorySentence = categories => {
   const n = categories.length;
   const parts = categories.map((c, idx) => {
     let article;
-    const name = c.practitionerName;
+    const { name } = c;
     const startsWithVowel = isVowel(name.charAt(0));
 
     if (idx === 0) {

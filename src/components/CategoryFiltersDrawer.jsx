@@ -196,7 +196,7 @@ const CategoryFiltersDrawer = ({
             return (
               <div key={cat.node.id}>
                 <CatFilter
-                  name={cat.node.practitionerName}
+                  name={cat.node.name}
                   isSelected={isSelected}
                   clickHandler={updateSelected(cat.node.slug)}
                   color={colorForIdx(idx, overlayColors)}
