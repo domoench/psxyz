@@ -21,7 +21,7 @@ export const Column = styled.div`
     padding-bottom: 1em;
     font-family: ${fonts.serif};
     font-size: ${fontSize.body1}px;
-    line-height: 1.5;
+    line-height: 127%;
   }
 `;
 
