@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 
 import {
-  fonts,
+  fontStyles,
   fontSize,
   colors as themeColors,
   colorForIdx,
@@ -25,10 +25,9 @@ const CategoryFilterWrapper = styled.div`
   flex-direction: column;
   padding: 1em;
   & h2 {
-    font-family: ${fonts.sansSerif};
-    font-weight: 400;
-    font-size: ${fontSize.title1};
-    color: ${themeColors.gray};
+    font-family: ${fontStyles.title1.family};
+    font-size: ${fontStyles.title1.size};
+    color: ${themeColors.darkGray};
     padding-bottom: 1em;
   }
 `;

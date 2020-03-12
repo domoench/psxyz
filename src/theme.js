@@ -5,6 +5,7 @@ export const colors = {
   yellow: '#FDD316',
   white: '#FFFFFF',
   gray: '#A0A0A0',
+  darkGray: '#6B6B6B',
   black: '#000000',
 };
 
@@ -28,16 +29,26 @@ export const fonts = {
   druk: "'DrukWide', Arial, sans-serif",
 };
 
+// TODO move these over into fontStyles
 export const fontSize = {
   body: 20, // TODO depricate
   imageGridPill: 16,
 
-  title1: 24,
   body1: 22,
   display2: 30,
 
   mWebTitle2: 9,
   mWebBody1: 16,
+};
+
+// TODO collapse fontSize stuff into here
+// Distinct text styles from figma
+export const fontStyles = {
+  title1: {
+    family: fonts.druk,
+    size: 24,
+    lineHeight: 1.33,
+  },
 };
 
 // TODO remove

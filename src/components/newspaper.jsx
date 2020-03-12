@@ -4,6 +4,7 @@ import {
   colors,
   fonts,
   fontSize,
+  fontStyles,
 } from '../theme';
 
 export const Wrapper = styled.div`
@@ -28,6 +29,6 @@ export const Column = styled.div`
 
 export const Title1 = styled.h1`
   padding-bottom: 18px;
-  font-size: ${fontSize.title1}px;
-  font-family: ${fonts.druk};
+  font-family: ${fontStyles.title1.family};
+  font-size: ${fontStyles.title1.size}px;
 `;

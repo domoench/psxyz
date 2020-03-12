@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
 
-import { colors as themeColors, fontSize, fonts } from '../theme';
+import { colors as themeColors, fontStyles } from '../theme';
 import ImageGridAnimated from '../components/ImageGridAnimated';
 import Layout from '../components/Layout';
 import {
@@ -12,10 +12,12 @@ import {
 
 const NoSavedImageMakers = styled.div`
   padding: 2em;
-  font-family: ${fonts.serif};
-  font-size: ${fontSize.body * 1.2}px;
+  font-family: ${fontStyles.title1.family};
+  font-size: ${fontStyles.title1.size}px;
+  line-height: ${fontStyles.title1.lineHeight};
   & p {
     padding-bottom: 0.25em;
+    text-transform: uppercase;
   }
   & a {
     color: ${themeColors.black};
