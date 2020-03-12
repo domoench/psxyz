@@ -25,8 +25,8 @@ const CategoryFilterWrapper = styled.div`
   flex-direction: column;
   padding: 1em;
   & h2 {
-    font-family: ${fontStyles.title1.family};
-    font-size: ${fontStyles.title1.size};
+    font-family: ${fontStyles.title2.family};
+    font-size: ${fontStyles.title2.size}px;
     color: ${themeColors.darkGray};
     padding-bottom: 1em;
   }

@@ -49,6 +49,11 @@ export const fontStyles = {
     size: 24,
     lineHeight: 1.33,
   },
+  title2: {
+    family: fonts.druk,
+    size: 16,
+    lineHeight: 1.15,
+  },
 };
 
 // TODO remove
