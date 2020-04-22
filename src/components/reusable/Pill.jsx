@@ -11,6 +11,7 @@ const Pill = styled.span`
   font-family: ${fonts.druk};
   width: fit-content;
   height: 1.5em;
+  cursor: pointer;
 
   ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
   ${props => `border: 2px solid ${props.colors.borderColor};`}
