@@ -258,7 +258,7 @@ const Header = ({ toggleFiltersDrawer }) => {
             <StyledFilterTogglePill
               clickHandler={toggleFiltersDrawer}
               dirty={filtersDirty}
-              dirtyIndicatorColor={themeColors.green}
+              dirtyIndicatorColor={themeColors.red}
               defaultColors={{
                 color: themeColors.black,
                 borderColor: themeColors.black,
