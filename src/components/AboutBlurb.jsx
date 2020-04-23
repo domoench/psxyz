@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { fonts, fontSize } from '../theme';
+import { fontStyles } from '../theme';
 
 const Blurb = styled.p`
-  font-family: ${fonts.serif};
+  font-family: ${fontStyles.body1.family};
   padding: 1em;
-  font-size: ${fontSize.body * 1.2}px;
+  font-size: ${fontStyles.body1.size}px;
 `;
 
 const AboutBlurb = () => (

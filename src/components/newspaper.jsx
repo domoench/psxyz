@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 import {
   colors,
-  fonts,
-  fontSize,
   fontStyles,
 } from '../theme';
 
@@ -21,8 +19,8 @@ export const Column = styled.div`
 
   & p {
     padding-bottom: 18px;
-    font-family: ${fonts.serif};
-    font-size: ${fontSize.body1}px;
+    font-family: ${fontStyles.body1.family};
+    font-size: ${fontStyles.body1.size}px;
     line-height: 127%;
   }
 `;

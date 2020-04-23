@@ -11,7 +11,7 @@ import _debounce from 'lodash.debounce';
 
 import {
   colors as themeColors,
-  fontSize as fontSizes,
+  fontStyles,
   colorForIdx,
   gridLineColors,
   gridColumnsForBreakpoint,
@@ -97,11 +97,13 @@ const SavePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  const fontSize = fontSizes.imageGridPill * fontScaleForDevice[deviceSize];
+  const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <Pill
       borderRadius={20}
+      py={4}
+      px={11}
       colors={colors}
       fontSize={fontSize}
       onMouseEnter={() => setHover(true)}
@@ -143,7 +145,7 @@ const AnchorPill = ({
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  const fontSize = fontSizes.imageGridPill * fontScaleForDevice[deviceSize];
+  const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <div
@@ -157,6 +159,8 @@ const AnchorPill = ({
       >
         <Pill
           borderRadius={20}
+          py={4}
+          px={11}
           colors={colors}
           fontSize={fontSize}
         >
@@ -210,7 +214,7 @@ const CategoryText = styled.span`
 `;
 
 const ImageMakerBlurb = ({ imageMaker, deviceSize }) => (
-  <Blurb fontSize={fontSizes.display2 * fontScaleForDevice[deviceSize]}>
+  <Blurb fontSize={fontStyles.display2.size * fontScaleForDevice[deviceSize]}>
     {`${imageMaker.name} is`}
     {categorySentence(imageMaker.categories)}
     .

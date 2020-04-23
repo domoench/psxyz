@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import {
   colors as themeColors,
   minWidthMediaQuery,
-  fonts,
-  fontSize as fontSizes,
+  fontStyles,
 } from '../theme';
 import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
@@ -43,7 +42,7 @@ const NavPillList = styled.ul`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  font-family: ${fonts.sansSerif};
+  font-family: ${fontStyles.title2.family};
   ${props => `color: ${props.color};`}
   & svg path {
     ${props => `fill: ${props.color};`}
@@ -129,9 +128,9 @@ const NavPill = ({
         activeClassName="active"
       >
         <Pill
-          borderRadius={20}
+          borderRadius={26}
           colors={colors}
-          fontSize={fontSizes.body * 0.9}
+          fontSize={fontStyles.title2.size}
         >
           {children}
         </Pill>
@@ -150,12 +149,14 @@ NavPill.propTypes = {
 };
 
 const StyledNavPill = styled(NavPill)`
+  line-height: 1;
   position: relative;
 `;
 
 // Text that disappears on small screens
 const BigScreenText = styled.span`
   padding-left: 0.4em;
+  line-height: 1;
   display: none;
   ${minWidthMediaQuery('sm')} {
     display: initial;
@@ -172,11 +173,11 @@ const FilterTogglePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  const fontSize = fontSizes.body * 0.9;
+  const fontSize = fontStyles.title2.size;
 
   return (
     <Pill
-      borderRadius={20}
+      borderRadius={26}
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -219,7 +220,7 @@ const Header = ({ toggleFiltersDrawer }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(GlobalStateContext);
   const savedDirty = savedImageMakerIds.length > 0;
   const filtersDirty = categoryFilterSlugs.length > 0;
-  const fontSize = fontSizes.body * 0.9;
+  const fontSize = fontStyles.title2.size;
 
   return (
     <StyledHeader>

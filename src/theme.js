@@ -29,21 +29,23 @@ export const fonts = {
   druk: "'DrukWide', Arial, sans-serif",
 };
 
-// TODO move these over into fontStyles
-export const fontSize = {
-  body: 20, // TODO depricate
-  imageGridPill: 16,
-
-  body1: 22,
-  display2: 30,
-
-  mWebTitle2: 9,
-  mWebBody1: 16,
-};
-
-// TODO collapse fontSize stuff into here
 // Distinct text styles from figma
 export const fontStyles = {
+  body1: {
+    family: fonts.serif,
+    size: 22,
+    lineHeight: 1.27,
+  },
+  display2: {
+    family: fonts.serif,
+    size: 30,
+    lineHeight: 1.15,
+  },
+  imageGridPill: {
+    family: fonts.druk,
+    size: 16,
+    lineHeight: 1.0,
+  },
   title1: {
     family: fonts.druk,
     size: 24,
@@ -52,6 +54,11 @@ export const fontStyles = {
   title2: {
     family: fonts.druk,
     size: 16,
+    lineHeight: 1.15,
+  },
+  title3: {
+    family: fonts.druk,
+    size: 12,
     lineHeight: 1.15,
   },
 };

@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 
 import Pill from './reusable/Pill';
 import Anchor from './reusable/Anchor';
-import { colors as themeColors, fonts, fontSize } from '../theme';
+import { colors as themeColors, fontStyles } from '../theme';
 import { colorsType } from './reusable/types';
 
 const FooterPill = styled.div`
@@ -14,7 +14,7 @@ const FooterPill = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  font-family: ${fonts.sansSerif};
+  font-family: ${fontStyles.title2.family};
   ${props => `color: ${props.color};`}
 `;
 
@@ -47,8 +47,10 @@ const LinkPill = ({
     >
       <Pill
         borderRadius={20}
+        py={4}
+        px={11}
         colors={colors}
-        fontSize={fontSize.body * 0.66}
+        fontSize={fontStyles.title3.size}
       >
         {text}
       </Pill>
@@ -83,8 +85,10 @@ const AnchorPill = ({
       >
         <Pill
           borderRadius={20}
+          py={4}
+          px={11}
           colors={colors}
-          fontSize={fontSize.body * 0.66}
+          fontSize={fontStyles.title3.size}
         >
           {children}
         </Pill>

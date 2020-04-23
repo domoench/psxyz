@@ -5,7 +5,6 @@ import Drawer from '@material-ui/core/Drawer';
 
 import {
   fontStyles,
-  fontSize,
   colors as themeColors,
   colorForIdx,
   overlayColors,
@@ -67,8 +66,10 @@ const CatFilter = ({
     <StyledCatFilter>
       <Pill
         borderRadius={22}
+        py={5}
+        px={11}
         colors={colors}
-        fontSize={fontSize.body * 1.0}
+        fontSize={fontStyles.title2.size}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
@@ -110,8 +111,10 @@ const ControlPill = ({
     <StyledControlPill>
       <Pill
         borderRadius={16}
+        py={4}
+        px={11}
         colors={colors}
-        fontSize={fontSize.body * 0.66}
+        fontSize={fontStyles.title3.size}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
