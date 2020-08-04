@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
+import { graphql, Link } from 'gatsby';
 
 import { colors as themeColors, fontStyles } from '../theme';
 import ImageGridAnimated from '../components/ImageGridAnimated';
 import Layout from '../components/Layout';
-import {
-  GlobalStateContext,
-} from '../context/GlobalContextProvider';
+import { GlobalStateContext } from '../context/GlobalContextProvider';
 
 const NoSavedImageMakers = styled.div`
   padding: 2em;
@@ -31,22 +29,17 @@ const Saved = ({ data }) => {
   const state = useContext(GlobalStateContext);
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
   const imageMakers = data.allContentfulCreator.edges;
-  const imageMakersToDisplay = imageMakers.filter(e => savedImageMakerIdSet.has(e.node.id));
+  const imageMakersToDisplay = imageMakers.filter(e =>
+    savedImageMakerIdSet.has(e.node.id)
+  );
 
   return (
-    <Layout
-      setShowFilters={() => {}}
-      showFilters={false}
-    >
+    <Layout setShowFilters={() => {}} showFilters={false}>
       {imageMakersToDisplay.length === 0 && (
         <NoSavedImageMakers>
           <p>You haven&apos;t saved any profiles yet.</p>
           <p>
-            <Link
-              to="/"
-            >
-              Browse the Index →
-            </Link>
+            <Link to="/">Browse the Index →</Link>
           </p>
         </NoSavedImageMakers>
       )}
@@ -63,7 +56,7 @@ export default Saved;
 
 export const query = graphql`
   {
-    allContentfulCreator (sort: {fields: fields___sortId}) {
+    allContentfulCreator(sort: { fields: fields___sortId }) {
       edges {
         node {
           id
