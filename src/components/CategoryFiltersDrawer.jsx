@@ -45,22 +45,19 @@ const StyledCatFilter = styled.div`
   }
 `;
 
-const CatFilter = ({
-  name,
-  isSelected,
-  clickHandler,
-  color,
-}) => {
+const CatFilter = ({ name, isSelected, clickHandler, color }) => {
   const [hover, setHover] = useState(false);
-  const colors = hover ? {
-    color: themeColors.white,
-    borderColor: color,
-    bgColor: color,
-  } : {
-    color: isSelected ? themeColors.white : themeColors.black,
-    borderColor: themeColors.black,
-    bgColor: isSelected ? themeColors.black : themeColors.white,
-  };
+  const colors = hover
+    ? {
+        color: themeColors.white,
+        borderColor: color,
+        bgColor: color,
+      }
+    : {
+        color: isSelected ? themeColors.white : themeColors.black,
+        borderColor: themeColors.black,
+        bgColor: isSelected ? themeColors.black : themeColors.white,
+      };
 
   return (
     <StyledCatFilter>
@@ -134,7 +131,7 @@ ControlPill.propTypes = {
 
 const StyledDrawer = styled(Drawer)`
   & .MuiBackdrop-root {
-    background-color: rgba(0, 0, 0, 0.0);;
+    background-color: rgba(0, 0, 0, 0);
   }
 `;
 
@@ -192,21 +189,19 @@ const CategoryFiltersDrawer = ({
       </ControlPills>
       <CategoryFilterWrapper>
         <h2>CATEGORY</h2>
-        {
-          categories.map((cat, idx) => {
-            const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
-            return (
-              <div key={cat.node.id}>
-                <CatFilter
-                  name={cat.node.name}
-                  isSelected={isSelected}
-                  clickHandler={updateSelected(cat.node.slug)}
-                  color={colorForIdx(idx, overlayColors)}
-                />
-              </div>
-            );
-          })
-        }
+        {categories.map((cat, idx) => {
+          const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
+          return (
+            <div key={cat.node.id}>
+              <CatFilter
+                name={cat.node.name}
+                isSelected={isSelected}
+                clickHandler={updateSelected(cat.node.slug)}
+                color={colorForIdx(idx, overlayColors)}
+              />
+            </div>
+          );
+        })}
       </CategoryFilterWrapper>
     </StyledDrawer>
   );

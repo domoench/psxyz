@@ -9,11 +9,7 @@ export const colors = {
   black: '#000000',
 };
 
-export const overlayColors = [
-  colors.blue,
-  colors.red,
-  colors.green,
-];
+export const overlayColors = [colors.blue, colors.red, colors.green];
 
 export const gridLineColors = [
   colors.yellow,
@@ -81,10 +77,10 @@ export const breakpointsPx = {
 };
 
 // Given a pixel width, find the proper breakpoint name.
-export const deviceSizeForWidth = (width) => {
+export const deviceSizeForWidth = width => {
   const bps = Object.entries(breakpointsPx).sort((a, b) => a[1][0] - b[1][0]);
   let dSize = 'xs';
-  bps.forEach((bp) => {
+  bps.forEach(bp => {
     const [bpName, bpLimits] = bp;
     if (width >= bpLimits[0]) {
       dSize = bpName;
@@ -93,14 +89,15 @@ export const deviceSizeForWidth = (width) => {
   return dSize;
 };
 
-export const mediaQuery = (bp) => {
+export const mediaQuery = bp => {
   if (bp === 'xl') {
     return `@media (min-width: ${breakpoints[bp][0]})`;
   }
   return `@media (min-width: ${breakpoints[bp][0]}) and (max-width: ${breakpoints[bp][1]})`;
 };
 
-export const minWidthMediaQuery = bp => `@media (min-width: ${breakpoints[bp][0]})`;
+export const minWidthMediaQuery = bp =>
+  `@media (min-width: ${breakpoints[bp][0]})`;
 
 // Map from device size to number of grid columns
 export const gridColumnsForBreakpoint = {
@@ -111,8 +108,14 @@ export const gridColumnsForBreakpoint = {
   xl: 4,
 };
 
-export const gridColorForIdx = (i) => {
-  const c = [colors.yellow, colors.blue, colors.red, colors.white, colors.green];
+export const gridColorForIdx = i => {
+  const c = [
+    colors.yellow,
+    colors.blue,
+    colors.red,
+    colors.white,
+    colors.green,
+  ];
   return c[i % c.length];
 };
 

@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
-import {
-  colors,
-  fontStyles,
-} from '../theme';
+import { colors, fontStyles } from '../theme';
 
 export const Wrapper = styled.div`
   display: grid;

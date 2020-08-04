@@ -13,14 +13,7 @@ const StyledAnchor = styled.a`
 `;
 
 // TODO I think you don't need this wrapper. Just use STyledAnchor as Anchor
-const Anchor = ({
-  href,
-  children,
-  altText,
-  color,
-  hoverColor,
-  underline,
-}) => (
+const Anchor = ({ href, children, altText, color, hoverColor, underline }) => (
   <StyledAnchor
     href={href}
     alt={altText}

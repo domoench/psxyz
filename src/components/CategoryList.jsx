@@ -17,13 +17,11 @@ const StyledCategoryList = styled.ul`
 
 const CategoryList = ({ categories }) => (
   <StyledCategoryList>
-    {
-      categories.map(ctg => (
-        <li key={ctg.id}>
-          <Link to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
-        </li>
-      ))
-    }
+    {categories.map(ctg => (
+      <li key={ctg.id}>
+        <Link to={`/?cat=${ctg.slug}`}>{ctg.name}</Link>
+      </li>
+    ))}
   </StyledCategoryList>
 );
 

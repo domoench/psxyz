@@ -9,7 +9,10 @@ import ImageGridAnimated from '../components/ImageGridAnimated';
 import CategoryFiltersDrawer from '../components/CategoryFiltersDrawer';
 import AboutBlurb from '../components/AboutBlurb';
 import { filterByCategory } from '../utils';
-import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
+import {
+  GlobalDispatchContext,
+  GlobalStateContext,
+} from '../context/GlobalContextProvider';
 
 const Index = ({ data, location }) => {
   console.log(location);
@@ -29,15 +32,14 @@ const Index = ({ data, location }) => {
   });
   */
 
-  const updateSelected = categorySlug => (
-    () => {
-      dispatch({
-        type: 'ADD_OR_DELETE_CATEGORY_FILTER',
-        value: categorySlug,
-      });
+  const updateSelected = categorySlug => () => {
+    dispatch({
+      type: 'ADD_OR_DELETE_CATEGORY_FILTER',
+      value: categorySlug,
+    });
 
-      // Update URL params to reflect filters
-      /* TODO
+    // Update URL params to reflect filters
+    /* TODO
       const newSelectedCatsSet = new Set(dispReturn.categoryFilterSlugs);
       const params = new URLSearchParams();
       newSelectedCatsSet.forEach(cat => params.append('cat', cat));
@@ -48,18 +50,24 @@ const Index = ({ data, location }) => {
         state: {},
       });
       */
-    }
-  );
+  };
 
-  const toggleFiltersDrawer = (event) => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  const toggleFiltersDrawer = event => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
     setShowFilters(!showFilters);
   };
 
-  const imageMakersToDisplay = filterByCategory(categoryFilterSlugs, imageMakers);
+  const imageMakersToDisplay = filterByCategory(
+    categoryFilterSlugs,
+    imageMakers
+  );
   return (
     <Layout toggleFiltersDrawer={toggleFiltersDrawer} showFilters={showFilters}>
       <>
@@ -86,7 +94,7 @@ export default Index;
 
 export const query = graphql`
   {
-    allContentfulCreator (sort: {fields: fields___sortId}) {
+    allContentfulCreator(sort: { fields: fields___sortId }) {
       edges {
         node {
           id
@@ -113,7 +121,7 @@ export const query = graphql`
         }
       }
     }
-    allContentfulCategory(sort: {fields: name}) {
+    allContentfulCategory(sort: { fields: name }) {
       edges {
         node {
           id

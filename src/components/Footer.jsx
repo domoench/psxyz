@@ -18,21 +18,20 @@ const StyledLink = styled(Link)`
   ${props => `color: ${props.color};`}
 `;
 
-const LinkPill = ({
-  to,
-  text,
-}) => {
+const LinkPill = ({ to, text }) => {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
-  const colors = hover ? {
-    color: themeColors.white,
-    borderColor: themeColors.black,
-    bgColor: themeColors.black,
-  } : {
-    color: active ? themeColors.white : themeColors.black,
-    borderColor: themeColors.gray,
-    bgColor: active ? themeColors.black : themeColors.white,
-  };
+  const colors = hover
+    ? {
+        color: themeColors.white,
+        borderColor: themeColors.black,
+        bgColor: themeColors.black,
+      }
+    : {
+        color: active ? themeColors.white : themeColors.black,
+        borderColor: themeColors.gray,
+        bgColor: active ? themeColors.black : themeColors.white,
+      };
 
   return (
     <StyledLink
@@ -63,12 +62,7 @@ LinkPill.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-const AnchorPill = ({
-  href,
-  defaultColors,
-  hoverColors,
-  children,
-}) => {
+const AnchorPill = ({ href, defaultColors, hoverColors, children }) => {
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
@@ -78,11 +72,7 @@ const AnchorPill = ({
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Anchor
-        href={href}
-        altText="imagemaker source url"
-        color={colors.color}
-      >
+      <Anchor href={href} altText="imagemaker source url" color={colors.color}>
         <Pill
           borderRadius={20}
           py={4}
@@ -126,17 +116,11 @@ export default () => (
   <StyledFooter>
     <Pills>
       <FooterPill>
-        <LinkPill
-          to="/contact/"
-          text="CONTACT"
-        />
+        <LinkPill to="/contact/" text="CONTACT" />
       </FooterPill>
 
       <FooterPill>
-        <LinkPill
-          to="/terms/"
-          text="PRIVACY & TERMS"
-        />
+        <LinkPill to="/terms/" text="PRIVACY & TERMS" />
       </FooterPill>
 
       <FooterPill>
@@ -157,8 +141,6 @@ export default () => (
         </AnchorPill>
       </FooterPill>
     </Pills>
-    <Copyright>
-      © 2019 Public Service
-    </Copyright>
+    <Copyright>© 2019 Public Service</Copyright>
   </StyledFooter>
 );

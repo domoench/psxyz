@@ -16,9 +16,6 @@ module.exports = {
       },
     },
 
-    // Code style linter
-    'gatsby-plugin-eslint',
-
     // Image manipulation: https://www.gatsbyjs.org/packages/gatsby-image/
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',

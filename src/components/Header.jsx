@@ -95,15 +95,17 @@ const NavPill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const [active, setActive] = useState(false);
-  const colors = hover ? {
-    color: themeColors.white,
-    borderColor: color,
-    bgColor: color,
-  } : {
-    color: active ? themeColors.white : themeColors.black,
-    borderColor: color,
-    bgColor: active ? color : themeColors.white,
-  };
+  const colors = hover
+    ? {
+        color: themeColors.white,
+        borderColor: color,
+        bgColor: color,
+      }
+    : {
+        color: active ? themeColors.white : themeColors.black,
+        borderColor: color,
+        bgColor: active ? color : themeColors.white,
+      };
 
   return (
     <div
@@ -194,9 +196,7 @@ const FilterTogglePill = ({
         />
       )}
       <FiltersSVGIcon color={colors.color} width={fontSize} />
-      <BigScreenText>
-        FILTER
-      </BigScreenText>
+      <BigScreenText>FILTER</BigScreenText>
     </Pill>
   );
 };
@@ -217,14 +217,15 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
 const Header = ({ toggleFiltersDrawer }) => {
-  const { savedImageMakerIds, categoryFilterSlugs } = useContext(GlobalStateContext);
+  const { savedImageMakerIds, categoryFilterSlugs } = useContext(
+    GlobalStateContext
+  );
   const savedDirty = savedImageMakerIds.length > 0;
   const filtersDirty = categoryFilterSlugs.length > 0;
   const fontSize = fontStyles.title2.size;
 
   return (
     <StyledHeader>
-
       <Link to="/">
         <LogoImg src={logo} alt="Logo" />
       </Link>
@@ -249,9 +250,7 @@ const Header = ({ toggleFiltersDrawer }) => {
             >
               <>
                 <SavedSVGIcon color={themeColors.black} width={fontSize} />
-                <BigScreenText>
-                  SAVED
-                </BigScreenText>
+                <BigScreenText>SAVED</BigScreenText>
               </>
             </StyledNavPill>
           </li>

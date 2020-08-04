@@ -12,9 +12,10 @@ const Blurb = styled.p`
 const AboutBlurb = () => (
   <Blurb>
     Public Service is a platform dedicated to achieving equity in imagemaking.
-    We honor people of color as creators of culture, not just consumers.
-    We believe we must diversify the creative talent working behind the scenes of every
-    production to reimagine the gaze, reframe the narrative, and recreate the codes of visual culture.
+    We honor people of color as creators of culture, not just consumers. We
+    believe we must diversify the creative talent working behind the scenes of
+    every production to reimagine the gaze, reframe the narrative, and recreate
+    the codes of visual culture.
   </Blurb>
 );
 

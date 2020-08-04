@@ -23,9 +23,7 @@ const FooterWrapper = styled.div`
 const Layout = ({ children, toggleFiltersDrawer }) => (
   <Container>
     <Header toggleFiltersDrawer={toggleFiltersDrawer} />
-    <Content>
-      {children}
-    </Content>
+    <Content>{children}</Content>
     <FooterWrapper>
       <Footer />
     </FooterWrapper>

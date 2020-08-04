@@ -7,15 +7,12 @@ import Anchor from '../components/reusable/Anchor';
 
 const Contact = () => (
   // TODO: What if a user clicks show filters on this page? Should we hide the filters button?
-  <Layout
-    toggleFiltersDrawer={() => {}}
-    showFilters={false}
-  >
+  <Layout toggleFiltersDrawer={() => {}} showFilters={false}>
     <Wrapper color={colors.blue}>
       <Column>
         <p>
-          To keep in-touch with all things Public Service share your e-mail with us
-          (we won’t ever sell your data or do other evil shit).
+          To keep in-touch with all things Public Service share your e-mail with
+          us (we won’t ever sell your data or do other evil shit).
         </p>
         <p>
           <Anchor

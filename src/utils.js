@@ -8,7 +8,9 @@ export const filterByCategory = (selectedCats, imageMakers) => {
   const filtered = [];
   for (let i = 0; i < imageMakers.length; i += 1) {
     // If the current imageMaker has all the queried categories, append it to result list
-    const imageMakerSlugs = new Set(imageMakers[i].node.categories.map(c => c.slug));
+    const imageMakerSlugs = new Set(
+      imageMakers[i].node.categories.map(c => c.slug)
+    );
     if (selectedCats.every(slug => imageMakerSlugs.has(slug))) {
       filtered.push(imageMakers[i]);
     }

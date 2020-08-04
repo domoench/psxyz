@@ -50,11 +50,11 @@ class CategorySelect extends React.Component {
           onChange={this.handleChange}
           input={<Input id="categories" name="categories" />}
         >
-          {
-            data.allContentfulCategory.edges.map(({ node }) => (
-              <MenuItem key={node.id} value={node.name}>{node.name}</MenuItem>
-            ))
-          }
+          {data.allContentfulCategory.edges.map(({ node }) => (
+            <MenuItem key={node.id} value={node.name}>
+              {node.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     );

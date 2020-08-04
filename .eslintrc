@@ -9,6 +9,7 @@
     "import/prefer-default-export": [1],
     "arrow-parens": [1, "as-needed"],
     "react/jsx-curly-newline": [0],
+    "react/jsx-one-expression-per-line": [0],
     "prettier/prettier": "error"
   },
   "extends": [

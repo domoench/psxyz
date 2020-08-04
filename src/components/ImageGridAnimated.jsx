@@ -19,7 +19,10 @@ import {
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
-import { GlobalDispatchContext, GlobalStateContext } from '../context/GlobalContextProvider';
+import {
+  GlobalDispatchContext,
+  GlobalStateContext,
+} from '../context/GlobalContextProvider';
 import SavedSVGIcon from './svg/saved';
 import SourceSVGIcon from './svg/source';
 import Pill from './reusable/Pill';
@@ -44,7 +47,7 @@ const Grid = styled.div`
 const RelativeWrapper = styled.div`
   position: relative;
   &:hover .image-overlay {
-    opacity: 1.0
+    opacity: 1;
   }
 `;
 
@@ -58,7 +61,11 @@ const Overlay = styled.div`
   flex-direction: column;
   justify-content: space-between;
   opacity: 0;
-  background: ${props => `linear-gradient(${hexToRGBA(props.color, 1.0)} 0%, 85%, ${hexToRGBA(props.color, 0.3)}) 100%`};
+  background: ${props =>
+    `linear-gradient(${hexToRGBA(props.color, 1.0)} 0%, 85%, ${hexToRGBA(
+      props.color,
+      0.3
+    )}) 100%`};
   transition: opacity 0.4s ease-out 0s;
   color: white;
 `;
@@ -97,7 +104,8 @@ const SavePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
+  const fontSize =
+    fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <Pill
@@ -110,20 +118,17 @@ const SavePill = ({
       onMouseLeave={() => setHover(false)}
       onClick={clickHandler}
     >
-      {isSaved ?
-        (
-          <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} width={fontSize} />
-            REMOVE
-          </OverlayButtonContent>
-        ) :
-        (
-          <OverlayButtonContent>
-            <SavedSVGIcon color={colors.color} width={fontSize} />
-            SAVE
-          </OverlayButtonContent>
-        )
-      }
+      {isSaved ? (
+        <OverlayButtonContent>
+          <SavedSVGIcon color={colors.color} width={fontSize} />
+          REMOVE
+        </OverlayButtonContent>
+      ) : (
+        <OverlayButtonContent>
+          <SavedSVGIcon color={colors.color} width={fontSize} />
+          SAVE
+        </OverlayButtonContent>
+      )}
     </Pill>
   );
 };
@@ -136,27 +141,19 @@ SavePill.propTypes = {
   deviceSize: PropTypes.string,
 };
 
-const AnchorPill = ({
-  href,
-  defaultColors,
-  hoverColors,
-  deviceSize,
-}) => {
+const AnchorPill = ({ href, defaultColors, hoverColors, deviceSize }) => {
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
+  const fontSize =
+    fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <Anchor
-        href={href}
-        altText="imagemaker source url"
-        color={colors.color}
-      >
+      <Anchor href={href} altText="imagemaker source url" color={colors.color}>
         <Pill
           borderRadius={20}
           py={4}
@@ -216,8 +213,7 @@ const CategoryText = styled.span`
 const ImageMakerBlurb = ({ imageMaker, deviceSize }) => (
   <Blurb fontSize={fontStyles.display2.size * fontScaleForDevice[deviceSize]}>
     {`${imageMaker.name} is`}
-    {categorySentence(imageMaker.categories)}
-    .
+    {categorySentence(imageMaker.categories)}.
   </Blurb>
 );
 
@@ -226,13 +222,7 @@ ImageMakerBlurb.propTypes = {
   deviceSize: PropTypes.string.isRequired,
 };
 
-const ImageCell = ({
-  className,
-  imageMaker,
-  idx,
-  deviceSize,
-  style,
-}) => {
+const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
@@ -242,7 +232,10 @@ const ImageCell = ({
     <div className={className} style={style}>
       <RelativeWrapper>
         <Img fluid={imageMaker.mainImage.fluid} />
-        <Overlay className="image-overlay" color={colorForIdx(idx, overlayColors)}>
+        <Overlay
+          className="image-overlay"
+          color={colorForIdx(idx, overlayColors)}
+        >
           <ImageMakerBlurb imageMaker={imageMaker} deviceSize={deviceSize} />
           <OverlayButtons>
             <OverlayButton>
@@ -277,10 +270,14 @@ const ImageCell = ({
                   borderColor: themeColors.black,
                   bgColor: themeColors.black,
                 }}
-                clickHandler={() => dispatch({
-                  type: isSaved ? 'DELETE_SAVED_IMAGEMAKER' : 'ADD_SAVED_IMAGEMAKER',
-                  value: imageMaker.id,
-                })}
+                clickHandler={() =>
+                  dispatch({
+                    type: isSaved
+                      ? 'DELETE_SAVED_IMAGEMAKER'
+                      : 'ADD_SAVED_IMAGEMAKER',
+                    value: imageMaker.id,
+                  })
+                }
               />
             </OverlayButton>
           </OverlayButtons>
@@ -307,7 +304,8 @@ const fadeIn = keyframes`
 // Let's try inline styles for the position + dimension attributes
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
-  transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s, height 0.5s ease 0s, border-color 0s ease 0s;
+  transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s,
+    height 0.5s ease 0s, border-color 0s ease 0s;
   animation: ${fadeIn} ease 1;
   animation-duration: 0.3s;
 `;
@@ -334,11 +332,7 @@ const ImageGridAnimated = ({ imageMakers }) => {
   // If we haven't calculated width yet (first load) render an empty grid on the
   // first paint.
   if (!width) {
-    return (
-      <Grid
-        ref={gridRef}
-      />
-    );
+    return <Grid ref={gridRef} />;
   }
 
   const deviceSize = deviceSizeForWidth(width);
@@ -347,36 +341,33 @@ const ImageGridAnimated = ({ imageMakers }) => {
   const numRows = Math.ceil(imageMakers.length / numCols);
   const height = numRows * cellWidth;
   return (
-    <Grid
-      ref={gridRef}
-      numImageMakers={imageMakers.length}
-      height={height}
-    >
-      {
-        imageMakers.map(({ node }, i) => {
-          const gridCol = i % numCols;
-          const gridRow = Math.floor(i / numCols);
-          return (
-            <PositionedImageCell
-              imageMaker={node}
-              key={node.id}
-              idx={i}
-              bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
-              deviceSize={deviceSize}
-              // Doing inline style instead of styled components here because this was generating
-              // so many css classes when resizing and noticably hurting performance
-              style={{
-                top: gridRow * cellWidth,
-                left: gridCol * cellWidth,
-                width: cellWidth - 2,
-                height: cellWidth - 2,
-                borderRight: `2px solid ${colorForIdx(gridCol, gridLineColors)}`,
-                boxShadow: `${colorForIdx(gridRow, gridLineColors)} 0px 2px 0px 0px`,
-              }}
-            />
-          );
-        })
-      }
+    <Grid ref={gridRef} numImageMakers={imageMakers.length} height={height}>
+      {imageMakers.map(({ node }, i) => {
+        const gridCol = i % numCols;
+        const gridRow = Math.floor(i / numCols);
+        return (
+          <PositionedImageCell
+            imageMaker={node}
+            key={node.id}
+            idx={i}
+            bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
+            deviceSize={deviceSize}
+            // Doing inline style instead of styled components here because this was generating
+            // so many css classes when resizing and noticably hurting performance
+            style={{
+              top: gridRow * cellWidth,
+              left: gridCol * cellWidth,
+              width: cellWidth - 2,
+              height: cellWidth - 2,
+              borderRight: `2px solid ${colorForIdx(gridCol, gridLineColors)}`,
+              boxShadow: `${colorForIdx(
+                gridRow,
+                gridLineColors
+              )} 0px 2px 0px 0px`,
+            }}
+          />
+        );
+      })}
     </Grid>
   );
 };

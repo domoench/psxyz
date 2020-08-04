@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 export const GlobalStateContext = React.createContext();
 export const GlobalDispatchContext = React.createContext();
 
-const localStorageGet = key => (
-  typeof window === 'undefined' ? null : localStorage.getItem(key)
-);
+const localStorageGet = key =>
+  typeof window === 'undefined' ? null : localStorage.getItem(key);
 
 const localStorageSet = (k, v) => {
   if (typeof window !== 'undefined') {
@@ -22,8 +21,10 @@ const initialState = {
   categoryFilterSlugs: [],
 };
 
-const persistStateToLocalStorage = (state) => {
-  Object.entries(state).forEach(([k, v]) => localStorageSet(k, JSON.stringify(v)));
+const persistStateToLocalStorage = state => {
+  Object.entries(state).forEach(([k, v]) =>
+    localStorageSet(k, JSON.stringify(v))
+  );
   return state;
 };
 
