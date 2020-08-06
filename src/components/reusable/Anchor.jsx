@@ -1,16 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { colors } from '../../theme';
-
-const StyledAnchor = styled.a`
-  text-decoration: ${({ underline }) => (underline ? 'underline' : 'none')};
-  color: ${({ color }) => color || colors.white};
-  &:hover {
-    color: ${({ hoverColor }) => hoverColor || colors.red};
-  }
-`;
+import { StyledAnchor } from './styled';
 
 // TODO I think you don't need this wrapper. Just use STyledAnchor as Anchor
 const Anchor = ({ href, children, altText, color, hoverColor, underline }) => (

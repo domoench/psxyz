@@ -8,7 +8,12 @@ module.exports = {
   },
   plugins: [
     // Create markdown pages (privacy terms)
-    `gatsby-transformer-remark`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-autolink-headers`],
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

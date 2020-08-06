@@ -1,4 +1,4 @@
-// const path = require(`path`);
+// const path = require(`path`); TODO need this?
 
 // Create the privacy policy page from markdown
 exports.createPages = async ({ actions, graphql, reporter }) => {

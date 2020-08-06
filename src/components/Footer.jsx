@@ -120,7 +120,7 @@ export default () => (
       </FooterPill>
 
       <FooterPill>
-        <LinkPill to="/terms/" text="PRIVACY & TERMS" />
+        <LinkPill to="/privacy/" text="PRIVACY & TERMS" />
       </FooterPill>
 
       <FooterPill>
