@@ -7,6 +7,21 @@ module.exports = {
     title: '[PS]xyz',
   },
   plugins: [
+    // Create markdown pages (privacy terms)
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-autolink-headers`],
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `markdown-pages`,
+        path: `${__dirname}/src/markdown-pages`,
+      },
+    },
+
     // Pulling data from contentful at build time
     {
       resolve: 'gatsby-source-contentful',
