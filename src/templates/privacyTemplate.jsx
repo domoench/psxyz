@@ -13,20 +13,31 @@ import { colors, fontStyles } from '../theme';
 const Privacy = styled.div`
   padding: 25px 30px;
   color: ${colors.white};
+  font-family: ${fontStyles.body1.family};
+  font-size: ${fontStyles.body1.size}px;
 
   h2 {
     padding-bottom: 12px;
-    font-family: ${fontStyles.title2.family};
     font-size: ${fontStyles.title2.size}px;
+    font-family: ${fontStyles.title2.family};
   }
 
   p {
     padding-bottom: 18px;
+    padding-left: 18px;
+
+    em {
+      font-style: italic;
+    }
   }
 
-  ol {
-    padding-bottom: 18px;
-    padding-left: 30px;
+  ol,
+  ul {
+    padding-bottom: 22px;
+    padding-left: 38px;
+    li {
+      padding-bottom: 12px;
+    }
   }
 
   a {
