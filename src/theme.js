@@ -120,3 +120,8 @@ export const gridColorForIdx = i => {
 };
 
 export const colorForIdx = (i, colorArr) => colorArr[i % colorArr.length];
+
+export const hoverStyles = {
+  transition: '0.35s',
+  cursor: 'pointer',
+};

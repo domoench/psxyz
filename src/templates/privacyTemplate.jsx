@@ -6,8 +6,6 @@ import Layout from '../components/Layout';
 import { Wrapper, Column, Title1 } from '../components/newspaper';
 import { colors, fontStyles } from '../theme';
 
-// import { Container, Content } from '../components/reusable/styled';
-
 // Put all styling in a giant glob, because I don't have access to the internals
 // of the component here (it comes from markdown).
 const Privacy = styled.div`

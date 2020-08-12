@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { fonts } from '../../theme';
+import { fonts, hoverStyles } from '../../theme';
 
 const Pill = styled.span`
   display: flex;
@@ -9,6 +9,7 @@ const Pill = styled.span`
   font-weight: 500;
   font-family: ${fonts.druk};
   width: fit-content;
+  transition: ${hoverStyles.transition};
 
   ${props => `padding: ${props.py}px ${props.px}px;`}
   ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
@@ -22,7 +23,7 @@ const Pill = styled.span`
 Pill.defaultProps = {
   py: 10,
   px: 16,
-  cursor: 'pointer',
+  cursor: hoverStyles.cursor,
 };
 
 export default Pill;
