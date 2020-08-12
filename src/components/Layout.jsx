@@ -20,9 +20,12 @@ const FooterWrapper = styled.div`
   flex-shrink: 0;
 `;
 
-const Layout = ({ children, toggleFiltersDrawer }) => (
+const Layout = ({ children, toggleFiltersDrawer, activeNavFilter }) => (
   <Container>
-    <Header toggleFiltersDrawer={toggleFiltersDrawer} />
+    <Header
+      toggleFiltersDrawer={toggleFiltersDrawer}
+      activeNavFilter={activeNavFilter}
+    />
     <Content>{children}</Content>
     <FooterWrapper>
       <Footer />
@@ -33,6 +36,7 @@ const Layout = ({ children, toggleFiltersDrawer }) => (
 Layout.propTypes = {
   children: PropTypes.element,
   toggleFiltersDrawer: PropTypes.func,
+  activeNavFilter: PropTypes.bool,
 };
 
 export default Layout;

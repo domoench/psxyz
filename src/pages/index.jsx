@@ -69,7 +69,7 @@ const Index = ({ data, location }) => {
     imageMakers
   );
   return (
-    <Layout toggleFiltersDrawer={toggleFiltersDrawer} showFilters={showFilters}>
+    <Layout toggleFiltersDrawer={toggleFiltersDrawer} activeNavFilter>
       <>
         <CategoryFiltersDrawer
           categories={categories}

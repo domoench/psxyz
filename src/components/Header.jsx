@@ -172,9 +172,23 @@ const FilterTogglePill = ({
   className,
   defaultColors,
   hoverColors,
+  active,
 }) => {
   const [hover, setHover] = useState(false);
-  const colors = hover ? hoverColors : defaultColors;
+
+  let colors;
+  if (!active) {
+    colors = {
+      color: themeColors.gray,
+      borderColor: themeColors.gray,
+      bgColor: themeColors.white,
+    };
+  } else if (hover) {
+    colors = hoverColors;
+  } else {
+    colors = defaultColors;
+  }
+
   const fontSize = fontStyles.title2.size;
 
   return (
@@ -183,13 +197,14 @@ const FilterTogglePill = ({
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={clickHandler}
+      onClick={active ? clickHandler : () => {}}
       className={className}
       fontSize={fontSize}
+      cursor={active ? 'pointer' : 'not-allowed'}
     >
       {dirty && (
         <StyledDirtyIndicator
-          color={dirtyIndicatorColor}
+          color={active ? dirtyIndicatorColor : themeColors.gray}
           radius={5}
           top={-7}
           right={-3}
@@ -208,6 +223,7 @@ FilterTogglePill.propTypes = {
   defaultColors: colorsType.isRequired,
   hoverColors: colorsType.isRequired,
   className: PropTypes.string,
+  active: PropTypes.bool,
 };
 
 const StyledFilterTogglePill = styled(FilterTogglePill)`
@@ -216,7 +232,7 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
-const Header = ({ toggleFiltersDrawer }) => {
+const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
   );
@@ -269,6 +285,7 @@ const Header = ({ toggleFiltersDrawer }) => {
                 borderColor: themeColors.green,
                 bgColor: themeColors.green,
               }}
+              active={activeNavFilter}
             />
           </li>
         </NavPillList>

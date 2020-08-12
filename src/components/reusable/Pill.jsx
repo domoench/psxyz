@@ -9,7 +9,6 @@ const Pill = styled.span`
   font-weight: 500;
   font-family: ${fonts.druk};
   width: fit-content;
-  cursor: pointer;
 
   ${props => `padding: ${props.py}px ${props.px}px;`}
   ${props => `border-radius: ${props.borderRadius}px/${props.borderRadius}px`};
@@ -17,11 +16,13 @@ const Pill = styled.span`
   ${props => `background: ${props.colors.bgColor};`}
   ${props => `color: ${props.colors.color};`}
   ${props => `font-size: ${props.fontSize}px`};
+  ${props => `cursor: ${props.cursor};`}
 `;
 
 Pill.defaultProps = {
   py: 10,
   px: 16,
+  cursor: 'pointer',
 };
 
 export default Pill;
