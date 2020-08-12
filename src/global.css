@@ -35,3 +35,9 @@ div[role="group"][tabindex] {
   src: url('./fonts/DrukWide-Medium.otf') format('opentype');
   font-display: swap;
 }
+
+@font-face {
+  font-family: SuisseWorksRegular;
+  src: url('./fonts/SuisseWorks-Regular.otf') format('opentype');
+  font-display: swap;
+}
