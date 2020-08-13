@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Layout from '../components/Layout';
 import { Wrapper, Column, Title1 } from '../components/newspaper';
-import { colors, fontStyles } from '../theme';
+import { colors, fontStyles, hoverStyles } from '../theme';
 
 // Put all styling in a giant glob, because I don't have access to the internals
 // of the component here (it comes from markdown).
@@ -41,8 +41,10 @@ const Privacy = styled.div`
   a {
     text-decoration: underline;
     color: ${colors.white};
+    transition: ${hoverStyles.transition};
     &:hover {
       color: ${colors.red};
+      cursor: ${hoverStyles.cursor};
     }
   }
 `;
