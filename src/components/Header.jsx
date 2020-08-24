@@ -132,6 +132,8 @@ const NavPill = ({
         <Pill
           borderRadius={26}
           colors={colors}
+          py={4}
+          px={10}
           fontSize={fontStyles.title2.size}
         >
           {children}
@@ -194,6 +196,8 @@ const FilterTogglePill = ({
   return (
     <Pill
       borderRadius={26}
+      py={4}
+      px={10}
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -260,7 +264,7 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
           <li>
             <StyledNavPill
               to="/saved/"
-              color={themeColors.black}
+              color={themeColors.gray}
               dirty={savedDirty}
               dirtyIndicatorColor={themeColors.red}
             >
@@ -277,7 +281,7 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
               dirtyIndicatorColor={themeColors.red}
               defaultColors={{
                 color: themeColors.black,
-                borderColor: themeColors.black,
+                borderColor: themeColors.gray,
                 bgColor: themeColors.white,
               }}
               hoverColors={{
@@ -296,6 +300,7 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
 
 Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
+  activeNavFilter: PropTypes.bool,
 };
 
 export default Header;
