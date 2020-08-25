@@ -18,9 +18,9 @@ const StyledLink = styled(Link)`
   ${props => `color: ${props.color};`}
 `;
 
-const LinkPill = ({ to, text }) => {
+const LinkPill = ({ to, text, location }) => {
   const [hover, setHover] = useState(false);
-  const [active, setActive] = useState(false);
+  const active = location.pathname === to;
   const colors = hover
     ? {
         color: themeColors.white,
@@ -37,9 +37,6 @@ const LinkPill = ({ to, text }) => {
     <StyledLink
       color={colors.color}
       to={to}
-      getProps={({ isCurrent }) => {
-        setActive(isCurrent);
-      }}
       activeClassName="active"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -60,6 +57,7 @@ const LinkPill = ({ to, text }) => {
 LinkPill.propTypes = {
   to: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const AnchorPill = ({ href, defaultColors, hoverColors, children }) => {
@@ -112,15 +110,15 @@ const Copyright = styled.span`
   padding: 1em;
 `;
 
-export default () => (
+const Footer = ({ location }) => (
   <StyledFooter>
     <Pills>
       <FooterPill>
-        <LinkPill to="/contact/" text="CONTACT" />
+        <LinkPill to="/contact/" text="CONTACT" location={location} />
       </FooterPill>
 
       <FooterPill>
-        <LinkPill to="/privacy/" text="PRIVACY & TERMS" />
+        <LinkPill to="/privacy/" text="PRIVACY & TERMS" location={location} />
       </FooterPill>
 
       <FooterPill>
@@ -144,3 +142,9 @@ export default () => (
     <Copyright>© 2019 Public Service</Copyright>
   </StyledFooter>
 );
+
+Footer.propTypes = {
+  location: PropTypes.object.isRequired,
+};
+
+export default Footer;

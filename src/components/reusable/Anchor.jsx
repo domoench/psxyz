@@ -21,7 +21,7 @@ const Anchor = ({ href, children, altText, color, hoverColor, underline }) => (
 Anchor.propTypes = {
   children: PropTypes.any,
   href: PropTypes.string.isRequired,
-  altText: PropTypes.string.isRequired,
+  altText: PropTypes.string,
   color: PropTypes.string,
   hoverColor: PropTypes.string,
   underline: PropTypes.bool,

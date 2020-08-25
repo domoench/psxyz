@@ -15,7 +15,6 @@ import {
 } from '../context/GlobalContextProvider';
 
 const Index = ({ data, location }) => {
-  console.log(location);
   const imageMakers = data.allContentfulCreator.edges;
   const categories = data.allContentfulCategory.edges;
   const [showFilters, setShowFilters] = useState(false);
@@ -69,18 +68,24 @@ const Index = ({ data, location }) => {
     imageMakers
   );
   return (
-    <Layout toggleFiltersDrawer={toggleFiltersDrawer} activeNavFilter>
-      <>
-        <CategoryFiltersDrawer
-          categories={categories}
-          categoryFilterSlugs={categoryFilterSlugs}
-          updateSelected={updateSelected}
-          showFilters={showFilters}
-          toggleFiltersDrawer={toggleFiltersDrawer}
-        />
-        <AboutBlurb />
-        <ImageGridAnimated imageMakers={imageMakersToDisplay} />
-      </>
+    <Layout
+      toggleFiltersDrawer={toggleFiltersDrawer}
+      location={location}
+      activeNavFilter
+    >
+      {width => (
+        <>
+          <CategoryFiltersDrawer
+            categories={categories}
+            categoryFilterSlugs={categoryFilterSlugs}
+            updateSelected={updateSelected}
+            showFilters={showFilters}
+            toggleFiltersDrawer={toggleFiltersDrawer}
+          />
+          <AboutBlurb />
+          <ImageGridAnimated imageMakers={imageMakersToDisplay} width={width} />
+        </>
+      )}
     </Layout>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useState, useLayoutEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Img from 'gatsby-image';
 import styled, { keyframes } from 'styled-components';
-import _debounce from 'lodash.debounce';
 
 /* TODO
  * - Implement FLIP Animation?
@@ -37,6 +36,7 @@ const fontScaleForDevice = {
   xl: 1.0,
 };
 
+// TODO remove?
 const Grid = styled.div`
   width: 100vw;
   display: block;
@@ -310,38 +310,14 @@ const PositionedImageCell = styled(ImageCell)`
   animation-duration: 0.3s;
 `;
 
-const ImageGridAnimated = ({ imageMakers }) => {
-  const gridRef = React.createRef();
-  const [width, setWidth] = useState();
-
-  // Measure the browser-rendered dimensions of a DOM element
-  const setVizDimensions = () => {
-    const vizBoundingRect = gridRef.current.getBoundingClientRect();
-    setWidth(vizBoundingRect.width);
-  };
-
-  useLayoutEffect(() => {
-    setVizDimensions();
-    const debouncedSetDimensions = _debounce(() => setVizDimensions(), 160);
-    window.addEventListener('resize', debouncedSetDimensions);
-    return () => {
-      window.removeEventListener('resize', debouncedSetDimensions);
-    };
-  });
-
-  // If we haven't calculated width yet (first load) render an empty grid on the
-  // first paint.
-  if (!width) {
-    return <Grid ref={gridRef} />;
-  }
-
+const ImageGridAnimated = ({ imageMakers, width }) => {
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
   const cellWidth = width / numCols;
   const numRows = Math.ceil(imageMakers.length / numCols);
   const height = numRows * cellWidth;
   return (
-    <Grid ref={gridRef} numImageMakers={imageMakers.length} height={height}>
+    <Grid numImageMakers={imageMakers.length} height={height}>
       {imageMakers.map(({ node }, i) => {
         const gridCol = i % numCols;
         const gridRow = Math.floor(i / numCols);
@@ -374,6 +350,7 @@ const ImageGridAnimated = ({ imageMakers }) => {
 
 ImageGridAnimated.propTypes = {
   imageMakers: PropTypes.array.isRequired,
+  width: PropTypes.number.isRequired,
 };
 
 export default ImageGridAnimated;
