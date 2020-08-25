@@ -46,9 +46,9 @@ const LinkPill = ({ to, text, fontSize, location }) => {
       onMouseLeave={() => setHover(false)}
     >
       <Pill
-        borderRadius={20}
+        borderRadius={26}
         py={4}
-        px={11}
+        px={10}
         colors={colors}
         fontSize={fontSize}
       >
@@ -83,9 +83,9 @@ const AnchorPill = ({
     >
       <Anchor href={href} altText="imagemaker source url" color={colors.color}>
         <Pill
-          borderRadius={20}
+          borderRadius={26}
           py={4}
-          px={11}
+          px={10}
           colors={colors}
           fontSize={fontSize}
         >
