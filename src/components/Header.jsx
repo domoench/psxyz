@@ -225,6 +225,7 @@ FilterTogglePill.propTypes = {
   hoverColors: colorsType.isRequired,
   className: PropTypes.string,
   active: PropTypes.bool,
+  fontSize: PropTypes.number.isRequired,
 };
 
 const StyledFilterTogglePill = styled(FilterTogglePill)`

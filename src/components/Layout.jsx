@@ -61,7 +61,7 @@ const Layout = ({
       />
       <Content>{children && children(width)}</Content>
       <FooterWrapper>
-        <Footer location={location} />
+        <Footer width={width} location={location} />
       </FooterWrapper>
     </Container>
   );
