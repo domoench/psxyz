@@ -22,6 +22,7 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 0.5em;
+  background: ${themeColors.grayTint};
 `;
 
 const LogoImg = styled.img`
@@ -107,7 +108,7 @@ const NavPill = ({
     : {
         color: active ? themeColors.white : themeColors.black,
         borderColor: color,
-        bgColor: active ? color : themeColors.white,
+        bgColor: active ? color : themeColors.transparent,
       };
 
   return (
@@ -182,7 +183,7 @@ const FilterTogglePill = ({
     colors = {
       color: themeColors.gray,
       borderColor: themeColors.gray,
-      bgColor: themeColors.white,
+      bgColor: themeColors.transparent,
     };
   } else if (hover) {
     colors = hoverColors;
@@ -294,7 +295,7 @@ const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
               defaultColors={{
                 color: themeColors.black,
                 borderColor: themeColors.gray,
-                bgColor: themeColors.white,
+                bgColor: themeColors.transparent,
               }}
               hoverColors={{
                 color: themeColors.white,

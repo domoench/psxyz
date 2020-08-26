@@ -34,7 +34,7 @@ const LinkPill = ({ to, text, fontSize, location }) => {
     : {
         color: active ? themeColors.white : themeColors.black,
         borderColor: themeColors.gray,
-        bgColor: active ? themeColors.black : themeColors.white,
+        bgColor: active ? themeColors.black : themeColors.transparent,
       };
 
   return (
@@ -110,7 +110,7 @@ const StyledFooter = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  background: ${themeColors.white};
+  background: ${themeColors.grayTint};
 `;
 
 const Pills = styled.div`
@@ -154,7 +154,7 @@ const Footer = ({ width, location }) => {
             defaultColors={{
               color: themeColors.black,
               borderColor: themeColors.gray,
-              bgColor: themeColors.white,
+              bgColor: themeColors.transparent,
             }}
             hoverColors={{
               color: themeColors.white,

@@ -4,9 +4,11 @@ export const colors = {
   green: '#3C842A',
   yellow: '#FDD316',
   white: '#FFFFFF',
+  grayTint: '#F7F5F7', // Main background color
   gray: '#A0A0A0',
   darkGray: '#6B6B6B',
   black: '#000000',
+  transparent: '#00000000',
 };
 
 export const overlayColors = [colors.blue, colors.red, colors.green];
