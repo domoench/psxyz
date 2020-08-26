@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 
-import {
-  fontStyles,
-  colors as themeColors,
-  colorForIdx,
-  overlayColors,
-} from '../theme';
+import { fontStyles, colors as themeColors } from '../theme';
 import Pill from './reusable/Pill';
 import { colorsType } from './reusable/types';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
+import XSVGIcon from './svg/x';
 
 /* TODO:
  * - Squishing header and about section
@@ -36,6 +32,9 @@ const CatFilterLabel = styled.div`
   display: flex;
   align-items: center;
   text-transform: uppercase;
+  & svg {
+    margin-left: 6px;
+  }
 `;
 
 const StyledCatFilter = styled.div`
@@ -46,19 +45,20 @@ const StyledCatFilter = styled.div`
   }
 `;
 
-const CatFilter = ({ name, isSelected, clickHandler, color }) => {
+const CatFilter = ({ name, isSelected, clickHandler }) => {
   const [hover, setHover] = useState(false);
   const colors = hover
     ? {
         color: themeColors.white,
-        borderColor: color,
-        bgColor: color,
+        borderColor: themeColors.black,
+        bgColor: themeColors.black,
       }
     : {
         color: isSelected ? themeColors.white : themeColors.black,
         borderColor: themeColors.black,
         bgColor: isSelected ? themeColors.black : themeColors.transparent,
       };
+  const fontSize = fontStyles.title2.size;
 
   return (
     <StyledCatFilter>
@@ -67,16 +67,16 @@ const CatFilter = ({ name, isSelected, clickHandler, color }) => {
         py={5}
         px={11}
         colors={colors}
-        fontSize={fontStyles.title2.size}
+        fontSize={fontSize}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
       >
-        <CatFilterLabel
-          className={`${isSelected ? 'selected' : ''}`}
-          color={color}
-        >
+        <CatFilterLabel className={`${isSelected ? 'selected' : ''}`}>
           {name}
+          {isSelected && (
+            <XSVGIcon color={themeColors.white} width={fontSize} />
+          )}
         </CatFilterLabel>
       </Pill>
     </StyledCatFilter>
@@ -87,7 +87,6 @@ CatFilter.propTypes = {
   name: PropTypes.string,
   isSelected: PropTypes.bool,
   clickHandler: PropTypes.func,
-  color: PropTypes.string,
 };
 
 const StyledControlPill = styled.div`
@@ -203,7 +202,6 @@ const CategoryFiltersDrawer = ({
                 name={cat.node.name}
                 isSelected={isSelected}
                 clickHandler={updateSelected(cat.node.slug)}
-                color={colorForIdx(idx, overlayColors)}
               />
             </div>
           );
