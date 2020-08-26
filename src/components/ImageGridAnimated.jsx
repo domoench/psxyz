@@ -188,11 +188,11 @@ const categorySentence = categories => {
     if (idx === 0) {
       article = startsWithVowel ? ' an ' : ' a ';
     } else if (n > 1 && idx === n - 1) {
-      article = startsWithVowel ? ' and an ' : ' and a ';
+      article = startsWithVowel ? ' and ' : ' and ';
     }
     return (
       <React.Fragment key={c.id}>
-        {`${idx > 0 ? ',' : ''} `}
+        {`${idx > 0 && n > 2 ? ',' : ''} `}
         {article}
         <CategoryText>{name}</CategoryText>
       </React.Fragment>
