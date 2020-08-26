@@ -23,6 +23,7 @@ const CategoryFilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em;
+  background: ${themeColors.grayTint};
   & h2 {
     font-family: ${fontStyles.title2.family};
     font-size: ${fontStyles.title2.size}px;
@@ -56,7 +57,7 @@ const CatFilter = ({ name, isSelected, clickHandler, color }) => {
     : {
         color: isSelected ? themeColors.white : themeColors.black,
         borderColor: themeColors.black,
-        bgColor: isSelected ? themeColors.black : themeColors.white,
+        bgColor: isSelected ? themeColors.black : themeColors.transparent,
       };
 
   return (
@@ -91,6 +92,7 @@ CatFilter.propTypes = {
 
 const StyledControlPill = styled.div`
   padding: 1em;
+  background: ${themeColors.transparent};
 `;
 
 const ControlPill = ({
@@ -130,6 +132,9 @@ ControlPill.propTypes = {
 };
 
 const StyledDrawer = styled(Drawer)`
+  & .MuiPaper-root {
+    background-color: ${themeColors.grayTint};
+  }
   & .MuiBackdrop-root {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -138,6 +143,7 @@ const StyledDrawer = styled(Drawer)`
 const ControlPills = styled.div`
   display: flex;
   justify-content: space-between;
+  background-color: ${themeColors.grayTint};
 `;
 
 const CategoryFiltersDrawer = ({
@@ -161,7 +167,7 @@ const CategoryFiltersDrawer = ({
           defaultColors={{
             color: themeColors.black,
             borderColor: themeColors.black,
-            bgColor: themeColors.white,
+            bgColor: themeColors.transparent,
           }}
           hoverColors={{
             color: themeColors.white,
@@ -176,7 +182,7 @@ const CategoryFiltersDrawer = ({
           defaultColors={{
             color: themeColors.red,
             borderColor: themeColors.red,
-            bgColor: themeColors.white,
+            bgColor: themeColors.transparent,
           }}
           hoverColors={{
             color: themeColors.white,
