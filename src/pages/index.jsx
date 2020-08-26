@@ -82,7 +82,7 @@ const Index = ({ data, location }) => {
             showFilters={showFilters}
             toggleFiltersDrawer={toggleFiltersDrawer}
           />
-          <AboutBlurb />
+          <AboutBlurb width={width} />
           <ImageGridAnimated imageMakers={imageMakersToDisplay} width={width} />
         </>
       )}

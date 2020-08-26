@@ -15,6 +15,7 @@ import {
   gridLineColors,
   gridColumnsForBreakpoint,
   deviceSizeForWidth,
+  fontScaleForDevice,
   overlayColors,
 } from '../theme';
 import { hexToRGBA } from '../utils';
@@ -27,14 +28,6 @@ import SourceSVGIcon from './svg/source';
 import Pill from './reusable/Pill';
 import Anchor from './reusable/Anchor';
 import { colorsType } from './reusable/types';
-
-const fontScaleForDevice = {
-  xs: 0.7,
-  sm: 0.75,
-  md: 0.8,
-  lg: 0.9,
-  xl: 1.0,
-};
 
 // TODO remove?
 const Grid = styled.div`

@@ -91,6 +91,14 @@ export const deviceSizeForWidth = width => {
   return dSize;
 };
 
+export const fontScaleForDevice = {
+  xs: 0.7,
+  sm: 0.75,
+  md: 0.8,
+  lg: 0.9,
+  xl: 1.0,
+};
+
 export const mediaQuery = bp => {
   if (bp === 'xl') {
     return `@media (min-width: ${breakpoints[bp][0]})`;
