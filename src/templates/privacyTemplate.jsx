@@ -49,19 +49,25 @@ const Privacy = styled.div`
   }
 `;
 
-const PrivacyTemplate = ({ pageContext }) => {
+const PrivacyTemplate = ({ pageContext, location }) => {
   const { frontmatter, html } = pageContext;
   return (
-    <Layout toggleFiltersDrawer={() => {}} showFilters={false}>
-      <Wrapper color={colors.blue}>
-        <Column>
-          <Title1>{frontmatter.title.toUpperCase()}</Title1>
-          <Privacy
-            className="privacy-content"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        </Column>
-      </Wrapper>
+    <Layout
+      location={location}
+      toggleFiltersDrawer={() => {}}
+      showFilters={false}
+    >
+      {width => (
+        <Wrapper color={colors.blue}>
+          <Column>
+            <Title1>{frontmatter.title.toUpperCase()}</Title1>
+            <Privacy
+              className="privacy-content"
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
+          </Column>
+        </Wrapper>
+      )}
     </Layout>
   );
 };

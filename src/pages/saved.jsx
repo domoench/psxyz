@@ -25,7 +25,7 @@ const NoSavedImageMakers = styled.div`
   }
 `;
 
-const Saved = ({ data }) => {
+const Saved = ({ data, location }) => {
   const state = useContext(GlobalStateContext);
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
   const imageMakers = data.allContentfulCreator.edges;
@@ -34,22 +34,27 @@ const Saved = ({ data }) => {
   );
 
   return (
-    <Layout setShowFilters={() => {}} showFilters={false}>
-      {imageMakersToDisplay.length === 0 && (
-        <NoSavedImageMakers>
-          <p>You haven&apos;t saved any profiles yet.</p>
-          <p>
-            <Link to="/">Browse the Index →</Link>
-          </p>
-        </NoSavedImageMakers>
+    <Layout location={location} setShowFilters={() => {}} showFilters={false}>
+      {width => (
+        <>
+          {imageMakersToDisplay.length === 0 && (
+            <NoSavedImageMakers>
+              <p>You haven&apos;t saved any profiles yet.</p>
+              <p>
+                <Link to="/">Browse the Index →</Link>
+              </p>
+            </NoSavedImageMakers>
+          )}
+          <ImageGridAnimated imageMakers={imageMakersToDisplay} width={width} />
+        </>
       )}
-      <ImageGridAnimated imageMakers={imageMakersToDisplay} />
     </Layout>
   );
 };
 
 Saved.propTypes = {
   data: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default Saved;

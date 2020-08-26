@@ -5,7 +5,11 @@ import { Link } from 'gatsby';
 
 import Pill from './reusable/Pill';
 import Anchor from './reusable/Anchor';
-import { colors as themeColors, fontStyles } from '../theme';
+import {
+  colors as themeColors,
+  fontStyles,
+  deviceSizeForWidth,
+} from '../theme';
 import { colorsType } from './reusable/types';
 
 const FooterPill = styled.div`
@@ -18,9 +22,9 @@ const StyledLink = styled(Link)`
   ${props => `color: ${props.color};`}
 `;
 
-const LinkPill = ({ to, text }) => {
+const LinkPill = ({ to, text, fontSize, location }) => {
   const [hover, setHover] = useState(false);
-  const [active, setActive] = useState(false);
+  const active = location.pathname === to;
   const colors = hover
     ? {
         color: themeColors.white,
@@ -37,19 +41,16 @@ const LinkPill = ({ to, text }) => {
     <StyledLink
       color={colors.color}
       to={to}
-      getProps={({ isCurrent }) => {
-        setActive(isCurrent);
-      }}
       activeClassName="active"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <Pill
-        borderRadius={20}
+        borderRadius={26}
         py={4}
-        px={11}
+        px={10}
         colors={colors}
-        fontSize={fontStyles.title3.size}
+        fontSize={fontSize}
       >
         {text}
       </Pill>
@@ -60,9 +61,17 @@ const LinkPill = ({ to, text }) => {
 LinkPill.propTypes = {
   to: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  fontSize: PropTypes.number.isRequired,
 };
 
-const AnchorPill = ({ href, defaultColors, hoverColors, children }) => {
+const AnchorPill = ({
+  href,
+  defaultColors,
+  hoverColors,
+  children,
+  fontSize,
+}) => {
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
@@ -74,11 +83,11 @@ const AnchorPill = ({ href, defaultColors, hoverColors, children }) => {
     >
       <Anchor href={href} altText="imagemaker source url" color={colors.color}>
         <Pill
-          borderRadius={20}
+          borderRadius={26}
           py={4}
-          px={11}
+          px={10}
           colors={colors}
-          fontSize={fontStyles.title3.size}
+          fontSize={fontSize}
         >
           {children}
         </Pill>
@@ -92,6 +101,7 @@ AnchorPill.propTypes = {
   defaultColors: colorsType.isRequired,
   hoverColors: colorsType.isRequired,
   children: PropTypes.string.isRequired,
+  fontSize: PropTypes.number.isRequired,
 };
 
 const StyledFooter = styled.div`
@@ -112,35 +122,59 @@ const Copyright = styled.span`
   padding: 1em;
 `;
 
-export default () => (
-  <StyledFooter>
-    <Pills>
-      <FooterPill>
-        <LinkPill to="/contact/" text="CONTACT" />
-      </FooterPill>
+const Footer = ({ width, location }) => {
+  const deviceSize = deviceSizeForWidth(width);
+  const fontSize =
+    deviceSize === 'xs' ? fontStyles.title3.size : fontStyles.title2.size;
 
-      <FooterPill>
-        <LinkPill to="/privacy/" text="PRIVACY & TERMS" />
-      </FooterPill>
+  return (
+    <StyledFooter>
+      <Pills>
+        <FooterPill>
+          <LinkPill
+            to="/contact/"
+            text="CONTACT"
+            fontSize={fontSize}
+            location={location}
+          />
+        </FooterPill>
 
-      <FooterPill>
-        <AnchorPill
-          href="https://www.instagram.com/publicservice.xyz/"
-          defaultColors={{
-            color: themeColors.black,
-            borderColor: themeColors.gray,
-            bgColor: themeColors.white,
-          }}
-          hoverColors={{
-            color: themeColors.white,
-            borderColor: themeColors.black,
-            bgColor: themeColors.black,
-          }}
-        >
-          INSTAGRAM
-        </AnchorPill>
-      </FooterPill>
-    </Pills>
-    <Copyright>© 2019 Public Service</Copyright>
-  </StyledFooter>
-);
+        <FooterPill>
+          <LinkPill
+            to="/privacy/"
+            text="PRIVACY & TERMS"
+            fontSize={fontSize}
+            location={location}
+          />
+        </FooterPill>
+
+        <FooterPill>
+          <AnchorPill
+            href="https://www.instagram.com/publicservice.xyz/"
+            defaultColors={{
+              color: themeColors.black,
+              borderColor: themeColors.gray,
+              bgColor: themeColors.white,
+            }}
+            hoverColors={{
+              color: themeColors.white,
+              borderColor: themeColors.black,
+              bgColor: themeColors.black,
+            }}
+            fontSize={fontSize}
+          >
+            INSTAGRAM
+          </AnchorPill>
+        </FooterPill>
+      </Pills>
+      <Copyright>© 2019 Public Service</Copyright>
+    </StyledFooter>
+  );
+};
+
+Footer.propTypes = {
+  location: PropTypes.object.isRequired,
+  width: PropTypes.number.isRequired,
+};
+
+export default Footer;

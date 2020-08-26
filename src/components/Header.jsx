@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import {
   colors as themeColors,
+  deviceSizeForWidth,
   minWidthMediaQuery,
   fontStyles,
 } from '../theme';
@@ -87,14 +88,16 @@ const StyledDirtyIndicator = styled(DirtyIndicator)`
 
 const NavPill = ({
   to,
+  fontSize,
   color,
   dirtyIndicatorColor,
   children,
   className,
   dirty,
+  location,
 }) => {
   const [hover, setHover] = useState(false);
-  const [active, setActive] = useState(false);
+  const active = location.pathname === to;
   const colors = hover
     ? {
         color: themeColors.white,
@@ -121,18 +124,13 @@ const NavPill = ({
           right={-1}
         />
       )}
-      <StyledLink
-        color={colors.color}
-        to={to}
-        getProps={({ isCurrent }) => {
-          setActive(isCurrent);
-        }}
-        activeClassName="active"
-      >
+      <StyledLink color={colors.color} to={to} activeClassName="active">
         <Pill
           borderRadius={26}
           colors={colors}
-          fontSize={fontStyles.title2.size}
+          py={4}
+          px={10}
+          fontSize={fontSize}
         >
           {children}
         </Pill>
@@ -148,6 +146,8 @@ NavPill.propTypes = {
   className: PropTypes.string,
   dirty: PropTypes.bool,
   dirtyIndicatorColor: PropTypes.string,
+  fontSize: PropTypes.number.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 const StyledNavPill = styled(NavPill)`
@@ -173,6 +173,7 @@ const FilterTogglePill = ({
   defaultColors,
   hoverColors,
   active,
+  fontSize,
 }) => {
   const [hover, setHover] = useState(false);
 
@@ -189,11 +190,11 @@ const FilterTogglePill = ({
     colors = defaultColors;
   }
 
-  const fontSize = fontStyles.title2.size;
-
   return (
     <Pill
       borderRadius={26}
+      py={4}
+      px={10}
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -224,6 +225,7 @@ FilterTogglePill.propTypes = {
   hoverColors: colorsType.isRequired,
   className: PropTypes.string,
   active: PropTypes.bool,
+  fontSize: PropTypes.number.isRequired,
 };
 
 const StyledFilterTogglePill = styled(FilterTogglePill)`
@@ -232,13 +234,15 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
-const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
+const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
   );
   const savedDirty = savedImageMakerIds.length > 0;
   const filtersDirty = categoryFilterSlugs.length > 0;
-  const fontSize = fontStyles.title2.size;
+  const deviceSize = deviceSizeForWidth(width);
+  const fontSize =
+    deviceSize === 'xs' ? fontStyles.title3.size : fontStyles.title2.size;
 
   return (
     <StyledHeader>
@@ -248,12 +252,22 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
       <nav>
         <NavPillList>
           <li>
-            <StyledNavPill color={themeColors.red} to="/">
+            <StyledNavPill
+              color={themeColors.red}
+              to="/"
+              fontSize={fontSize}
+              location={location}
+            >
               <span>INDEX</span>
             </StyledNavPill>
           </li>
           <li>
-            <StyledNavPill color={themeColors.blue} to="/about/">
+            <StyledNavPill
+              color={themeColors.blue}
+              to="/about/"
+              fontSize={fontSize}
+              location={location}
+            >
               <span>ABOUT</span>
             </StyledNavPill>
           </li>
@@ -263,6 +277,8 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
               color={themeColors.black}
               dirty={savedDirty}
               dirtyIndicatorColor={themeColors.red}
+              fontSize={fontSize}
+              location={location}
             >
               <>
                 <SavedSVGIcon color={themeColors.black} width={fontSize} />
@@ -277,7 +293,7 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
               dirtyIndicatorColor={themeColors.red}
               defaultColors={{
                 color: themeColors.black,
-                borderColor: themeColors.black,
+                borderColor: themeColors.gray,
                 bgColor: themeColors.white,
               }}
               hoverColors={{
@@ -286,6 +302,7 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
                 bgColor: themeColors.green,
               }}
               active={activeNavFilter}
+              fontSize={fontSize}
             />
           </li>
         </NavPillList>
@@ -296,6 +313,8 @@ const Header = ({ toggleFiltersDrawer, activeNavFilter }) => {
 
 Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
+  width: PropTypes.number.isRequired,
+  activeNavFilter: PropTypes.bool,
 };
 
 export default Header;
