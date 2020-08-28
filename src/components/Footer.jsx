@@ -12,8 +12,12 @@ import {
 } from '../theme';
 import { colorsType } from './reusable/types';
 
+const FOOTER_PILL_PY = 4;
+const FOOTER_PILL_PX = 15;
+
 const FooterPill = styled.div`
   padding: 0.25em 0.5em;
+  line-height: 1;
 `;
 
 const StyledLink = styled(Link)`
@@ -47,8 +51,8 @@ const LinkPill = ({ to, text, fontSize, location }) => {
     >
       <Pill
         borderRadius={26}
-        py={4}
-        px={10}
+        py={FOOTER_PILL_PY}
+        px={FOOTER_PILL_PX}
         colors={colors}
         fontSize={fontSize}
       >
@@ -84,8 +88,8 @@ const AnchorPill = ({
       <Anchor href={href} altText="imagemaker source url" color={colors.color}>
         <Pill
           borderRadius={26}
-          py={4}
-          px={10}
+          py={FOOTER_PILL_PY}
+          px={FOOTER_PILL_PX}
           colors={colors}
           fontSize={fontSize}
         >

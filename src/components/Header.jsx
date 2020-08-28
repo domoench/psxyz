@@ -16,6 +16,10 @@ import { colorsType } from './reusable/types';
 import SavedSVGIcon from './svg/saved';
 import FiltersSVGIcon from './svg/filters';
 
+const DIRTY_INDICATOR_RADIUS = 7;
+const NAV_PILL_PY = 4;
+const NAV_PILL_PX = 15;
+
 const StyledHeader = styled.header`
   display: flex;
   flex-flow: row wrap;
@@ -120,17 +124,17 @@ const NavPill = ({
       {dirty && (
         <StyledDirtyIndicator
           color={dirtyIndicatorColor}
-          radius={5}
-          top={-6}
-          right={-1}
+          radius={DIRTY_INDICATOR_RADIUS}
+          top={-3}
+          right={-2}
         />
       )}
       <StyledLink color={colors.color} to={to} activeClassName="active">
         <Pill
           borderRadius={26}
           colors={colors}
-          py={4}
-          px={10}
+          py={NAV_PILL_PY}
+          px={NAV_PILL_PX}
           fontSize={fontSize}
         >
           {children}
@@ -194,8 +198,8 @@ const FilterTogglePill = ({
   return (
     <Pill
       borderRadius={26}
-      py={4}
-      px={10}
+      py={NAV_PILL_PY}
+      px={NAV_PILL_PX}
       colors={colors}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -207,9 +211,9 @@ const FilterTogglePill = ({
       {dirty && (
         <StyledDirtyIndicator
           color={active ? dirtyIndicatorColor : themeColors.gray}
-          radius={5}
-          top={-7}
-          right={-3}
+          radius={DIRTY_INDICATOR_RADIUS}
+          top={-5}
+          right={-4}
         />
       )}
       <FiltersSVGIcon color={colors.color} width={fontSize} />
