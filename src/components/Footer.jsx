@@ -16,7 +16,7 @@ const FOOTER_PILL_PY = 4;
 const FOOTER_PILL_PX = 15;
 
 const FooterPill = styled.div`
-  padding: 0.25em 0.5em;
+  padding: 5px 6px;
   line-height: 1;
 `;
 
@@ -110,7 +110,7 @@ AnchorPill.propTypes = {
 
 const StyledFooter = styled.div`
   display: flex;
-  padding: 0.25em 1em;
+  padding: 0 44px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
