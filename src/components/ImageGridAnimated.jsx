@@ -175,8 +175,8 @@ const categorySentence = categories => {
   const n = categories.length;
   const parts = categories.map((c, idx) => {
     let article;
-    const { name } = c;
-    const startsWithVowel = isVowel(name.charAt(0));
+    const { practitionerName } = c;
+    const startsWithVowel = isVowel(practitionerName.charAt(0));
 
     if (idx === 0) {
       article = startsWithVowel ? ' an ' : ' a ';
@@ -187,7 +187,7 @@ const categorySentence = categories => {
       <React.Fragment key={c.id}>
         {`${idx > 0 && n > 2 ? ',' : ''} `}
         {article}
-        <CategoryText>{name}</CategoryText>
+        <CategoryText>{practitionerName}</CategoryText>
       </React.Fragment>
     );
   });

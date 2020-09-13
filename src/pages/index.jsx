@@ -22,33 +22,11 @@ const Index = ({ data, location }) => {
   const dispatch = useContext(GlobalDispatchContext);
   const { categoryFilterSlugs } = useContext(GlobalStateContext);
 
-  // Read URL for query params specifying category
-  /* TODO How can you merge filter state from URL params and from saved state
-  const queryParamCatSlugs = new URLSearchParams(location.search).getAll('cat');
-  dispatch({
-    type: 'SET_CATEGORY_FILTERS',
-    value: queryParamCatSlugs,
-  });
-  */
-
   const updateSelected = categorySlug => () => {
     dispatch({
       type: 'ADD_OR_DELETE_CATEGORY_FILTER',
       value: categorySlug,
     });
-
-    // Update URL params to reflect filters
-    /* TODO
-      const newSelectedCatsSet = new Set(dispReturn.categoryFilterSlugs);
-      const params = new URLSearchParams();
-      newSelectedCatsSet.forEach(cat => params.append('cat', cat));
-      const history = createBrowserHistory();
-      history.push({
-        pathname: '',
-        search: params.toString(),
-        state: {},
-      });
-      */
   };
 
   const toggleFiltersDrawer = event => {
@@ -120,7 +98,7 @@ export const query = graphql`
           }
           categories {
             id
-            name
+            practitionerName
             slug
           }
         }
