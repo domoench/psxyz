@@ -8,6 +8,7 @@ import Pill from './reusable/Pill';
 import { colorsType } from './reusable/types';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
 import XSVGIcon from './svg/x';
+import CloseSVGIcon from './svg/close';
 
 /* TODO:
  * - Squishing header and about section
@@ -35,7 +36,7 @@ const CatFilterLabel = styled.div`
   & svg.plus {
     margin-right: 6px;
   }
-  & svg.ex {
+  & svg.x {
     margin-left: 6px;
   }
 `;
@@ -100,7 +101,7 @@ const CatFilter = ({ name, isSelected, clickHandler }) => {
           </CatFilterText>
           {isSelected && (
             <XSVGIcon
-              className="ex"
+              className="x"
               color={themeColors.white}
               width={fontSize}
             />
@@ -120,6 +121,10 @@ CatFilter.propTypes = {
 const StyledControlPill = styled.div`
   padding: 1em;
   background: ${themeColors.transparent};
+
+  & svg.close {
+    margin-right: 6px;
+  }
 `;
 
 const ControlPill = ({
@@ -158,6 +163,11 @@ ControlPill.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
+const ControlPillText = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const StyledDrawer = styled(Drawer)`
   & .MuiPaper-root {
     background-color: ${themeColors.grayTint};
@@ -192,9 +202,9 @@ const CategoryFiltersDrawer = ({
         <ControlPill
           clickHandler={toggleFiltersDrawer}
           defaultColors={{
-            color: themeColors.black,
+            color: themeColors.white,
             borderColor: themeColors.black,
-            bgColor: themeColors.transparent,
+            bgColor: themeColors.black,
           }}
           hoverColors={{
             color: themeColors.white,
@@ -202,7 +212,14 @@ const CategoryFiltersDrawer = ({
             bgColor: themeColors.black,
           }}
         >
-          <span>X CLOSE</span>
+          <ControlPillText>
+            <CloseSVGIcon
+              className="close"
+              color={themeColors.white}
+              width={fontStyles.title3.size}
+            />
+            <span>CLOSE</span>
+          </ControlPillText>
         </ControlPill>
         <ControlPill
           clickHandler={() => dispatch({ type: 'CLEAR_CATEGORY_FILTERS' })}
