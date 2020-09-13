@@ -9,9 +9,9 @@ import {
   minWidthMediaQuery,
   fontStyles,
 } from '../theme';
-import logo from '../assets/logo.svg';
 import { GlobalStateContext } from '../context/GlobalContextProvider';
 import Pill from './reusable/Pill';
+import Logo from './Logo';
 import { colorsType } from './reusable/types';
 import SavedSVGIcon from './svg/saved';
 import FiltersSVGIcon from './svg/filters';
@@ -25,13 +25,7 @@ const StyledHeader = styled.header`
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em;
   background: ${themeColors.grayTint};
-`;
-
-const LogoImg = styled.img`
-  height: 60px;
-  padding: 0.5em;
 `;
 
 const NavPillList = styled.ul`
@@ -251,9 +245,7 @@ const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
 
   return (
     <StyledHeader>
-      <Link to="/">
-        <LogoImg src={logo} alt="Logo" />
-      </Link>
+      <Logo width={width} />
       <nav>
         <NavPillList>
           <li>
