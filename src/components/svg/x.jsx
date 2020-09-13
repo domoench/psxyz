@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import { StyledPath } from '../reusable/styled';
 
-const XSVGIcon = ({ color, width }) => (
+const XSVGIcon = ({ color, width, className }) => (
   <svg
+    className={className}
     width={width}
     height={width}
     viewBox="0 0 20 20"
@@ -21,6 +22,7 @@ const XSVGIcon = ({ color, width }) => (
 XSVGIcon.propTypes = {
   color: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
 
 export default XSVGIcon;

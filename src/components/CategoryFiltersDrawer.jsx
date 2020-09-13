@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Drawer from '@material-ui/core/Drawer';
 
-import { fontStyles, colors as themeColors } from '../theme';
+import { fontStyles, hoverStyles, colors as themeColors } from '../theme';
 import Pill from './reusable/Pill';
 import { colorsType } from './reusable/types';
 import { GlobalDispatchContext } from '../context/GlobalContextProvider';
@@ -32,7 +32,10 @@ const CatFilterLabel = styled.div`
   display: flex;
   align-items: center;
   text-transform: uppercase;
-  & svg {
+  & svg.plus {
+    margin-right: 6px;
+  }
+  & svg.ex {
     margin-left: 6px;
   }
 `;
@@ -43,6 +46,22 @@ const StyledCatFilter = styled.div`
   &:focus {
     outline: none;
   }
+`;
+
+const CatFilterText = styled.span`
+  ${props => `visibility: ${props.visible ? 'inherit' : 'hidden'};`}
+`;
+
+const Plus = styled(XSVGIcon)`
+  transform: rotate(45deg);
+`;
+
+const PlusOverlay = styled.div`
+  position: fixed;
+  display: block;
+  margin-top: 2px;
+  ${props => `opacity: ${props.visible ? 1.0 : 0.0};`}
+  transition: ${hoverStyles.transition};
 `;
 
 const CatFilter = ({ name, isSelected, clickHandler }) => {
@@ -72,10 +91,19 @@ const CatFilter = ({ name, isSelected, clickHandler }) => {
         onMouseLeave={() => setHover(false)}
         onClick={clickHandler}
       >
+        <PlusOverlay visible={hover && !isSelected}>
+          <Plus color={themeColors.white} width={fontSize} />
+        </PlusOverlay>
         <CatFilterLabel className={`${isSelected ? 'selected' : ''}`}>
-          {name}
+          <CatFilterText visible={!(hover && !isSelected)}>
+            {name}
+          </CatFilterText>
           {isSelected && (
-            <XSVGIcon color={themeColors.white} width={fontSize} />
+            <XSVGIcon
+              className="ex"
+              color={themeColors.white}
+              width={fontSize}
+            />
           )}
         </CatFilterLabel>
       </Pill>
@@ -194,7 +222,7 @@ const CategoryFiltersDrawer = ({
       </ControlPills>
       <CategoryFilterWrapper>
         <h2>CATEGORY</h2>
-        {categories.map((cat, idx) => {
+        {categories.map(cat => {
           const isSelected = new Set(categoryFilterSlugs).has(cat.node.slug);
           return (
             <div key={cat.node.id}>
