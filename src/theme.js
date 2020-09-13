@@ -34,6 +34,11 @@ export const fontStyles = {
     size: 22,
     lineHeight: 1.27,
   },
+  display1: {
+    family: fonts.serif,
+    size: 55,
+    lineHeight: 1.2,
+  },
   display2: {
     family: fonts.serif,
     size: 30,
