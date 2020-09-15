@@ -136,15 +136,6 @@ const Footer = ({ width, location }) => {
       <Pills>
         <FooterPill>
           <LinkPill
-            to="/contact/"
-            text="CONTACT"
-            fontSize={fontSize}
-            location={location}
-          />
-        </FooterPill>
-
-        <FooterPill>
-          <LinkPill
             to="/privacy/"
             text="PRIVACY & TERMS"
             fontSize={fontSize}
