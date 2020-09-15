@@ -16,7 +16,7 @@ const FOOTER_PILL_PY = 4;
 const FOOTER_PILL_PX = 15;
 
 const FooterPill = styled.div`
-  padding: 5px 6px;
+  padding: 5px 12px 5px 0;
   line-height: 1;
 `;
 
@@ -110,7 +110,7 @@ AnchorPill.propTypes = {
 
 const StyledFooter = styled.div`
   display: flex;
-  padding: 0 44px;
+  ${props => `padding: 6px ${props.padding}px;`}
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -123,8 +123,20 @@ const Pills = styled.div`
 `;
 
 const Copyright = styled.span`
-  padding: 1em;
+  padding: 6px 0;
 `;
+
+const padding = deviceSize => {
+  const xlPaddingSize = 44;
+  const paddingScale = {
+    xs: 0.53,
+    sm: 0.65,
+    md: 0.77,
+    lg: 0.89,
+    xl: 1.0,
+  };
+  return Math.floor(xlPaddingSize * paddingScale[deviceSize]);
+};
 
 const Footer = ({ width, location }) => {
   const deviceSize = deviceSizeForWidth(width);
@@ -132,7 +144,7 @@ const Footer = ({ width, location }) => {
     deviceSize === 'xs' ? fontStyles.title3.size : fontStyles.title2.size;
 
   return (
-    <StyledFooter>
+    <StyledFooter padding={padding(deviceSize)}>
       <Pills>
         <FooterPill>
           <LinkPill
