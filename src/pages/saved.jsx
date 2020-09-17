@@ -81,7 +81,7 @@ export const query = graphql`
           }
           categories {
             id
-            name
+            practitionerName
             slug
           }
         }

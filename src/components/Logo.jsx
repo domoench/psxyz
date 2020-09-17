@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { deviceSizeForWidth } from '../theme';
+import { deviceSizeForWidth, colors as themeColors } from '../theme';
 import LogoSVGIcon from './svg/logo';
 
 const LogoWrapper = styled.div`
@@ -35,7 +35,10 @@ const Logo = ({ width }) => {
       padding={Math.floor(xlPaddingSize * logoPaddingScale[deviceSize])}
     >
       <Link to="/">
-        <LogoSVGIcon width={Math.floor(xlLogoSize * logoScale[deviceSize])} />
+        <LogoSVGIcon
+          width={Math.floor(xlLogoSize * logoScale[deviceSize])}
+          color={themeColors.black}
+        />
       </Link>
     </LogoWrapper>
   );
