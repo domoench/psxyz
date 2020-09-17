@@ -173,7 +173,7 @@ const StyledDrawer = styled(Drawer)`
     background-color: ${themeColors.grayTint};
   }
   & .MuiBackdrop-root {
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
