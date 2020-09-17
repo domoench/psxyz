@@ -31,13 +31,13 @@ div[role="group"][tabindex] {
 }
 
 @font-face {
-  font-family: DrukWide;
+  font-family: 'DrukWide';
+  font-display: fallback;
   src: url('./fonts/DrukWide-Medium.otf') format('opentype');
-  font-display: swap;
 }
 
 @font-face {
-  font-family: SuisseWorksRegular;
+  font-family: 'SuisseWorksRegular';
+  font-display: fallback;
   src: url('./fonts/SuisseWorks-Regular.otf') format('opentype');
-  font-display: swap;
 }

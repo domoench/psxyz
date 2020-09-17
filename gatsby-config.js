@@ -31,6 +31,10 @@ module.exports = {
       },
     },
 
+    // Preload custom fonts to avoid flashing system font for a half second on inital load
+    // Requires running `yarn run preload-fonts` to update font-preload-cache.json
+    `gatsby-plugin-preload-fonts`,
+
     // Image manipulation: https://www.gatsbyjs.org/packages/gatsby-image/
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
