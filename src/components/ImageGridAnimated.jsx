@@ -10,6 +10,7 @@ import styled, { keyframes } from 'styled-components';
 
 import {
   colors as themeColors,
+  fonts,
   fontStyles,
   colorForIdx,
   gridLineColors,
@@ -197,14 +198,24 @@ const categorySentence = categories => {
 const Blurb = styled.span`
   padding: 1em;
   font-size: ${({ fontSize }) => fontSize}px;
+  font-family: ${fonts.serif};
+  line-height: 1.15;
 `;
 
 const CategoryText = styled.span`
   text-decoration: underline;
 `;
 
+const fontScaleForIMBlurb = {
+  xs: 0.55,
+  sm: 0.7,
+  md: 0.85,
+  lg: 1.0,
+  xl: 1.0,
+};
+
 const ImageMakerBlurb = ({ imageMaker, deviceSize }) => (
-  <Blurb fontSize={fontStyles.display2.size * fontScaleForDevice[deviceSize]}>
+  <Blurb fontSize={Math.ceil(27 * fontScaleForIMBlurb[deviceSize])}>
     {`${imageMaker.name} is`}
     {categorySentence(imageMaker.categories)}.
   </Blurb>
