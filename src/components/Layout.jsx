@@ -9,16 +9,17 @@ import Footer from './Footer';
 const Container = styled.div`
   height: 100%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
 `;
 
 const Content = styled.div`
-  flex: 1 0 auto;
+  overflow: auto;
+  display: grid;
+  grid-template-rows: 1fr auto;
 `;
 
 const FooterWrapper = styled.div`
-  flex-shrink: 0;
 `;
 
 const Layout = ({
@@ -59,10 +60,12 @@ const Layout = ({
         activeNavFilter={activeNavFilter}
         location={location}
       />
-      <Content>{children && children(width)}</Content>
-      <FooterWrapper>
-        <Footer width={width} location={location} />
-      </FooterWrapper>
+      <Content>
+        {children && children(width)}
+        <FooterWrapper>
+          <Footer width={width} location={location} />
+        </FooterWrapper>
+      </Content>
     </Container>
   );
 };
