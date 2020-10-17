@@ -13,13 +13,14 @@ const Container = styled.div`
   grid-template-rows: auto 1fr;
 `;
 
-const Content = styled.div`
+const Overflowable = styled.div`
   overflow: auto;
-  display: grid;
-  grid-template-rows: 1fr auto;
 `;
 
-const FooterWrapper = styled.div`
+const Content = styled.div`
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100%;
 `;
 
 const Layout = ({
@@ -60,12 +61,12 @@ const Layout = ({
         activeNavFilter={activeNavFilter}
         location={location}
       />
-      <Content>
-        {children && children(width)}
-        <FooterWrapper>
+      <Overflowable>
+        <Content>
+          {children && children(width)}
           <Footer width={width} location={location} />
-        </FooterWrapper>
-      </Content>
+        </Content>
+      </Overflowable>
     </Container>
   );
 };
