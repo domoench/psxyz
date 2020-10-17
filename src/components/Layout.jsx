@@ -30,7 +30,11 @@ const Layout = ({
   location,
 }) => {
   const containerRef = React.createRef();
+  const overflowableRef = React.createRef();
+
+  // Calculated viewport / DOM measurements
   const [width, setWidth] = useState();
+  const [scrollRatio, setScrollRatio] = useState();
 
   // Measure the browser-rendered dimensions of a DOM element
   const setVizDimensions = () => {
@@ -38,12 +42,28 @@ const Layout = ({
     setWidth(vizBoundingRect.width);
   };
 
+  const calculateScrollRatio = () => {
+    const contentElem = overflowableRef.current;
+    if (!contentElem) return;
+
+    const { clientHeight, scrollHeight, scrollTop } = contentElem;
+    setScrollRatio(scrollTop / (scrollHeight - clientHeight));
+  };
+
   useLayoutEffect(() => {
     setVizDimensions();
+
+    // Resizing
     const debouncedSetDimensions = _debounce(() => setVizDimensions(), 160);
     window.addEventListener('resize', debouncedSetDimensions);
+
+    // Scrolling through main content
+    const debouncedScrollRatio = _debounce(() => calculateScrollRatio(), 10);
+    overflowableRef.current?.addEventListener('scroll', debouncedScrollRatio, { passive: true });
+
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
+      overflowableRef.current?.removeEventListener('scroll', debouncedScrollRatio);
     };
   });
 
@@ -60,8 +80,9 @@ const Layout = ({
         width={width}
         activeNavFilter={activeNavFilter}
         location={location}
+        scrollRatio={scrollRatio}
       />
-      <Overflowable>
+      <Overflowable ref={overflowableRef}>
         <Content>
           {children && children(width)}
           <Footer width={width} location={location} />

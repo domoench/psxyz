@@ -233,7 +233,13 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
-const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
+const Header = ({
+  toggleFiltersDrawer,
+  width,
+  activeNavFilter,
+  location,
+  scrollRatio,
+}) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
   );
@@ -245,7 +251,7 @@ const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
 
   return (
     <StyledHeader>
-      <Logo width={width} />
+      <Logo width={width} scrollRatio={scrollRatio} />
       <nav>
         <NavPillList>
           <li>
@@ -312,6 +318,7 @@ Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
   width: PropTypes.number.isRequired,
   activeNavFilter: PropTypes.bool,
+  scrollRatio: PropTypes.number.isRequired,
 };
 
 export default Header;

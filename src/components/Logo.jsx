@@ -10,7 +10,7 @@ const LogoWrapper = styled.div`
   ${props => `padding: ${props.padding}px;`}
 `;
 
-const Logo = ({ width }) => {
+const Logo = ({ width, scrollRatio }) => {
   const deviceSize = deviceSizeForWidth(width);
   const xlLogoSize = 642;
   const logoScale = {
@@ -30,13 +30,20 @@ const Logo = ({ width }) => {
     xl: 1.0,
   };
 
+  // TODO make the scaling a smarter, piecewise function at the threshold
+  // that also considers mobile/desktop status.
+  const logoDisappearThreshold = 0.25;
+  const logoSizeFactor = 1.0 - scrollRatio / logoDisappearThreshold;
+
   return (
     <LogoWrapper
       padding={Math.floor(xlPaddingSize * logoPaddingScale[deviceSize])}
     >
       <Link to="/">
         <LogoSVGIcon
-          width={Math.floor(xlLogoSize * logoScale[deviceSize])}
+          width={Math.floor(
+            xlLogoSize * logoScale[deviceSize] * logoSizeFactor
+          )}
           color={themeColors.black}
         />
       </Link>
@@ -46,6 +53,7 @@ const Logo = ({ width }) => {
 
 Logo.propTypes = {
   width: PropTypes.number.isRequired,
+  scrollRatio: PropTypes.number.isRequired,
 };
 
 export default Logo;
