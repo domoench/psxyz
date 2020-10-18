@@ -36,7 +36,7 @@ const NavPillList = styled.ul`
   padding: 0.25em;
   & li {
     margin: 0 0.35em;
-    padding-bottom: 0.4em;
+    padding: 0.4em 0;
   }
 `;
 

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import { StyledPath } from '../reusable/styled';
 
 const ratio = 998 / 233; // Figma svg width / height
 
+const StyledSVG = styled.svg`
+  transition: width 0.35s, height 0.35s;
+`;
+
 const LogoSVGIcon = ({ color, width }) => (
-  <svg
+  <StyledSVG
     width={width}
     height={Math.floor(width / ratio)}
     viewBox="0 0 998 233"
@@ -59,7 +64,7 @@ const LogoSVGIcon = ({ color, width }) => (
     />
     <StyledPath d="M567.48 105.37H535.22V2.02002H567.48V105.37Z" fill={color} />
     <StyledPath d="M721.36 127.2V230.55H689.04V127.2H721.36Z" fill={color} />
-  </svg>
+  </StyledSVG>
 );
 
 LogoSVGIcon.propTypes = {

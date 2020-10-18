@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import _debounce from 'lodash.debounce';
+import _throttle from 'lodash.throttle';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -34,7 +35,7 @@ const Layout = ({
 
   // Calculated viewport / DOM measurements
   const [width, setWidth] = useState();
-  const [scrollRatio, setScrollRatio] = useState();
+  const [scrollRatio, setScrollRatio] = useState(0);
 
   // Measure the browser-rendered dimensions of a DOM element
   const setVizDimensions = () => {
@@ -54,16 +55,18 @@ const Layout = ({
     setVizDimensions();
 
     // Resizing
-    const debouncedSetDimensions = _debounce(() => setVizDimensions(), 160);
+    const debouncedSetDimensions = _debounce(setVizDimensions, 160);
     window.addEventListener('resize', debouncedSetDimensions);
 
     // Scrolling through main content
-    const debouncedScrollRatio = _debounce(() => calculateScrollRatio(), 10);
-    overflowableRef.current?.addEventListener('scroll', debouncedScrollRatio, { passive: true });
+    // TODO perhaps this would be smoother if we broke out of react and set a --scroll property on the element
+    // then uses CSS vars. Like in this example: https://css-tricks.com/books/greatest-css-tricks/scroll-animation/
+    const throttledScrollRatio = _throttle(calculateScrollRatio, 500);
+    overflowableRef.current?.addEventListener('scroll', throttledScrollRatio, { passive: true });
 
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
-      overflowableRef.current?.removeEventListener('scroll', debouncedScrollRatio);
+      overflowableRef.current?.removeEventListener('scroll', throttledScrollRatio);
     };
   });
 
