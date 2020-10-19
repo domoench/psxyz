@@ -2,10 +2,10 @@ import React, { useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import _debounce from 'lodash.debounce';
-import _throttle from 'lodash.throttle';
 
 import Header from './Header';
 import Footer from './Footer';
+import { deviceSizeForWidth, isMobile } from '../theme';
 
 const Container = styled.div`
   height: 100%;
@@ -14,15 +14,39 @@ const Container = styled.div`
   grid-template-rows: auto 1fr;
 `;
 
+// The main content area, set to overflow: auto to implement the sticky header.
 const Overflowable = styled.div`
   overflow: auto;
 `;
 
-const Content = styled.div`
+// Content with a footer that is:
+// - Sticky to the bottom if the content isn't the full viewport height
+// - Pushed out of sight if the content is larger than the full viewport
+const ContentAndFooter = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   min-height: 100%;
 `;
+
+// Dynamically scale the logo based on how far down the page the user scrolls
+const logoScale = (scrollRatio, deviceSize) => {
+  // The scrollRatio point at which point we stop affecting Logo size
+  // On mobile: Beyond this point logo disappears
+  // On desktop: Beyond this point logo stays at minimum size
+  const scrollThreshold = 0.1;
+
+  // Logo will scale down from 1.0 to minLogoScale as the scrollRatio
+  // goes from 0 to scrollThreshold.
+  const minLogoScale = 0.5;
+
+  let scale;
+  if (scrollRatio < scrollThreshold) {
+    scale = ((minLogoScale - 1) * scrollRatio) / scrollThreshold + 1;
+  } else {
+    scale = isMobile(deviceSize) ? 0 : minLogoScale;
+  }
+  return scale;
+};
 
 const Layout = ({
   children,
@@ -32,10 +56,10 @@ const Layout = ({
 }) => {
   const containerRef = React.createRef();
   const overflowableRef = React.createRef();
+  const logoRef = React.createRef();
 
   // Calculated viewport / DOM measurements
   const [width, setWidth] = useState();
-  const [scrollRatio, setScrollRatio] = useState(0);
 
   // Measure the browser-rendered dimensions of a DOM element
   const setVizDimensions = () => {
@@ -43,12 +67,20 @@ const Layout = ({
     setWidth(vizBoundingRect.width);
   };
 
+  // Calculate the logoScale factor based on scroll and set it as a CSS
+  // property on the logo dom element. Chose this approach, rather than setting
+  // the scale factor as react state/props because this causes rerender-ing of
+  // the header and logo, and performed much choppier than doing it all via CSS.
   const calculateScrollRatio = () => {
     const contentElem = overflowableRef.current;
     if (!contentElem) return;
 
     const { clientHeight, scrollHeight, scrollTop } = contentElem;
-    setScrollRatio(scrollTop / (scrollHeight - clientHeight));
+    const scrollRatio = scrollTop / (scrollHeight - clientHeight);
+    logoRef.current?.style.setProperty(
+      '--logoScale',
+      logoScale(scrollRatio, deviceSizeForWidth(width))
+    );
   };
 
   useLayoutEffect(() => {
@@ -59,14 +91,16 @@ const Layout = ({
     window.addEventListener('resize', debouncedSetDimensions);
 
     // Scrolling through main content
-    // TODO perhaps this would be smoother if we broke out of react and set a --scroll property on the element
-    // then uses CSS vars. Like in this example: https://css-tricks.com/books/greatest-css-tricks/scroll-animation/
-    const throttledScrollRatio = _throttle(calculateScrollRatio, 500);
-    overflowableRef.current?.addEventListener('scroll', throttledScrollRatio, { passive: true });
+    overflowableRef.current?.addEventListener('scroll', calculateScrollRatio, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
-      overflowableRef.current?.removeEventListener('scroll', throttledScrollRatio);
+      overflowableRef.current?.removeEventListener(
+        'scroll',
+        calculateScrollRatio
+      );
     };
   });
 
@@ -83,13 +117,13 @@ const Layout = ({
         width={width}
         activeNavFilter={activeNavFilter}
         location={location}
-        scrollRatio={scrollRatio}
+        logoRef={logoRef}
       />
       <Overflowable ref={overflowableRef}>
-        <Content>
+        <ContentAndFooter>
           {children && children(width)}
           <Footer width={width} location={location} />
-        </Content>
+        </ContentAndFooter>
       </Overflowable>
     </Container>
   );

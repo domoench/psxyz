@@ -30,7 +30,6 @@
     "gatsby-transformer-sharp": "^2.3.16",
     "history": "^4.10.1",
     "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",

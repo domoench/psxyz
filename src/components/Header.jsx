@@ -238,7 +238,7 @@ const Header = ({
   width,
   activeNavFilter,
   location,
-  scrollRatio,
+  logoRef,
 }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
@@ -251,7 +251,7 @@ const Header = ({
 
   return (
     <StyledHeader>
-      <Logo width={width} scrollRatio={scrollRatio} />
+      <Logo width={width} logoRef={logoRef} />
       <nav>
         <NavPillList>
           <li>
@@ -318,7 +318,6 @@ Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
   width: PropTypes.number.isRequired,
   activeNavFilter: PropTypes.bool,
-  scrollRatio: PropTypes.number.isRequired,
 };
 
 export default Header;

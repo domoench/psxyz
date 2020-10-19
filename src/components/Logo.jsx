@@ -3,62 +3,60 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { deviceSizeForWidth, isMobile, colors as themeColors } from '../theme';
+import { deviceSizeForWidth, colors as themeColors } from '../theme';
 import LogoSVGIcon from './svg/logo';
 
+const initialLogoWidth = deviceSize => {
+  const xlLogoWidth = 642;
+  const logoDeviceScale = {
+    xs: 0.53,
+    sm: 0.65,
+    md: 0.77,
+    lg: 0.89,
+    xl: 1.0,
+  };
+  return xlLogoWidth * logoDeviceScale[deviceSize];
+};
+
+const initialLogoPadding = deviceSize => {
+  const xlPaddingSize = 50;
+  const logoPaddingScale = {
+    xs: 0.32,
+    sm: 0.4,
+    md: 0.66,
+    lg: 0.83,
+    xl: 1.0,
+  };
+  return xlPaddingSize * logoPaddingScale[deviceSize];
+};
+
+// Calculate Logo size and padding dynamicaly based on 2 things:
+//   1. Device size: Determines initial size and padding
+//   2. Scroll ratio: As the user scrolls down, the logoScale ratio
+//      decreases.
 const LogoWrapper = styled.div`
-  ${props => `padding: ${props.padding}px;`}
+  ${props => `--initWidth: ${props.initWidth}px;`}
+  ${props =>
+    `--initPadding: ${props.initPadding}px;`}
+  width: calc(var(--logoScale) * var(--initWidth));
+  padding: calc(var(--logoScale) * var(--initPadding));
+  transition: width 0.35s, height 0.35s, padding 0.35s;
 `;
 
-const xlLogoSize = 642;
-const logDeviceScale = {
-  xs: 0.53,
-  sm: 0.65,
-  md: 0.77,
-  lg: 0.89,
-  xl: 1.0,
-};
-
-const xlPaddingSize = 50;
-const logoPaddingScale = {
-  xs: 0.32,
-  sm: 0.4,
-  md: 0.66,
-  lg: 0.83,
-  xl: 1.0,
-};
-
-// Dynamically scale the logo based on how far down the page the user scrolls
-const logoScale = (scrollRatio, deviceSize) => {
-  // The scrollRatio point at which point we stop affecting Logo size
-  // On mobile: Beyond this point logo disappears
-  // On desktop: Beyond this point logo stays at minimum size
-  const scrollThreshold = 0.1;
-
-  // Logo will scale down from 1.0 to minLogoScale as the scrollRatio
-  // goes from 0 to scrollThreshold.
-  const minLogoScale = 0.5;
-
-  let scale;
-  if (scrollRatio < scrollThreshold) {
-    scale = ((minLogoScale - 1) * scrollRatio) / scrollThreshold + 1;
-  } else {
-    scale = isMobile(deviceSize) ? 0 : minLogoScale;
-  }
-  return scale;
-};
-
-const Logo = ({ width, scrollRatio }) => {
+const Logo = ({ width, logoRef }) => {
   const deviceSize = deviceSizeForWidth(width);
-  const logoPadding = Math.floor(xlPaddingSize * logoPaddingScale[deviceSize]);
-  const logoWidth = Math.floor(
-    xlLogoSize * logDeviceScale[deviceSize] * logoScale(scrollRatio, deviceSize)
-  );
+  const initPadding = Math.floor(initialLogoPadding(deviceSize));
+  const initWidth = Math.floor(initialLogoWidth(deviceSize));
 
   return (
-    <LogoWrapper padding={logoPadding}>
+    <LogoWrapper
+      initPadding={initPadding}
+      initWidth={initWidth}
+      ref={logoRef}
+      deviceSize={deviceSize}
+    >
       <Link to="/">
-        <LogoSVGIcon width={logoWidth} color={themeColors.black} />
+        <LogoSVGIcon color={themeColors.black} />
       </Link>
     </LogoWrapper>
   );
@@ -66,7 +64,7 @@ const Logo = ({ width, scrollRatio }) => {
 
 Logo.propTypes = {
   width: PropTypes.number.isRequired,
-  scrollRatio: PropTypes.number.isRequired,
+  logoRef: PropTypes.object.isRequired,
 };
 
 export default Logo;
