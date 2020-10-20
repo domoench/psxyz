@@ -318,6 +318,8 @@ Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
   width: PropTypes.number.isRequired,
   activeNavFilter: PropTypes.bool,
+  location: PropTypes.object.isRequired,
+  logoRef: PropTypes.object.isRequired,
 };
 
 export default Header;
