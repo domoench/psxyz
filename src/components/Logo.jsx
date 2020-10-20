@@ -36,8 +36,7 @@ const initialLogoPadding = deviceSize => {
 //      decreases.
 const LogoWrapper = styled.div`
   ${props => `--initWidth: ${props.initWidth}px;`}
-  ${props =>
-    `--initPadding: ${props.initPadding}px;`}
+  ${props => `--initPadding: ${props.initPadding}px;`}
   width: calc(var(--logoScale) * var(--initWidth));
   padding: calc(var(--logoScale) * var(--initPadding));
   transition: width 0.35s, height 0.35s, padding 0.35s;

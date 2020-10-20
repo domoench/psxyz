@@ -54,6 +54,10 @@ const Layout = ({
   activeNavFilter,
   location,
 }) => {
+  // Set up some direct DOM access for imperative animations:
+  // viewport-size and scroll calculations, event listeners, and setting custom
+  // CSS properties for use with transitions (to produce CSS transitions animations
+  // without re-renders).
   const containerRef = React.createRef();
   const overflowableRef = React.createRef();
   const logoRef = React.createRef();
@@ -68,10 +72,10 @@ const Layout = ({
   };
 
   // Calculate the logoScale factor based on scroll and set it as a CSS
-  // property on the logo dom element. Chose this approach, rather than setting
+  // variable on the logo DOM element. Chose this approach, rather than setting
   // the scale factor as react state/props because this causes rerender-ing of
   // the header and logo, and performed much choppier than doing it all via CSS.
-  const calculateScrollRatio = () => {
+  const setLogoScaleCSSVariable = () => {
     const contentElem = overflowableRef.current;
     if (!contentElem) return;
 
@@ -84,28 +88,31 @@ const Layout = ({
   };
 
   useLayoutEffect(() => {
+    // 1. First load
     setVizDimensions();
+    setLogoScaleCSSVariable();
 
-    // Resizing
+    // 2. Event Listeners
+    // Resize events
     const debouncedSetDimensions = _debounce(setVizDimensions, 160);
     window.addEventListener('resize', debouncedSetDimensions);
 
-    // Scrolling through main content
-    overflowableRef.current?.addEventListener('scroll', calculateScrollRatio, {
+    // Scroll events
+    overflowableRef.current?.addEventListener('scroll', setLogoScaleCSSVariable, {
       passive: true,
     });
 
+    // Cleanup
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
       overflowableRef.current?.removeEventListener(
         'scroll',
-        calculateScrollRatio
+        setLogoScaleCSSVariable
       );
     };
   });
 
-  // If we haven't calculated width yet (first load) render an empty grid on the
-  // first paint.
+  // If we haven't calculated width yet (first render)
   if (!width) {
     return <Container ref={containerRef} />;
   }
