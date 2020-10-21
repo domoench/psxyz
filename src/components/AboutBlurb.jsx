@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -25,8 +25,17 @@ const AboutBlurb = ({ width }) => {
   const fontSize = Math.floor(
     fontStyles.display1.size * blurbFontScale[deviceSize]
   );
+  const aboutBlurbRef = React.createRef();
+
+  useLayoutEffect(() => {
+    document.body.addEventListener('scrollRatio', e => {
+      const scrollRatio = e.detail.scrollRatio;
+      aboutBlurbRef.current?.style.setProperty('--scrollRatio', scrollRatio);
+    });
+  });
+
   return (
-    <Blurb fontSize={fontSize} padding={padding}>
+    <Blurb ref={aboutBlurbRef} fontSize={fontSize} padding={padding}>
       Public Service is a platform dedicated to achieving equity in imagemaking.
       We honor people of color as creators of culture, not just consumers. We
       believe we must diversify the creative talent working behind the scenes of

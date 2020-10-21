@@ -12,6 +12,10 @@ import { deviceSizeForWidth, isMobile } from '../theme';
  *  1. Switch over to emit a Javascript event from Layout component with
  *     scroll ratio value. Then Logo and AboutBlurb listeners set custom
  *     CSS properties on themselves.
+ *     - Event bubbling/capturing: https://medium.com/@vsvaibhav2016/event-bubbling-and-event-capturing-in-javascript-6ff38bec30e
+ *     - Left off: Got this working with event delegation to the document.body. But its
+ *       kindof annoying. Asked in slack if we can just get away with not animating
+ *       the about blurb
  *  2. [gross] Pass aboutBlurb ref to every child, then only the about page child
  *     uses it to set a logoScale CSS custom property (same method as logo)
  *  3. [gross] Set global var from layout component on window or document, then
@@ -93,10 +97,16 @@ const Layout = ({
 
     const { clientHeight, scrollHeight, scrollTop } = contentElem;
     const scrollRatio = scrollTop / (scrollHeight - clientHeight);
-    logoRef.current?.style.setProperty(
-      '--logoScale',
-      logoScale(scrollRatio, deviceSizeForWidth(width))
-    );
+    // logoRef.current?.style.setProperty(
+      // '--logoScale',
+      // logoScale(scrollRatio, deviceSizeForWidth(width))
+    // );
+
+    // Dispatch a custom scrollRatio change event
+    const scrollRatioEvent = new CustomEvent('scrollRatio', {
+      detail: { scrollRatio },
+    });
+    document.body.dispatchEvent(scrollRatioEvent);
   };
 
   useLayoutEffect(() => {

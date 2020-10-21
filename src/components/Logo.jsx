@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { deviceSizeForWidth, colors as themeColors } from '../theme';
+import { deviceSizeForWidth, isMobile, colors as themeColors } from '../theme';
 import LogoSVGIcon from './svg/logo';
 
 const initialLogoWidth = deviceSize => {
@@ -30,6 +30,28 @@ const initialLogoPadding = deviceSize => {
   return xlPaddingSize * logoPaddingScale[deviceSize];
 };
 
+// TODO duplicated
+// Dynamically scale the logo based on how far down the page the user scrolls
+const logoScale = (scrollRatio, deviceSize) => {
+  // The scrollRatio point at which point we stop affecting Logo size
+  // On mobile: Beyond this point logo disappears
+  // On desktop: Beyond this point logo stays at minimum size
+  const scrollThreshold = 0.1;
+
+  // Logo will scale down from 1.0 to minLogoScale as the scrollRatio
+  // goes from 0 to scrollThreshold.
+  const minLogoScale = 0.5;
+
+  let scale;
+  if (scrollRatio < scrollThreshold) {
+    scale = ((minLogoScale - 1) * scrollRatio) / scrollThreshold + 1;
+  } else {
+    scale = isMobile(deviceSize) ? 0 : minLogoScale;
+  }
+  return scale;
+};
+
+// TODO perhaps this would be smoother with keyframe animations (e.g https://vanseodesign.com/css/custom-properties-and-animations/)
 // Calculate Logo size and padding dynamicaly based on 2 things:
 //   1. Device size: Determines initial size and padding
 //   2. Scroll ratio: As the user scrolls down, the logoScale ratio
@@ -39,13 +61,25 @@ const LogoWrapper = styled.div`
   ${props => `--initPadding: ${props.initPadding}px;`}
   width: calc(var(--logoScale) * var(--initWidth));
   padding: calc(var(--logoScale) * var(--initPadding));
-  transition: width 0.35s, height 0.35s, padding 0.35s;
+  transition: width 0.05s, height 0.05s, padding 0.05s;
 `;
 
+// TODO now you can define logoRef locally
 const Logo = ({ width, logoRef }) => {
   const deviceSize = deviceSizeForWidth(width);
   const initPadding = Math.floor(initialLogoPadding(deviceSize));
   const initWidth = Math.floor(initialLogoWidth(deviceSize));
+
+  useLayoutEffect(() => {
+    document.body.addEventListener('scrollRatio', (e) => {
+      const scrollRatio = e.detail.scrollRatio;
+      const ls = logoScale(scrollRatio, deviceSize);
+      logoRef.current?.style.setProperty(
+        '--logoScale',
+        logoScale(scrollRatio, deviceSizeForWidth(width))
+      );
+    });
+  });
 
   return (
     <LogoWrapper
