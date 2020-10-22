@@ -238,7 +238,6 @@ const Header = ({
   width,
   activeNavFilter,
   location,
-  logoRef,
 }) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
@@ -251,7 +250,7 @@ const Header = ({
 
   return (
     <StyledHeader>
-      <Logo width={width} logoRef={logoRef} />
+      <Logo width={width} />
       <nav>
         <NavPillList>
           <li>
@@ -319,7 +318,6 @@ Header.propTypes = {
   width: PropTypes.number.isRequired,
   activeNavFilter: PropTypes.bool,
   location: PropTypes.object.isRequired,
-  logoRef: PropTypes.object.isRequired,
 };
 
 export default Header;

@@ -12,15 +12,7 @@ import { deviceSizeForWidth, isMobile } from '../theme';
  *  1. Switch over to emit a Javascript event from Layout component with
  *     scroll ratio value. Then Logo and AboutBlurb listeners set custom
  *     CSS properties on themselves.
- *     - Event bubbling/capturing: https://medium.com/@vsvaibhav2016/event-bubbling-and-event-capturing-in-javascript-6ff38bec30e
- *     - Left off: Got this working with event delegation to the document.body. But its
- *       kindof annoying. Asked in slack if we can just get away with not animating
- *       the about blurb
- *  2. [gross] Pass aboutBlurb ref to every child, then only the about page child
- *     uses it to set a logoScale CSS custom property (same method as logo)
- *  3. [gross] Set global var from layout component on window or document, then
- *     Logo and AboutBlurb components poll it. Basically ignore the point of
- *     react.
+ *     - For about blurb: Try fully capturing scroll, and preventing default, until shrink animation is complete
  */
 
 const Container = styled.div`
@@ -44,26 +36,6 @@ const ContentAndFooter = styled.div`
   min-height: 100%;
 `;
 
-// Dynamically scale the logo based on how far down the page the user scrolls
-const logoScale = (scrollRatio, deviceSize) => {
-  // The scrollRatio point at which point we stop affecting Logo size
-  // On mobile: Beyond this point logo disappears
-  // On desktop: Beyond this point logo stays at minimum size
-  const scrollThreshold = 0.1;
-
-  // Logo will scale down from 1.0 to minLogoScale as the scrollRatio
-  // goes from 0 to scrollThreshold.
-  const minLogoScale = 0.5;
-
-  let scale;
-  if (scrollRatio < scrollThreshold) {
-    scale = ((minLogoScale - 1) * scrollRatio) / scrollThreshold + 1;
-  } else {
-    scale = isMobile(deviceSize) ? 0 : minLogoScale;
-  }
-  return scale;
-};
-
 const Layout = ({
   children,
   toggleFiltersDrawer,
@@ -76,7 +48,6 @@ const Layout = ({
   // without re-renders).
   const containerRef = React.createRef();
   const overflowableRef = React.createRef();
-  const logoRef = React.createRef();
 
   // Calculated viewport / DOM measurements
   const [width, setWidth] = useState();
@@ -87,20 +58,16 @@ const Layout = ({
     setWidth(vizBoundingRect.width);
   };
 
-  // Calculate the logoScale factor based on scroll and set it as a CSS
-  // variable on the logo DOM element. Chose this approach, rather than setting
-  // the scale factor as react state/props because this causes rerender-ing of
-  // the header and logo, and performed much choppier than doing it all via CSS.
-  const setLogoScaleCSSVariable = () => {
+  // Chose this Events + custom CSS property approach, rather than setting
+  // the scale factor as react state/props, because the latter causes rerender-ing
+  // of the header and logo, and performed much choppier than DOM-manipulating
+  // custom CSS properties with transitions.
+  const dispatchScrollRatioEvent = () => {
     const contentElem = overflowableRef.current;
     if (!contentElem) return;
 
     const { clientHeight, scrollHeight, scrollTop } = contentElem;
     const scrollRatio = scrollTop / (scrollHeight - clientHeight);
-    // logoRef.current?.style.setProperty(
-      // '--logoScale',
-      // logoScale(scrollRatio, deviceSizeForWidth(width))
-    // );
 
     // Dispatch a custom scrollRatio change event
     const scrollRatioEvent = new CustomEvent('scrollRatio', {
@@ -112,7 +79,7 @@ const Layout = ({
   useLayoutEffect(() => {
     // 1. First load
     setVizDimensions();
-    setLogoScaleCSSVariable();
+    dispatchScrollRatioEvent();
 
     // 2. Event Listeners
     // Resize events
@@ -120,16 +87,20 @@ const Layout = ({
     window.addEventListener('resize', debouncedSetDimensions);
 
     // Scroll events
-    overflowableRef.current?.addEventListener('scroll', setLogoScaleCSSVariable, {
-      passive: true,
-    });
+    overflowableRef.current?.addEventListener(
+      'scroll',
+      dispatchScrollRatioEvent,
+      {
+        passive: true,
+      }
+    );
 
     // Cleanup
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
       overflowableRef.current?.removeEventListener(
         'scroll',
-        setLogoScaleCSSVariable
+        dispatchScrollRatioEvent
       );
     };
   });
@@ -146,7 +117,6 @@ const Layout = ({
         width={width}
         activeNavFilter={activeNavFilter}
         location={location}
-        logoRef={logoRef}
       />
       <Overflowable ref={overflowableRef}>
         <ContentAndFooter>

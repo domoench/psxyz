@@ -30,7 +30,6 @@ const initialLogoPadding = deviceSize => {
   return xlPaddingSize * logoPaddingScale[deviceSize];
 };
 
-// TODO duplicated
 // Dynamically scale the logo based on how far down the page the user scrolls
 const logoScale = (scrollRatio, deviceSize) => {
   // The scrollRatio point at which point we stop affecting Logo size
@@ -51,11 +50,6 @@ const logoScale = (scrollRatio, deviceSize) => {
   return scale;
 };
 
-// TODO perhaps this would be smoother with keyframe animations (e.g https://vanseodesign.com/css/custom-properties-and-animations/)
-// Calculate Logo size and padding dynamicaly based on 2 things:
-//   1. Device size: Determines initial size and padding
-//   2. Scroll ratio: As the user scrolls down, the logoScale ratio
-//      decreases.
 const LogoWrapper = styled.div`
   ${props => `--initWidth: ${props.initWidth}px;`}
   ${props => `--initPadding: ${props.initPadding}px;`}
@@ -64,11 +58,12 @@ const LogoWrapper = styled.div`
   transition: width 0.05s, height 0.05s, padding 0.05s;
 `;
 
-// TODO now you can define logoRef locally
-const Logo = ({ width, logoRef }) => {
+const Logo = ({ width }) => {
   const deviceSize = deviceSizeForWidth(width);
   const initPadding = Math.floor(initialLogoPadding(deviceSize));
   const initWidth = Math.floor(initialLogoWidth(deviceSize));
+
+  const logoRef = React.createRef();
 
   useLayoutEffect(() => {
     document.body.addEventListener('scrollRatio', (e) => {
@@ -78,7 +73,7 @@ const Logo = ({ width, logoRef }) => {
         '--logoScale',
         logoScale(scrollRatio, deviceSizeForWidth(width))
       );
-    });
+    }, { passive: true });
   });
 
   return (
@@ -97,7 +92,6 @@ const Logo = ({ width, logoRef }) => {
 
 Logo.propTypes = {
   width: PropTypes.number.isRequired,
-  logoRef: PropTypes.object.isRequired,
 };
 
 export default Logo;
