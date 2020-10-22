@@ -1,14 +1,23 @@
 import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { fontStyles, deviceSizeForWidth } from '../theme';
 
-const Blurb = styled.p`
+const shrinkFont = keyframes`
+  from { font-size: 40px; }
+  to { font-size: 10px; }
+`;
+
+const Blurb = styled.div`
+  transition: font 0.35s ease;
   font-family: ${fontStyles.body1.family};
   ${props => `padding: ${props.padding}px;`}
-  ${props => `font-size: ${props.fontSize}px;`}
+  animation: ${shrinkFont} 1s linear infinite;
+  animation-play-state: paused;
+  animation-delay: calc(var(--scrollRatio) * -1s);
 `;
+// ${props => `font-size: ${props.fontSize}px * var(--scale);`}
 
 const xlPadding = 50;
 const blurbFontScale = {
