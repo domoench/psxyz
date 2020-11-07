@@ -7,18 +7,6 @@ import Header from './Header';
 import Footer from './Footer';
 import { deviceSizeForWidth, isMobile } from '../theme';
 
-/* TODO
- * Add scaling to about blurb. Options:
- *  1. Switch over to emit a Javascript event from Layout component with
- *     scroll ratio value. Then Logo and AboutBlurb listeners set custom
- *     CSS properties on themselves.
- *  2. [gross] Pass aboutBlurb ref to every child, then only the about page child
- *     uses it to set a logoScale CSS custom property (same method as logo)
- *  3. [gross] Set global var from layout component on window or document, then
- *     Logo and AboutBlurb components poll it. Basically ignore the point of
- *     react.
- */
-
 const Container = styled.div`
   height: 100%;
   margin: 0 auto;
