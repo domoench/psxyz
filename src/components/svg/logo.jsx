@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 
 import { StyledPath } from '../reusable/styled';
 
-const ratio = 998 / 233; // Figma svg width / height
-
-const LogoSVGIcon = ({ color, width }) => (
+const LogoSVGIcon = ({ color }) => (
   <svg
-    width={width}
-    height={Math.floor(width / ratio)}
+    width="100%"
+    height="auto"
     viewBox="0 0 998 233"
     fill={color}
     xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +62,6 @@ const LogoSVGIcon = ({ color, width }) => (
 
 LogoSVGIcon.propTypes = {
   color: PropTypes.string.isRequired,
-  width: PropTypes.number.isRequired,
 };
 
 export default LogoSVGIcon;

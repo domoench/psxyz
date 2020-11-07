@@ -96,6 +96,10 @@ export const deviceSizeForWidth = width => {
   return dSize;
 };
 
+export const isMobile = deviceSize => {
+  return deviceSize === 'xs' || deviceSize === 's';
+};
+
 export const fontScaleForDevice = {
   xs: 0.7,
   sm: 0.75,
