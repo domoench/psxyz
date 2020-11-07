@@ -98,9 +98,13 @@ const Layout = ({
     window.addEventListener('resize', debouncedSetDimensions);
 
     // Scroll events
-    overflowableRef.current?.addEventListener('scroll', setLogoScaleCSSVariable, {
-      passive: true,
-    });
+    overflowableRef.current?.addEventListener(
+      'scroll',
+      setLogoScaleCSSVariable,
+      {
+        passive: true,
+      }
+    );
 
     // Cleanup
     return () => {
