@@ -101,8 +101,8 @@ export const isMobile = deviceSize => {
 };
 
 export const fontScaleForDevice = {
-  xs: 0.7,
-  sm: 0.75,
+  xs: 0.55,
+  sm: 0.65,
   md: 0.8,
   lg: 0.9,
   xl: 1.0,
