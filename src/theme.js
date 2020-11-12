@@ -118,6 +118,9 @@ export const mediaQuery = bp => {
 export const minWidthMediaQuery = bp =>
   `@media (min-width: ${breakpoints[bp][0]})`;
 
+export const maxWidthMediaQuery = bp =>
+  `@media (max-width: ${breakpoints[bp][0]})`;
+
 // Map from device size to number of grid columns
 export const gridColumnsForBreakpoint = {
   xs: 2,

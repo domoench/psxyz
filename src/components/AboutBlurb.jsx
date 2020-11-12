@@ -27,11 +27,12 @@ const AboutBlurb = ({ width }) => {
   );
   return (
     <Blurb fontSize={fontSize} padding={padding}>
-      Public Service is a platform dedicated to achieving equity in imagemaking.
-      We honor people of color as creators of culture, not just consumers. We
-      believe we must diversify the creative talent working behind the scenes of
-      every production to reimagine the gaze, reframe the narrative, and
-      recreate the codes of visual culture.
+      Public Service is a platform and creative studio dedicated to achieving
+      equity in imagemaking. We honor people of color as creators of culture,
+      not just consumers. We believe we must diversify the creative talent
+      working behind the scenes of every production to reimagine the gaze,
+      reframe the narrative, and recreate the codes of visual culture. Public
+      Service is an independently-run and self-funded team of color.
     </Blurb>
   );
 };
