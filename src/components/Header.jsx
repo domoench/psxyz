@@ -36,7 +36,7 @@ const NavPillList = styled.ul`
   padding: 0.25em;
   & li {
     margin: 0 0.35em;
-    padding-bottom: 0.4em;
+    padding: 0.4em 0;
   }
 `;
 
@@ -233,7 +233,13 @@ const StyledFilterTogglePill = styled(FilterTogglePill)`
 
 // TODO update styled component usage to this pattern wherever possible
 // https://www.styled-components.com/docs/basics#how-do-styled-components-work-within-a-component
-const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
+const Header = ({
+  toggleFiltersDrawer,
+  width,
+  activeNavFilter,
+  location,
+  logoRef,
+}) => {
   const { savedImageMakerIds, categoryFilterSlugs } = useContext(
     GlobalStateContext
   );
@@ -245,7 +251,7 @@ const Header = ({ toggleFiltersDrawer, width, activeNavFilter, location }) => {
 
   return (
     <StyledHeader>
-      <Logo width={width} />
+      <Logo width={width} logoRef={logoRef} />
       <nav>
         <NavPillList>
           <li>
@@ -312,6 +318,8 @@ Header.propTypes = {
   toggleFiltersDrawer: PropTypes.func,
   width: PropTypes.number.isRequired,
   activeNavFilter: PropTypes.bool,
+  location: PropTypes.object.isRequired,
+  logoRef: PropTypes.object.isRequired,
 };
 
 export default Header;
