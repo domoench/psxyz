@@ -11,7 +11,8 @@ export const StyledAnchor = styled.a`
   color: ${({ color }) => color || colors.white};
   transition: ${hoverStyles.transition};
   &:hover {
-    color: ${({ hoverColor }) => hoverColor || colors.red};
+    color: ${({ hoverColor }) => hoverColor || colors.white};
+    opacity: 0.6;
     cursor: ${hoverStyles.cursor};
   }
 `;

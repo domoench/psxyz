@@ -43,7 +43,7 @@ const Privacy = styled.div`
     color: ${colors.white};
     transition: ${hoverStyles.transition};
     &:hover {
-      color: ${colors.red};
+      opacity: 0.6;
       cursor: ${hoverStyles.cursor};
     }
   }
