@@ -93,7 +93,7 @@ export const query = graphql`
           }
           mainImage {
             fluid(maxWidth: 700, maxHeight: 700) {
-              ...GatsbyContentfulFluid
+              ...GatsbyContentfulFluid_withWebp
             }
           }
           categories {

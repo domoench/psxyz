@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import Img from 'gatsby-image';
+import Image from 'gatsby-image';
 import styled, { keyframes } from 'styled-components';
 
 /* TODO
@@ -235,7 +235,7 @@ const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
   return (
     <div className={className} style={style}>
       <RelativeWrapper>
-        <Img fluid={imageMaker.mainImage.fluid} />
+        <Image fluid={imageMaker.mainImage.fluid} />
         <Overlay
           className="image-overlay"
           color={colorForIdx(idx, overlayColors)}
