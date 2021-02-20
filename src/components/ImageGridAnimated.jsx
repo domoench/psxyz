@@ -331,18 +331,18 @@ const PositionedImageCell = styled(ImageCell)`
 
 const ImageGridAnimated = ({ imageMakers, width }) => {
   // TODO Remove this section after testing
-  let copiedImageMakers = [];
-  for (let i = 0; i < 10; i += 1) {
-    copiedImageMakers = [...copiedImageMakers, ...imageMakers];
-  }
-  imageMakers = copiedImageMakers.map(({ node }, i) => {
-    return {
-      node: {
-        ...node,
-        id: `${node.id}${i}`,
-      },
-    };
-  });
+  // let copiedImageMakers = [];
+  // for (let i = 0; i < 10; i += 1) {
+    // copiedImageMakers = [...copiedImageMakers, ...imageMakers];
+  // }
+  // imageMakers = copiedImageMakers.map(({ node }, i) => {
+    // return {
+      // node: {
+        // ...node,
+        // id: `${node.id}${i}`,
+      // },
+    // };
+  // });
 
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
