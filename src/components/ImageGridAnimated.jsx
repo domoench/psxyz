@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import Image from 'gatsby-image';
+import Img from 'gatsby-image';
 import styled, { keyframes } from 'styled-components';
 
 /* TODO
@@ -40,6 +40,7 @@ const Grid = styled.div`
 
 const RelativeWrapper = styled.div`
   position: relative;
+  height: 100%;
   &:hover .image-overlay {
     opacity: 1;
   }
@@ -226,7 +227,14 @@ ImageMakerBlurb.propTypes = {
   deviceSize: PropTypes.string.isRequired,
 };
 
-const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
+const ImageCell = ({
+  className,
+  imageMaker,
+  idx,
+  deviceSize,
+  cellWidth,
+  style,
+}) => {
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
@@ -235,7 +243,13 @@ const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
   return (
     <div className={className} style={style}>
       <RelativeWrapper>
-        <Image fluid={imageMaker.mainImage.fluid} />
+        <Img
+          fluid={{
+            ...imageMaker.mainImage.fluid,
+            sizes: `${cellWidth}px`, // Explicitly control the source size
+          }}
+          alt={imageMaker.name}
+        />
         <Overlay
           className="image-overlay"
           color={colorForIdx(idx, overlayColors)}
@@ -296,6 +310,7 @@ ImageCell.propTypes = {
   imageMaker: PropTypes.object,
   idx: PropTypes.number,
   deviceSize: PropTypes.string,
+  cellWidth: PropTypes.number,
   style: PropTypes.object,
 };
 
@@ -315,9 +330,23 @@ const PositionedImageCell = styled(ImageCell)`
 `;
 
 const ImageGridAnimated = ({ imageMakers, width }) => {
+  // TODO Remove this section after testing
+  let copiedImageMakers = [];
+  for (let i = 0; i < 10; i += 1) {
+    copiedImageMakers = [...copiedImageMakers, ...imageMakers];
+  }
+  imageMakers = copiedImageMakers.map(({ node }, i) => {
+    return {
+      node: {
+        ...node,
+        id: `${node.id}${i}`,
+      },
+    };
+  });
+
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
-  const cellWidth = width / numCols;
+  const cellWidth = Math.floor(width / numCols);
   const numRows = Math.ceil(imageMakers.length / numCols);
   const height = numRows * cellWidth;
   return (
@@ -332,6 +361,7 @@ const ImageGridAnimated = ({ imageMakers, width }) => {
             idx={i}
             bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
             deviceSize={deviceSize}
+            cellWidth={cellWidth}
             // Doing inline style instead of styled components here because this was generating
             // so many css classes when resizing and noticably hurting performance
             style={{
