@@ -324,10 +324,14 @@ const fadeIn = keyframes`
 
 // Styling the positioned cells with styled component classes was pretty expensive.
 // Let's try inline styles for the position + dimension attributes
+// TODO: Performance ideas: https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/
+// We can try avoiding Layout recalculations with the following:
+// - Translate instead of top and left-based absolute positions
+// - Scale instead of width
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
   transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s,
-    height 0.5s ease 0s, border-color 0s ease 0s;
+    height 0.5s ease 0s;
   animation: ${fadeIn} ease 1;
   animation-duration: 0.3s;
 `;
