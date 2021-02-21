@@ -41,6 +41,7 @@ const Grid = styled.div`
 const RelativeWrapper = styled.div`
   position: relative;
   height: 100%;
+  overflow: hidden;
   &:hover .image-overlay {
     opacity: 1;
   }
@@ -248,6 +249,8 @@ const ImageCell = ({
             ...imageMaker.mainImage.fluid,
             sizes: `${cellWidth}px`, // Explicitly control the source size
           }}
+          objectFit="cover"
+          style={{ height: '100%' }}
           alt={imageMaker.name}
         />
         <Overlay
