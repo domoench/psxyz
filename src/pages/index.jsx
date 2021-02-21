@@ -92,7 +92,7 @@ export const query = graphql`
             bio
           }
           mainImage {
-            fluid {
+            fluid(maxWidth: 700, maxHeight: 700) {
               ...GatsbyContentfulFluid_withWebp
             }
           }
