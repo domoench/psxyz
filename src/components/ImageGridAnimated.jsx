@@ -100,8 +100,8 @@ const SavePill = ({
 }) => {
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  // const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
-  const fontSize = 4;
+  const fontSize =
+    fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <Pill
@@ -141,8 +141,8 @@ const AnchorPill = ({ href, defaultColors, hoverColors, deviceSize }) => {
   // TODO I do this hover management in many components. refactor?
   const [hover, setHover] = useState(false);
   const colors = hover ? hoverColors : defaultColors;
-  // const fontSize = fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
-  const fontSize = 4;
+  const fontSize =
+    fontStyles.imageGridPill.size * fontScaleForDevice[deviceSize];
 
   return (
     <div
@@ -217,10 +217,7 @@ const fontScaleForIMBlurb = {
 };
 
 const ImageMakerBlurb = ({ imageMaker, deviceSize }) => (
-  <Blurb fontSize={
-    // Math.ceil(27 * fontScaleForIMBlurb[deviceSize])
-    8
-  }>
+  <Blurb fontSize={Math.ceil(27 * fontScaleForIMBlurb[deviceSize])}>
     {`${imageMaker.name} is`}
     {categorySentence(imageMaker.categories)}.
   </Blurb>
@@ -333,41 +330,37 @@ const fadeIn = keyframes`
 // - Scale instead of width
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
-  transition: transform 0.5s ease 0s;
+  transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s,
+    height 0.5s ease 0s;
   animation: ${fadeIn} ease 1;
   animation-duration: 0.3s;
 `;
 
 const ImageGridAnimated = ({ imageMakers, width }) => {
   // TODO Remove this section after testing
-  let copiedImageMakers = [];
-  for (let i = 0; i < 10; i += 1) {
-    copiedImageMakers = [...copiedImageMakers, ...imageMakers];
-  }
-  imageMakers = copiedImageMakers.map(({ node }, i) => {
-    return {
-      node: {
-        ...node,
-        id: `${node.id}${i}`,
-      },
-    };
-  });
+  // let copiedImageMakers = [];
+  // for (let i = 0; i < 10; i += 1) {
+    // copiedImageMakers = [...copiedImageMakers, ...imageMakers];
+  // }
+  // imageMakers = copiedImageMakers.map(({ node }, i) => {
+    // return {
+      // node: {
+        // ...node,
+        // id: `${node.id}${i}`,
+      // },
+    // };
+  // });
 
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
-  // const cellWidth = Math.floor(width / numCols);
-  const baseCellWidth = 100;
-  const targetCellWidth = width / numCols;
-  const cellScale = targetCellWidth / baseCellWidth;
+  const cellWidth = Math.floor(width / numCols);
   const numRows = Math.ceil(imageMakers.length / numCols);
-  const height = numRows * targetCellWidth;
+  const height = numRows * cellWidth;
   return (
     <Grid numImageMakers={imageMakers.length} height={height}>
       {imageMakers.map(({ node }, i) => {
         const gridCol = i % numCols;
         const gridRow = Math.floor(i / numCols);
-        const transform = `scale(${cellScale}) translate(${gridCol * baseCellWidth}px, ${gridRow * baseCellWidth}px)`;
-        console.log('transform', transform);
         return (
           <PositionedImageCell
             imageMaker={node}
@@ -375,19 +368,19 @@ const ImageGridAnimated = ({ imageMakers, width }) => {
             idx={i}
             bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
             deviceSize={deviceSize}
-            cellWidth={targetCellWidth}
+            cellWidth={cellWidth}
             // Doing inline style instead of styled components here because this was generating
             // so many css classes when resizing and noticably hurting performance
             style={{
-              // top: gridRow * cellWidth,
-              // left: gridCol * cellWidth,
-              transformOrigin: 'top left',
-              transform: `${transform}`,
-              width: `${baseCellWidth}px`,
-              // width: cellWidth - 2,
-              // height: cellWidth - 2,
-              // borderRight: `2px solid ${colorForIdx(gridCol, gridLineColors)}`,
-              // boxShadow: `${colorForIdx(gridRow, gridLineColors)} 0px 2px 0px 0px`,
+              top: gridRow * cellWidth,
+              left: gridCol * cellWidth,
+              width: cellWidth - 2,
+              height: cellWidth - 2,
+              borderRight: `2px solid ${colorForIdx(gridCol, gridLineColors)}`,
+              boxShadow: `${colorForIdx(
+                gridRow,
+                gridLineColors
+              )} 0px 2px 0px 0px`,
             }}
           />
         );
