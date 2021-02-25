@@ -324,10 +324,6 @@ const fadeIn = keyframes`
 
 // Styling the positioned cells with styled component classes was pretty expensive.
 // Let's try inline styles for the position + dimension attributes
-// TODO: Performance ideas: https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/
-// We can try avoiding Layout recalculations with the following:
-// - Translate instead of top and left-based absolute positions
-// - Scale instead of width
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
   transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s,
@@ -337,20 +333,6 @@ const PositionedImageCell = styled(ImageCell)`
 `;
 
 const ImageGridAnimated = ({ imageMakers, width }) => {
-  // TODO Remove this section after testing
-  // let copiedImageMakers = [];
-  // for (let i = 0; i < 10; i += 1) {
-    // copiedImageMakers = [...copiedImageMakers, ...imageMakers];
-  // }
-  // imageMakers = copiedImageMakers.map(({ node }, i) => {
-    // return {
-      // node: {
-        // ...node,
-        // id: `${node.id}${i}`,
-      // },
-    // };
-  // });
-
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
   const cellWidth = Math.floor(width / numCols);

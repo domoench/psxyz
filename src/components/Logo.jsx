@@ -39,7 +39,7 @@ const LogoWrapper = styled.div`
   ${props => `--initPadding: ${props.initPadding}px;`}
   width: calc(var(--logoScale, 1) * var(--initWidth));
   padding: calc(var(--logoScale, 1) * var(--initPadding));
-  transition: width 0.35s, height 0.35s, padding 0.35s;
+  transition: width 0.15s, height 0.15s, padding 0.15s;
 `;
 
 const Logo = ({ width, logoRef }) => {

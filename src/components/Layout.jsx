@@ -1,7 +1,8 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import _debounce from 'lodash.debounce';
+import _throttle from 'lodash.throttle';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -58,9 +59,9 @@ const Layout = ({
   // viewport-size and scroll calculations, event listeners, and setting custom
   // CSS properties for use with transitions (to produce CSS transitions animations
   // without re-renders).
-  const containerRef = React.createRef();
-  const overflowableRef = React.createRef();
-  const logoRef = React.createRef();
+  const containerRef = useRef(null);
+  const overflowableRef = useRef(null);
+  const logoRef = useRef(null);
 
   // Calculated viewport / DOM measurements
   const [width, setWidth] = useState();
@@ -98,9 +99,10 @@ const Layout = ({
     window.addEventListener('resize', debouncedSetDimensions);
 
     // Scroll events
+    const throttledSetLogoScale = _throttle(setLogoScaleCSSVariable, 10);
     overflowableRef.current?.addEventListener(
       'scroll',
-      setLogoScaleCSSVariable,
+      throttledSetLogoScale,
       {
         passive: true,
       }
@@ -111,7 +113,7 @@ const Layout = ({
       window.removeEventListener('resize', debouncedSetDimensions);
       overflowableRef.current?.removeEventListener(
         'scroll',
-        setLogoScaleCSSVariable
+        throttledSetLogoScale,
       );
     };
   });
