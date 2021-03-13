@@ -174,7 +174,7 @@ const Footer = ({ width, location }) => {
           </AnchorPill>
         </FooterPill>
       </Pills>
-      <Copyright>© 2019 Public Service</Copyright>
+      <Copyright>© {`${new Date().getFullYear()}`} Public Service</Copyright>
     </StyledFooter>
   );
 };
