@@ -39,10 +39,10 @@ const About = ({ location }) => (
           <Section>
             <Title1>OUR STORY</Title1>
             <p>
-              Public Service began in 2018, born out of our own needs. As people
-              of color working in the advertising industry, it quickly became
-              obvious that words like diversity and inclusion are everywhere but
-              we wanted to see it actualized.
+              Public Service began in 2018, born out of our own needs. As
+              creatives of color working in the advertising industry, it quickly
+              became obvious that words like diversity and inclusion are
+              everywhere but we wanted to see it actualized.
             </p>
             <p>
               Clients knew that the appearance of diversity sells, but working
@@ -73,18 +73,7 @@ const About = ({ location }) => (
               . Our directory contains people whose work we find interesting,
               who help us see in new ways, who excite us, who have limitless
               potential. Use it as a resource to find talent for your next
-              project.{' '}
-              <Anchor
-                href="http://www.instagram.com/publicservice.xyz"
-                underline
-              >
-                Share our mission.
-              </Anchor>{' '}
-              <Anchor href="https://forms.gle/65Q6jXTdwyzorTrq7" underline>
-                Submit your work.
-              </Anchor>{' '}
-              Bookmark our directory. If you’re an agency or brand we urge you
-              to read our{' '}
+              project. If you’re an agency or brand we urge you to read our{' '}
               <Anchor
                 href="https://drive.google.com/file/d/1B4xukvX6gKKHQPML9MUkuiimj8U0GYSu/view?usp=drivesdk"
                 underline
@@ -103,18 +92,12 @@ const About = ({ location }) => (
             <p>
               Public Service is an independently-run and self-funded team of
               color. We are Kaity Wong, Inyegumena Nosegbe, Lulu Mu Park, Sheila
-              Reyes, Anu Lingala, David Ouyang Moench, Eshia Alvarado. If you
-              would like to volunteer with us please{' '}
+              Reyes, Anu Lingala, David Ouyang Moench, and Eshia Alvarado. If
+              you’d like to work with us{' '}
               <Anchor href="https://forms.gle/CdsjpnsR14jPRQag8" underline>
-                complete this form.
+                submit an inquiry
               </Anchor>{' '}
-            </p>
-            <p>
-              For collabs, conversation, partnerships, talent submissions, etc.
-              e-mail us at{' '}
-              <Anchor href="mailto:people@publicservice.com" underline>
-                people@publicservice.com
-              </Anchor>
+              .
             </p>
           </Section>
           <Section>
@@ -123,10 +106,14 @@ const About = ({ location }) => (
               Public Service is a creative studio actively working to create
               work by and for people of color. We offer services like creative
               and art direction, strategic consulting, writing, custom talent
-              curation, and more. Want to work with us? Reach out at{' '}
-              <Anchor href="mailto:contact@publicservice.com" underline>
-                contact@publicservice.xyz.
-              </Anchor>
+              curation, and more.{' '}
+              <Anchor
+                href="https://www.kaitywong.com/s/PublicService_Capabilities_2020.pdf"
+                underline
+              >
+                Learn more
+              </Anchor>{' '}
+              .
             </p>
           </Section>
         </Column>
@@ -160,6 +147,24 @@ const About = ({ location }) => (
               to help support and further our work.
             </p>
           </Section>
+
+          <Section>
+            <Title1>CONTACT</Title1>
+            <p>
+              For collabs, conversation, etc. reach out at{' '}
+              <Anchor href="mailto:contact@publicservice.com" underline>
+                contact@publicservice.xyz
+              </Anchor>{' '}
+              and{' '}
+              <Anchor
+                href="http://www.instagram.com/publicservice.xyz"
+                underline
+              >
+                @publicservice.xyz
+              </Anchor>
+              .
+            </p>
+          </Section>
         </Column>
 
         <Column>
@@ -183,8 +188,14 @@ const About = ({ location }) => (
               their inspiring multitude of viewpoints and styles.
             </p>
             <p>
-              Please take a moment to read our open letter and guidelines [link
-              to FTP] for agencies and brands below.
+              Please take a moment to read our{' '}
+              <Anchor
+                href="https://drive.google.com/file/d/1B4xukvX6gKKHQPML9MUkuiimj8U0GYSu/view?usp=drivesdk"
+                underline
+              >
+                open letter
+              </Anchor>{' '}
+              and guidelines for agencies and brands below.
             </p>
             <p>
               1. This is a directory of established industry talent. We ask that
