@@ -261,7 +261,7 @@ const Header = ({
               fontSize={fontSize}
               location={location}
             >
-              <span>INDEX</span>
+              <span>DIRECTORY</span>
             </StyledNavPill>
           </li>
           <li>
