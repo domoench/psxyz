@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { fontStyles, deviceSizeForWidth } from '../theme';
 
-const Blurb = styled.p`
+const Blurb = styled.div`
   font-family: ${fontStyles.body1.family};
   ${props => `padding: ${props.padding}px;`}
   ${props => `font-size: ${props.fontSize}px;`}
@@ -27,12 +27,24 @@ const AboutBlurb = ({ width }) => {
   );
   return (
     <Blurb fontSize={fontSize} padding={padding}>
-      Public Service is a platform and creative studio dedicated to achieving
-      equity in imagemaking. We honor people of color as creators of culture,
-      not just consumers. We believe we must diversify the creative talent
-      working behind the scenes of every production to reimagine the gaze,
-      reframe the narrative, and recreate the codes of visual culture. Public
-      Service is an independently-run and self-funded team of color.
+      <p>
+        Public Service is a platform and creative studio dedicated to achieving
+        equity in imagemaking. We honor people of color as creators of culture,
+        not just consumers. We believe we must diversify the creative talent
+        working behind the scenes of every production to reimagine the gaze,
+        reframe the narrative, and recreate the codes of visual culture. Public
+        Service is an independently-run and self-funded team of color.
+      </p>
+      <br />
+
+      <p>
+        Our first project is this ever-evolving curated directory of U.S.-based
+        imagemakers of color–from directors to makeup artists to casting
+        directors and everyone in between. Our directory contains people whose
+        work we find interesting, who help us see in new ways, who excite us,
+        who have limitless potential. Use it as a resource to find talent for
+        your next project. Bookmark it. Share it. Spread the word.
+      </p>
     </Blurb>
   );
 };
