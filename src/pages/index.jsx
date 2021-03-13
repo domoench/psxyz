@@ -92,8 +92,8 @@ export const query = graphql`
             bio
           }
           mainImage {
-            fluid(maxWidth: 700, maxHeight: 700) {
-              ...GatsbyContentfulFluid
+            fluid {
+              ...GatsbyContentfulFluid_withWebp
             }
           }
           categories {

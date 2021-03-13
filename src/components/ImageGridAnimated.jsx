@@ -40,6 +40,8 @@ const Grid = styled.div`
 
 const RelativeWrapper = styled.div`
   position: relative;
+  height: 100%;
+  overflow: hidden;
   &:hover .image-overlay {
     opacity: 1;
   }
@@ -226,7 +228,14 @@ ImageMakerBlurb.propTypes = {
   deviceSize: PropTypes.string.isRequired,
 };
 
-const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
+const ImageCell = ({
+  className,
+  imageMaker,
+  idx,
+  deviceSize,
+  cellWidth,
+  style,
+}) => {
   const dispatch = useContext(GlobalDispatchContext);
   const state = useContext(GlobalStateContext); // TODO move this up to the grid level?
   const savedImageMakerIdSet = new Set(state.savedImageMakerIds);
@@ -235,7 +244,15 @@ const ImageCell = ({ className, imageMaker, idx, deviceSize, style }) => {
   return (
     <div className={className} style={style}>
       <RelativeWrapper>
-        <Img fluid={imageMaker.mainImage.fluid} />
+        <Img
+          fluid={{
+            ...imageMaker.mainImage.fluid,
+            sizes: `${cellWidth}px`, // Explicitly control the source size
+          }}
+          objectFit="cover"
+          style={{ height: '100%' }}
+          alt={imageMaker.name}
+        />
         <Overlay
           className="image-overlay"
           color={colorForIdx(idx, overlayColors)}
@@ -296,6 +313,7 @@ ImageCell.propTypes = {
   imageMaker: PropTypes.object,
   idx: PropTypes.number,
   deviceSize: PropTypes.string,
+  cellWidth: PropTypes.number,
   style: PropTypes.object,
 };
 
@@ -309,7 +327,7 @@ const fadeIn = keyframes`
 const PositionedImageCell = styled(ImageCell)`
   position: absolute;
   transition: top 0.5s ease 0s, left 0.5s ease 0s, width 0.5s ease 0s,
-    height 0.5s ease 0s, border-color 0s ease 0s;
+    height 0.5s ease 0s;
   animation: ${fadeIn} ease 1;
   animation-duration: 0.3s;
 `;
@@ -317,7 +335,7 @@ const PositionedImageCell = styled(ImageCell)`
 const ImageGridAnimated = ({ imageMakers, width }) => {
   const deviceSize = deviceSizeForWidth(width);
   const numCols = gridColumnsForBreakpoint[deviceSize];
-  const cellWidth = width / numCols;
+  const cellWidth = Math.floor(width / numCols);
   const numRows = Math.ceil(imageMakers.length / numCols);
   const height = numRows * cellWidth;
   return (
@@ -332,6 +350,7 @@ const ImageGridAnimated = ({ imageMakers, width }) => {
             idx={i}
             bottomBorderColor={colorForIdx(gridRow, gridLineColors)}
             deviceSize={deviceSize}
+            cellWidth={cellWidth}
             // Doing inline style instead of styled components here because this was generating
             // so many css classes when resizing and noticably hurting performance
             style={{
