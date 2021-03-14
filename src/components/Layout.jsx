@@ -6,7 +6,7 @@ import _throttle from 'lodash.throttle';
 
 import Header from './Header';
 import Footer from './Footer';
-import { deviceSizeForWidth, isMobile } from '../theme';
+import { deviceSizeForWidth, isMobile, minAnimatedLogoScale } from '../theme';
 
 const Container = styled.div`
   height: 100%;
@@ -30,21 +30,42 @@ const ContentAndFooter = styled.div`
 `;
 
 // Dynamically scale the logo based on how far down the page the user scrolls
-const logoScale = (scrollRatio, deviceSize) => {
+const logoScale = (scrollRatio, deviceSize, isHomePage) => {
+  // TODO feeling like i need to rewrite this logic
+  // Confusing: The size of the logo depends on 2 factors
+  //   - Initial size
+  //   - Scale
+  // This function affects the scale, but what scale is appropriate
+  // also depends on the inital size, which is determined elsewhere
+  const isMobileDevice = isMobile(deviceSize);
+
   // The scrollRatio point at which point we stop affecting Logo size
   // On mobile: Beyond this point logo disappears
   // On desktop: Beyond this point logo stays at minimum size
   const scrollThreshold = 0.1;
 
-  // Logo will scale down from 1.0 to minLogoScale as the scrollRatio
-  // goes from 0 to scrollThreshold.
-  const minLogoScale = 0.5;
-
   let scale;
-  if (scrollRatio < scrollThreshold) {
-    scale = ((minLogoScale - 1) * scrollRatio) / scrollThreshold + 1;
-  } else {
-    scale = isMobile(deviceSize) ? 0 : minLogoScale;
+  // CASE I: Non-Home page (secondary page)
+  // No animation: Either don't display, or stay at a fixed scale.
+  if (!isHomePage) {
+    if (isMobileDevice) {
+      scale = 0;
+    } else {
+      scale = 1.0;
+    }
+  }
+
+  // CASE II: Home page:
+  // - Logo will scale down from 1.0 to minAnimatedLogoScale as the scrollRatio
+  //   goes from 0 to scrollThreshold.
+  // - Beyond the scrollThreshold, scale is fixed to scaleEnd
+  else {
+    const scaleEnd = isMobileDevice ? 0.0 : minAnimatedLogoScale;
+    if (scrollRatio < scrollThreshold) {
+      scale = ((scaleEnd - 1) * scrollRatio) / scrollThreshold + 1;
+    } else {
+      scale = scaleEnd;
+    }
   }
   return scale;
 };
@@ -80,11 +101,12 @@ const Layout = ({
     const contentElem = overflowableRef.current;
     if (!contentElem) return;
 
+    const isHomePage = location.pathname === '/';
     const { clientHeight, scrollHeight, scrollTop } = contentElem;
     const scrollRatio = scrollTop / (scrollHeight - clientHeight);
     logoRef.current?.style.setProperty(
       '--logoScale',
-      logoScale(scrollRatio, deviceSizeForWidth(width))
+      logoScale(scrollRatio, deviceSizeForWidth(width), isHomePage)
     );
   };
 
@@ -100,20 +122,16 @@ const Layout = ({
 
     // Scroll events
     const throttledSetLogoScale = _throttle(setLogoScaleCSSVariable, 10);
-    overflowableRef.current?.addEventListener(
-      'scroll',
-      throttledSetLogoScale,
-      {
-        passive: true,
-      }
-    );
+    overflowableRef.current?.addEventListener('scroll', throttledSetLogoScale, {
+      passive: true,
+    });
 
     // Cleanup
     return () => {
       window.removeEventListener('resize', debouncedSetDimensions);
       overflowableRef.current?.removeEventListener(
         'scroll',
-        throttledSetLogoScale,
+        throttledSetLogoScale
       );
     };
   });

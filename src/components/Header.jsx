@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import {
   colors as themeColors,
   deviceSizeForWidth,
+  isMobile,
   minWidthMediaQuery,
   fontStyles,
 } from '../theme';
@@ -251,7 +252,7 @@ const Header = ({
 
   return (
     <StyledHeader>
-      <Logo width={width} logoRef={logoRef} />
+      <Logo width={width} logoRef={logoRef} location={location} />
       <nav>
         <NavPillList>
           <li>
