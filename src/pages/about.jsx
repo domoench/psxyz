@@ -87,6 +87,9 @@ const About = ({ location }) => (
               before proceeding.
             </p>
           </Section>
+        </Column>
+
+        <Column>
           <Section>
             <Title1>OUR TEAM</Title1>
             <p>
@@ -96,7 +99,7 @@ const About = ({ location }) => (
               you’d like to work with us{' '}
               <Anchor href="https://forms.gle/CdsjpnsR14jPRQag8" underline>
                 submit an inquiry
-              </Anchor>{' '}
+              </Anchor>
               .
             </p>
           </Section>
@@ -112,20 +115,18 @@ const About = ({ location }) => (
                 underline
               >
                 Learn more
-              </Anchor>{' '}
+              </Anchor>
               .
             </p>
           </Section>
-        </Column>
-
-        <Column>
           <Section>
             <Title1>JOIN THE DIRECTORY</Title1>
             <p>
               Our directory is an ever-growing list, we’d love to hear from you.{' '}
               <Anchor href="https://forms.gle/9sbjt2xGxh4Dikt86" underline>
-                Submit your work to be considered.
+                Submit your work to be considered
               </Anchor>
+              .
             </p>
           </Section>
 
