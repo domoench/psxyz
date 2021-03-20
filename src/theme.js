@@ -108,6 +108,10 @@ export const fontScaleForDevice = {
   xl: 1.0,
 };
 
+// When we animate the logo, it goes from full initial scale 1.0 down to this
+// minLogoScale.
+export const minAnimatedLogoScale = 0.5;
+
 export const mediaQuery = bp => {
   if (bp === 'xl') {
     return `@media (min-width: ${breakpoints[bp][0]})`;
