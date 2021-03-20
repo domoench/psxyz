@@ -35,8 +35,9 @@ const logoScale = (scrollRatio, deviceSize, isHomePage) => {
   // the size of the logo depends on 2 factors
   //   1. Initial size
   //   2. Scale
-  // This function affects the scale, but what scale is appropriate
-  // also depends on the inital size, which is determined elsewhere
+  // This function determines the scale based on scroll percentage,
+  // but what scale is appropriate also depends on the inital size, which
+  // is determined elsewhere
   const isMobileDevice = isMobile(deviceSize);
 
   // The scrollRatio point at which point we stop affecting Logo size

@@ -50,24 +50,21 @@ const initialLogoPadding = (deviceSize, isHomePage) => {
 //   1. Device size: Determines initial size and padding
 //   2. Scroll ratio: As the user scrolls down, the logoScale ratio
 //      decreases.
-// TODO: Is it necessary to animate the padding? Or could we just drop that?
 const LogoWrapper = styled.div`
   ${props => `--initWidth: ${props.initWidth}px;`}
-  ${props =>
-    `--initPadding: ${props.initPadding}px;`}
+  ${props => `padding: ${props.padding}px;`}
   width: calc(var(--logoScale, 1) * var(--initWidth));
-  padding: calc(var(--logoScale, 1) * var(--initPadding));
   transition: width 0.15s, height 0.15s, padding 0.15s;
 `;
 
 const Logo = ({ width, logoRef, location }) => {
   const isHomePage = location.pathname === '/';
   const deviceSize = deviceSizeForWidth(width);
-  const initPadding = Math.floor(initialLogoPadding(deviceSize, isHomePage));
+  const padding = Math.floor(initialLogoPadding(deviceSize, isHomePage));
   const initWidth = Math.floor(initialLogoWidth(deviceSize, isHomePage));
 
   return (
-    <LogoWrapper initPadding={initPadding} initWidth={initWidth} ref={logoRef}>
+    <LogoWrapper padding={padding} initWidth={initWidth} ref={logoRef}>
       <Link to="/">
         <LogoSVGIcon color={themeColors.black} />
       </Link>
