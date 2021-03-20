@@ -6,11 +6,13 @@ import PropTypes from 'prop-types';
 import {
   deviceSizeForWidth,
   colors as themeColors,
+  isMobile,
   minAnimatedLogoScale,
 } from '../theme';
 import LogoSVGIcon from './svg/logo';
 
 const initialLogoWidth = (deviceSize, isHomePage) => {
+  // Device scaling
   const xlLogoWidth = 642;
   const logoDeviceScale = {
     xs: 0.53,
@@ -19,11 +21,17 @@ const initialLogoWidth = (deviceSize, isHomePage) => {
     lg: 0.89,
     xl: 1.0,
   };
-  const logoWidth = xlLogoWidth * logoDeviceScale[deviceSize];
-  return isHomePage ? logoWidth : logoWidth * minAnimatedLogoScale;
+
+  // Animation scaling
+  let logoWidth = xlLogoWidth * logoDeviceScale[deviceSize];
+  if (!isHomePage) {
+    logoWidth = isMobile(deviceSize) ? 0 : logoWidth * minAnimatedLogoScale;
+  }
+  return logoWidth;
 };
 
 const initialLogoPadding = (deviceSize, isHomePage) => {
+  // Device scaling
   const xlPaddingSize = 50;
   const logoPaddingScale = {
     xs: 0.32,
@@ -32,6 +40,8 @@ const initialLogoPadding = (deviceSize, isHomePage) => {
     lg: 0.83,
     xl: 1.0,
   };
+
+  // Animation scaling
   const logoPadding = xlPaddingSize * logoPaddingScale[deviceSize];
   return isHomePage ? logoPadding : logoPadding * minAnimatedLogoScale;
 };

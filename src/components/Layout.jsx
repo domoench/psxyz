@@ -31,10 +31,10 @@ const ContentAndFooter = styled.div`
 
 // Dynamically scale the logo based on how far down the page the user scrolls
 const logoScale = (scrollRatio, deviceSize, isHomePage) => {
-  // TODO feeling like i need to rewrite this logic
-  // Confusing: The size of the logo depends on 2 factors
-  //   - Initial size
-  //   - Scale
+  // TODO Perhaps should rewrite this logic. It's confusing because
+  // the size of the logo depends on 2 factors
+  //   1. Initial size
+  //   2. Scale
   // This function affects the scale, but what scale is appropriate
   // also depends on the inital size, which is determined elsewhere
   const isMobileDevice = isMobile(deviceSize);
