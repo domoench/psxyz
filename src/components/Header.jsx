@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import {
   colors as themeColors,
   deviceSizeForWidth,
-  isMobile,
   minWidthMediaQuery,
   fontStyles,
 } from '../theme';
@@ -67,7 +66,7 @@ const DirtyIndicator = ({
         cy={Math.floor(radius + borderWidth)}
         r={radius}
         fill={color}
-        stroke={themeColors.white}
+        stroke={themeColors.grayTint}
         strokeWidth={borderWidth}
       />
     </svg>
