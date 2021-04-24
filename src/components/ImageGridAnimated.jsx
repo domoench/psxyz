@@ -246,7 +246,7 @@ const ImageCell = ({
       <RelativeWrapper>
         <Img
           fluid={{
-            ...imageMaker.mainImage.fluid,
+            ...imageMaker.mainImage?.fluid,
             sizes: `${cellWidth}px`, // Explicitly control the source size
           }}
           objectFit="cover"
