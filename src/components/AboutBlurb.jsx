@@ -34,14 +34,6 @@ const AboutBlurb = ({ width }) => {
         working behind the scenes of every production to reimagine the gaze,
         reframe the narrative, and recreate the codes of visual culture.
       </p>
-      <br />
-
-      <p>
-        Our directory contains people whose work we find interesting, who help
-        us see in new ways, who excite us, who have limitless potential. Use it
-        as a resource to find talent for your next project. Bookmark it. Share
-        it. Spread the word.
-      </p>
     </Blurb>
   );
 };
