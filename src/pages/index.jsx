@@ -19,6 +19,19 @@ const Index = ({ data, location }) => {
   const categories = data.allContentfulCategory.edges;
   const [showFilters, setShowFilters] = useState(false);
 
+  // Check for missing or wrong-aspect-ratio images.
+  // Necessary because Contentful can't validate aspect ratios, and because
+  // the required mainImage field can't prevent the image from being non-published.
+  if (process.env.NODE_ENV !== 'production') {
+    const withoutImages = imageMakers.filter(i => i.node.mainImage === null);
+    const withImages = imageMakers.filter(i => i.node.mainImage !== null);
+    const wrongAspectRatio = withImages.filter(
+      i => i.node.mainImage.fluid.aspectRatio !== 1.0
+    );
+    console.warn('Imagemakers without main images', withoutImages);
+    console.warn('Imagemakes with a non-square main image', wrongAspectRatio);
+  }
+
   const dispatch = useContext(GlobalDispatchContext);
   const { categoryFilterSlugs } = useContext(GlobalStateContext);
 
