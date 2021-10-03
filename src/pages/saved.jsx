@@ -70,10 +70,6 @@ export const query = graphql`
           images {
             id
           }
-          bio {
-            id
-            bio
-          }
           mainImage {
             fluid(maxWidth: 700, maxHeight: 700) {
               ...GatsbyContentfulFluid

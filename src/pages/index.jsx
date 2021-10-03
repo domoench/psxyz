@@ -100,10 +100,6 @@ export const query = graphql`
           images {
             id
           }
-          bio {
-            id
-            bio
-          }
           mainImage {
             fluid {
               ...GatsbyContentfulFluid_withWebp
