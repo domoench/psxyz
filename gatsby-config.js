@@ -37,7 +37,7 @@ module.exports = {
 
     // Image manipulation: https://www.gatsbyjs.org/packages/gatsby-image/
     'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
+    // 'gatsby-plugin-sharp',
 
     'gatsby-plugin-favicon',
 
