@@ -27,7 +27,7 @@
     "gatsby-remark-autolink-headers": "^2.3.11",
     "gatsby-source-contentful": "^2.1.88",
     "gatsby-source-filesystem": "^2.3.24",
-    "gatsby-transformer-remark": "^2.8.28",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^2.3.16",
     "history": "^4.10.1",
     "lodash.debounce": "^4.0.8",
